@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    <item-->
+<!--        android:id="@+id/dropdown_menu"-->
+<!--        android:icon="@drawable/ic_baseline_menu_24"-->
+<!--        android:title="dropdown"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        >-->
+<!--        <menu>-->
+<!--            -->
+<!--        </menu>-->
+<!--    </item>-->
+    <item
+        android:id="@+id/showlisting"
+        android:title="Show&#160;Listing"
+        />
+    <item
+        android:id="@+id/searchsocialmedia"
+        android:title="Search&#160;Social&#160;Media"
+        />
+    <item
+        android:id="@+id/alertsetup"
+        android:title="Alert&#160;Setup"
+        />
+    <item
+        android:id="@+id/spacliveprices"
+        android:title="SPAC&#160;Live&#160;Prices"
+        />
+    <item
+        android:id="@+id/addremove"
+        android:title="Add/Remove"
+        />
+    <item
+        android:id="@+id/preferences"
+        android:title="Preferences"
+        />
+
+</menu>
