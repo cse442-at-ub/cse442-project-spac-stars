@@ -19,6 +19,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/menu/baseline_menu_24.xml" />
+
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,6 +30,7 @@
                         <option name="values">
                           <map>
                             <entry key="outputName" value="ic_baseline_menu_24" />
+
                           </map>
                         </option>
                       </PersistentState>

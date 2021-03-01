@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SPAC Stars</string>
+    <string name="welcome">Welcome</string>
+    <string name="todo">TODO</string>
 </resources>
