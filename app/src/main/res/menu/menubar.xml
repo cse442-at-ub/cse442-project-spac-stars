@@ -14,7 +14,38 @@
     <item
         android:id="@+id/showlisting"
         android:title="Show&#160;Listing"
-        />
+        >
+        <menu>
+            <item
+                android:id="@+id/showAll"
+                android:title="Show&#160;All"
+                />
+            <item
+                android:id="@+id/preLOI"
+                android:title="Pre&#160;LOI"
+                />
+            <item
+                android:id="@+id/defAgree"
+                android:title="Definitive&#160;Agreement"
+                />
+            <item
+                android:id="@+id/optionChads"
+                android:title="Option&#160;Chads"
+                />
+            <item
+                android:id="@+id/preUnit"
+                android:title="Pre&#160;Unit&#160;Split"
+                />
+            <item
+                android:id="@+id/preIPO"
+                android:title="Pre&#160;IPO"
+                />
+            <item
+                android:id="@+id/warrants"
+                android:title="Warrants&#160;(Testing)"
+                />
+        </menu>
+    </item>
     <item
         android:id="@+id/searchsocialmedia"
         android:title="Search&#160;Social&#160;Media"
