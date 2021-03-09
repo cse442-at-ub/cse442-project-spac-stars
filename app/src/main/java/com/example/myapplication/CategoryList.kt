@@ -43,14 +43,6 @@ class CategoryList : AppCompatActivity() {
         }
 
 
-//        val listAdapter: TickerListAdapter = TickerListAdapter(this, tickers, names)
-//        var viewList: ListView = findViewById(R.id.categoryList)
-//        viewList.adapter = listAdapter
-
-//        val listAdapter: TickerListAdapter = TickerListAdapter(this, arrayOf("a"), arrayOf("bb"))
-//        var viewList: ListView = findViewById(R.id.categoryList)
-//        viewList.adapter = listAdapter
-
 
     }
 
@@ -68,13 +60,11 @@ class CategoryList : AppCompatActivity() {
                 .readText()
 
         val information: JSONObject = JSONObject(jsonResult)
-//    val spacList = information.getJSONArray("values").getJSONArray(0).getString(0)
         val rawSpacList = information.getJSONArray("values")
         val len = rawSpacList.length() - 1
 
         var tickers: MutableList<String> = mutableListOf()
         var names: MutableList<String> = mutableListOf()
-//        var finalSpacList: MutableList<String> = mutableListOf()
 
         for(i in 0..len){
             if(rawSpacList.getJSONArray(i).getString(0) != "N/A" ||
@@ -82,17 +72,9 @@ class CategoryList : AppCompatActivity() {
             ){
                 tickers.add(rawSpacList.getJSONArray(i).getString(0))
                 names.add(rawSpacList.getJSONArray(i).getString(1))
-//                val unit: Array<String> = arrayOf(
-//                    rawSpacList.getJSONArray(i).getString(0),
-//                    rawSpacList.getJSONArray(i).getString(1)
-//                )
-//                finalSpacList.add(unit)
-//                finalSpacList.add(rawSpacList.getJSONArray(i).getString(0))
             }
         }
-//            for(i in finalSpacList){
-//                println(i[0] + "," + i[1])
-//            }
+
         return Pair(tickers.toTypedArray(),names.toTypedArray())
     }
 
