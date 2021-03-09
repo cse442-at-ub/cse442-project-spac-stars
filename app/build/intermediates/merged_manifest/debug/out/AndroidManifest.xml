@@ -21,6 +21,8 @@
         android:testOnly="true"
         android:theme="@style/Theme.MyApplication" >
         <activity android:name="com.example.myapplication.CategoryList" />
+        <activity android:name="com.example.myapplication.WebSearch" />
+        <activity android:name="com.example.myapplication.SearchSocialMedia" />
         <activity android:name="com.example.myapplication.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

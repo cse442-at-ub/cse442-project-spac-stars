@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/layout_activity_web_search.xml.flat",
+        "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/layout/activity_web_search.xml"
+    },
+    {
         "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/drawable-xhdpi_ic_baseline_menu_24.png.flat",
         "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/generated/res/pngs/debug/drawable-xhdpi/ic_baseline_menu_24.png"
     },
@@ -48,20 +52,20 @@
         "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
-    },
-    {
         "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/layout_list_display.xml.flat",
         "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/layout/list_display.xml"
     },
     {
-        "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+        "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
     },
     {
         "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_baseline_menu_24.png.flat",
         "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/generated/res/pngs/debug/drawable-xxxhdpi/ic_baseline_menu_24.png"
+    },
+    {
+        "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
     },
     {
         "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_foreground.png.flat",
@@ -70,6 +74,10 @@
     {
         "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
         "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/layout_activity_search_social_media.xml.flat",
+        "source": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/res/layout/activity_search_social_media.xml"
     },
     {
         "merged": "/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/res/merged/debug/drawable-mdpi_ic_baseline_menu_24.png.flat",

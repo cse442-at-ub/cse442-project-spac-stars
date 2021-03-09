@@ -63,8 +63,8 @@ class CategoryList : AppCompatActivity() {
         val rawSpacList = information.getJSONArray("values")
         val len = rawSpacList.length() - 1
 
-        var tickers: MutableList<String> = mutableListOf()
-        var names: MutableList<String> = mutableListOf()
+        val tickers: MutableList<String> = mutableListOf()
+        val names: MutableList<String> = mutableListOf()
 
         for(i in 0..len){
             if(rawSpacList.getJSONArray(i).getString(0) != "N/A" ||

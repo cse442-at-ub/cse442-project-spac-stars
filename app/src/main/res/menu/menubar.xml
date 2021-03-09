@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 <!--    <item-->
 <!--        android:id="@+id/dropdown_menu"-->
 <!--        android:icon="@drawable/ic_baseline_menu_24"-->
@@ -48,23 +47,23 @@
     </item>
     <item
         android:id="@+id/searchsocialmedia"
-        android:title="Search&#160;Social&#160;Media"
+        android:title="@string/search_160_social_160_media"
         />
     <item
         android:id="@+id/alertsetup"
-        android:title="Alert&#160;Setup"
+        android:title="@string/alert_160_setup"
         />
     <item
         android:id="@+id/spacliveprices"
-        android:title="SPAC&#160;Live&#160;Prices"
+        android:title="@string/spac_160_live_160_prices"
         />
     <item
         android:id="@+id/addremove"
-        android:title="Add/Remove"
+        android:title="@string/add_remove"
         />
     <item
         android:id="@+id/preferences"
-        android:title="Preferences"
+        android:title="@string/preferences"
         />
 
 </menu>

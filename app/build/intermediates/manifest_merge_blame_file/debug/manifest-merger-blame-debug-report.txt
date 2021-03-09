@@ -15,7 +15,7 @@
 11-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:5:22-64
 12
 13    <application
-13-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:7:5-22:19
+13-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:7:5-24:19
 14        android:allowBackup="true"
 14-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:8:9-35
 15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -35,20 +35,26 @@
 23        <activity android:name="com.example.myapplication.CategoryList" />
 23-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:14:9-59
 23-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:14:19-47
-24        <activity android:name="com.example.myapplication.MainActivity" >
-24-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:9-21:20
-24-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:19-47
-25            <intent-filter>
-25-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:16:13-20:29
-26                <action android:name="android.intent.action.MAIN" />
-26-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:17-69
-26-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:25-66
-27
-28                <category android:name="android.intent.category.LAUNCHER" />
-28-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:17-77
-28-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:27-74
-29            </intent-filter>
-30        </activity>
-31    </application>
-32
-33</manifest>
+24        <activity android:name="com.example.myapplication.WebSearch" />
+24-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:9-47
+24-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:19-44
+25        <activity android:name="com.example.myapplication.SearchSocialMedia" />
+25-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:16:9-55
+25-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:16:19-52
+26        <activity android:name="com.example.myapplication.MainActivity" >
+26-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:9-23:20
+26-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:19-47
+27            <intent-filter>
+27-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:18:13-22:29
+28                <action android:name="android.intent.action.MAIN" />
+28-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:17-69
+28-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:25-66
+29
+30                <category android:name="android.intent.category.LAUNCHER" />
+30-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:21:17-77
+30-->/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:21:27-74
+31            </intent-filter>
+32        </activity>
+33    </application>
+34
+35</manifest>
