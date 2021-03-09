@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 
 import kotlin.concurrent.*
-import com.example.myapplication.ListFilter
 import com.example.myapplication.constants
 
 
@@ -20,9 +19,6 @@ class MainActivity : AppCompatActivity(){
         //Set the xml page to use as display page. R.layout is resources folder (res) / layout folder, as in app/res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
 
-//        thread(start=true) {
-//            val testList: ListFilter = ListFilter("Pre+IPO")
-//        }
 
 
     }
