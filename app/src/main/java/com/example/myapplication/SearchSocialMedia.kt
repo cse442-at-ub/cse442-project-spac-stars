@@ -3,6 +3,8 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import kotlinx.android.synthetic.main.activity_search_social_media.*
 import java.net.URLEncoder
 
@@ -25,6 +27,18 @@ class SearchSocialMedia : AppCompatActivity() {
         btnFacebook.setOnClickListener {
             loadWebActivity("https://www.facebook.com/search/top?q=$encodedSearchTerm")
         }
+
+        etSearch.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) { }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                toggleButtonsState(etSearch.text.isNotEmpty())
+            }
+        })
+
+        toggleButtonsState(false)
     }
 
     private val encodedSearchTerm : String
@@ -34,5 +48,12 @@ class SearchSocialMedia : AppCompatActivity() {
         val intent = Intent(this, WebSearch::class.java)
         intent.putExtra("url", url)
         startActivity(intent)
+    }
+
+    private fun toggleButtonsState(enabled: Boolean){
+        btnGoogle.isEnabled = enabled
+        btnTwitter.isEnabled = enabled
+        btnReddit.isEnabled = enabled
+        btnFacebook.isEnabled = enabled
     }
 }
