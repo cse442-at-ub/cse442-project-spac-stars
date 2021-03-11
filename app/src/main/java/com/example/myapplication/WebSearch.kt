@@ -11,7 +11,13 @@ class WebSearch : AppCompatActivity() {
         setContentView(R.layout.activity_web_search)
         webView.webViewClient = WebViewClient()
         webView.settings.javaScriptEnabled = true
-        val url = intent.getStringExtra("url")
+        val url = savedInstanceState?.getString("url") ?: intent.getStringExtra("url")
+
         webView.loadUrl(url!!)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("url", webView.url)
     }
 }
