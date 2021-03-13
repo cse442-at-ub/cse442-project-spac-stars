@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity(){
     }
 
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         var showListSelection: String = ""
@@ -37,6 +38,13 @@ class MainActivity : AppCompatActivity(){
                 val intent = Intent(this, SearchSocialMedia::class.java)
                 startActivity(intent)
             }
+          /* This is currently commented out because I wasn't sure if it would interfere with the menu
+            -Chris
+            R.id.showlisting -> {
+                val intent = Intent(this, ShowListing::class.java)
+                startActivity(intent)
+            }
+          */
             R.id.showAll -> showListSelection = "Show All"
             R.id.preLOI -> showListSelection = "Pre+LOI"
             R.id.defAgree -> showListSelection = "Definitive+Agreement"
@@ -51,6 +59,7 @@ class MainActivity : AppCompatActivity(){
             intent.putExtra("key", showListSelection)
             startActivity(intent)
         }
+
 
         return super.onOptionsItemSelected(item)
     }

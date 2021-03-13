@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
 MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/5f5a531b61a0c5507ec086714d967ff3/navigation-fragment-ktx-2.3.3/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment-ktx:1.2.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/74de3afeb51b26b668059b87ea038f02/jetified-fragment-ktx-1.2.4/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui-ktx:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/14aaa823edc8f5a3e7025cc334198ad6/navigation-ui-ktx-2.3.3/AndroidManifest.xml:17:1-24:12
@@ -52,20 +52,20 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/MasPosInc/.grad
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/d5abaf28ea5acb6296bc3841821b8930/lifecycle-livedata-core-2.2.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/9db0ec2213a228a5db2b1034656eefd5/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.annotation:annotation-experimental:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/0aaff4fb6b8684e27d7e3963216ee549/jetified-annotation-experimental-1.0.0/AndroidManifest.xml:17:1-24:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
 	package
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-26:12
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:11-69
@@ -74,7 +74,7 @@ ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/An
 	android:name
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:5:22-64
 application
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:7:5-24:19
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:7:5-27:19
 MERGED from [com.google.android.material:material:1.3.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/10a1fd9a43e78ddadba51799567f760e/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.3.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/10a1fd9a43e78ddadba51799567f760e/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/ab75dfbbd723f28d9ab1c4d69d43602e/constraintlayout-2.0.4/AndroidManifest.xml:9:5-20
@@ -97,32 +97,36 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/MasP
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:8:9-35
 	android:theme
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:13:9-51
+activity#com.example.myapplication.ShowListing
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:9-49
+	android:name
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:19-46
 activity#com.example.myapplication.CategoryList
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:14:9-59
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:16:9-59
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:14:19-47
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:16:19-47
 activity#com.example.myapplication.WebSearch
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:9-47
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:9-47
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:15:19-44
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:19-44
 activity#com.example.myapplication.SearchSocialMedia
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:16:9-55
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:18:9-55
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:16:19-52
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:18:19-52
 activity#com.example.myapplication.MainActivity
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:9-23:20
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:9-26:20
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:17:19-47
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:18:13-22:29
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:21:13-25:29
 action#android.intent.action.MAIN
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:17-69
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:22:17-69
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:25-66
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:22:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:21:17-77
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:24:17-77
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:21:27-74
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:24:27-74
 uses-sdk
 INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
