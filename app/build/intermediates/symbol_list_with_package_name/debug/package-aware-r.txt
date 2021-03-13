@@ -1819,7 +1819,6 @@ id btnTwitter
 id buttonPanel
 id cache_measures
 id cancel_button
-id categoryList
 id center
 id center_horizontal
 id center_vertical
@@ -1929,6 +1928,7 @@ id italic
 id item_touch_helper_previous_elevation
 id jumpToEnd
 id jumpToStart
+id label
 id labelGroup
 id labeled
 id largeLabel
@@ -2033,6 +2033,7 @@ id progress_horizontal
 id radio
 id ratio
 id rectangles
+id recyclerView
 id reverseSawtooth
 id right
 id rightToLeft
