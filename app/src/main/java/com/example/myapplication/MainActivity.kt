@@ -1,11 +1,13 @@
 package com.example.myapplication
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+
 
 class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?){
@@ -16,12 +18,15 @@ class MainActivity : AppCompatActivity(){
 
     }
 
+
     //source: https://developer.android.com/guide/topics/ui/menus
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menubar, menu)
         return true
     }
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -33,11 +38,14 @@ class MainActivity : AppCompatActivity(){
                 val intent = Intent(this, SearchSocialMedia::class.java)
                 startActivity(intent)
             }
-
-            R.id.showAll -> {
+          /* This is currently commented out because I wasn't sure if it would interfere with the menu
+            -Chris
+            R.id.showlisting -> {
                 val intent = Intent(this, ShowListing::class.java)
                 startActivity(intent)
             }
+          */
+            R.id.showAll -> showListSelection = "Show All"
             R.id.preLOI -> showListSelection = "Pre+LOI"
             R.id.defAgree -> showListSelection = "Definitive+Agreement"
             R.id.optionChads -> showListSelection = "Option+Chads"

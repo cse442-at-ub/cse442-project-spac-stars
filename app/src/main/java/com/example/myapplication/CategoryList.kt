@@ -56,8 +56,8 @@ class CategoryList : AppCompatActivity() {
         var response: String = ""
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val jsonResult =
-                URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:C?key=$apikey")
-                        .readText()
+            URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:C?key=$apikey")
+                .readText()
 
         val information: JSONObject = JSONObject(jsonResult)
         val rawSpacList = information.getJSONArray("values")
@@ -68,7 +68,7 @@ class CategoryList : AppCompatActivity() {
 
         for(i in 0..len){
             if(rawSpacList.getJSONArray(i).getString(0) != "N/A" ||
-                    rawSpacList.getJSONArray(i).getString(0) != ""
+                rawSpacList.getJSONArray(i).getString(0) != ""
             ){
                 tickers.add(rawSpacList.getJSONArray(i).getString(0))
                 names.add(rawSpacList.getJSONArray(i).getString(1))
