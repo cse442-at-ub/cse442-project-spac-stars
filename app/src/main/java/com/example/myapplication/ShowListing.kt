@@ -1,10 +1,15 @@
 package com.example.myapplication
 
+import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import org.json.JSONObject
 
 import com.example.myapplication.constants.worksheetsStartingRow
@@ -19,47 +24,221 @@ class ShowListing : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.show_listing)
 
-        //Note: I would prefer if this code wasn't in onCreate, but to update views the easiest way is to put it onCreate. Otherwise A. Extra work will need to be done or B. Updating views wont work
+        //Initialize values for updating the SPAC table
         val table = findViewById<TableLayout>(R.id.listingtable)
         val context = applicationContext
-        var values: JSONArray = JSONArray()
+        var PreLOIvalues: JSONArray = JSONArray()
+        var DefinitiveAgreementvalues: JSONArray = JSONArray()
+        var OptionChadsvalues: JSONArray = JSONArray()
+        var PreUnitSplittvalues: JSONArray = JSONArray()
+        var PreIPOvalues: JSONArray = JSONArray()
+        var Warrantsvalues: JSONArray = JSONArray()
+
+        //Get the data from the sheet
         thread(start = true) {
-            values = getList("Pre+LOI")
-            println(values)
+            PreLOIvalues = getList("Pre+LOI")
+            DefinitiveAgreementvalues = getList("Definitive+Agreement")
+            OptionChadsvalues = getList("Option+Chads")
+            PreUnitSplittvalues = getList("Pre+Unit+Split")
+            PreIPOvalues = getList("Pre+IPO")
+            Warrantsvalues = getList("Warrants+(Testing)")
         }
-        while(values.length() == 0){
+
+        //Update the titlebar from "SPAC Stars" to "Show Listing"
+        val titlebar: ActionBar? = supportActionBar
+        if (titlebar != null) {
+            titlebar.title = "Show Listings: Show All"
+        }
+
+        //Create the first row for the table that shows "TICKER  SPAC NAME   CATEGORY"
+        val firstrow = TableRow(context)
+        val Tickerrow = TextView(context)
+        val Namerow = TextView(context)
+        val Categoryrow = TextView(context)
+        val Blackcolor = "#000000"
+        Tickerrow.setTypeface(null, Typeface.BOLD_ITALIC)
+        Namerow.setTypeface(null, Typeface.BOLD_ITALIC)
+        Categoryrow.setTypeface(null, Typeface.BOLD_ITALIC)
+        Tickerrow.text = "TICKER\t"
+        Tickerrow.setTextColor(Color.parseColor(Blackcolor))
+        Namerow.setTextColor(Color.parseColor(Blackcolor))
+        Categoryrow.setTextColor(Color.parseColor(Blackcolor))
+        Namerow.text = "SPAC NAME\t"
+        Categoryrow.text = "CATEGORY\t"
+        firstrow.addView(Tickerrow, 0)
+        firstrow.addView(Namerow, 1)
+        firstrow.addView(Categoryrow, 2)
+        table.addView(firstrow)
+
+        //Add all the values to the table for Pre LOI
+        while(PreLOIvalues.length() == 0){
             //Block until table can be populated
         }
-        for (i in 0 until values.length()) {
-            val spacdata = values.getJSONArray(i)
-            val tablerow = TableRow(context)
-            val Tickerrow = TextView(context)
-            //If there is no Ticker associated, don't add it
-            if(spacdata[0].toString() != ""){
-            Tickerrow.text = spacdata[0].toString()
-            tablerow.addView(Tickerrow, 0)
-            val Namerow = TextView(context)
-            Namerow.maxWidth = 384
-            Namerow.text = spacdata[1].toString() + "\n"
-            tablerow.addView(Namerow, 1)
-            val Marketcaprow = TextView(context)
-            Marketcaprow.text = spacdata[2].toString()
-            tablerow.addView(Marketcaprow, 2)
-            //the SPAC ARBG does not have a listed Trust Value, which causes the table to stop working, so the if statement allows it to advance past that SPAC
-            if (spacdata.length() > 3) {
-                val Trustvaluerow = TextView(context)
-                Trustvaluerow.text = spacdata[3].toString()
-                tablerow.addView(Trustvaluerow, 3)
-            }}
-            table.addView(tablerow)
+        addtablerows(table, "Pre LOI", PreLOIvalues)
+
+        //Add all the values for Definitive Agreement
+        while(DefinitiveAgreementvalues.length() == 0){
+            //Block until table can be populated
         }
+        addtablerows(table, "Definitive Agreement", DefinitiveAgreementvalues)
+
+        //Add all the values for Option Chads
+        while(OptionChadsvalues.length() == 0){
+            //Block until table can be populated
+        }
+        addtablerows(table, "Option Chads", OptionChadsvalues)
+
+        //Add all the values for Pre Unit Split
+        while(PreUnitSplittvalues.length() == 0){
+            //Block until table can be populated
+        }
+        addtablerows(table, "Pre Unit Split", PreUnitSplittvalues)
+
+        //Add all the values for Pre IPO
+        while(PreIPOvalues.length() == 0){
+            //Block until table can be populated
+        }
+        addtablerows(table, "Pre IPO", PreIPOvalues)
+
+        //Add all the values for Warrants (Testing)
+        while(Warrantsvalues.length() == 0){
+            //Block until table can be populated
+        }
+        addtablerows(table, "Warrants", Warrantsvalues)
+
     }
 
     fun getList(SPACtype: String): JSONArray{
         val startingRow: String? = worksheetsStartingRow[SPACtype]
-        val jsondata = JSONObject(URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:D?key=$apikey").readText())
+        val jsondata = JSONObject(URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey").readText())
         val SPAClist = jsondata.getJSONArray("values")
         return SPAClist
+    }
+
+    fun addtablerows(table: TableLayout, category: String, data: JSONArray) {
+        val context = applicationContext
+        for (i in 0 until data.length()) {
+            val spacdata = data.getJSONArray(i)
+            val tablerow = TableRow(context)
+            val Tickerrow = TextView(context)
+            val Namerow = TextView(context)
+            val Categoryrow = TextView(context)
+            val darkgraycolor = "#333333"
+            //If there is no Ticker associated, don't add it
+            if (spacdata[0].toString() != "") {
+                //Add ticker, name, market cap, and trust value all to table
+                Tickerrow.text = spacdata[0].toString() + "\t"
+                Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
+                tablerow.addView(Tickerrow, 0)
+
+                Namerow.maxWidth = 448
+                Namerow.text = spacdata[1].toString() + "\n"
+                Namerow.setTextColor(Color.parseColor(darkgraycolor))
+                tablerow.addView(Namerow, 1)
+
+                Categoryrow.text = "\t" + category
+                Categoryrow.setTextColor(Color.parseColor(darkgraycolor))
+                tablerow.addView(Categoryrow, 2)
+            }
+
+            onclicksetter(tablerow, category, spacdata)
+
+            table.addView(tablerow)
+        }
+    }
+
+    //Make the table entry show more data when clicked
+    fun onclicksetter(tablerow: TableRow, category: String, spacdata: JSONArray){
+        when(category){
+            "Pre LOI" -> {
+                tablerow.setOnClickListener( View.OnClickListener {
+                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+                    alert.setMessage("Ticker: " + spacdata[0].toString()
+                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nMarket Cap: " + spacdata[2].toString()
+                            + "\n\nEstimated Trust Value: " + spacdata[3].toString()
+                            + "\n\nCurrent Price: " + spacdata[11].toString()
+                            + "\n\nIPO Date: " + spacdata[28].toString()
+                            + "\n\nDeadline Date: " + spacdata[30].toString()
+                    )
+                    alert.setTitle(spacdata[1].toString())
+                    alert.create().show()
+                })
+            }
+            "Definitive Agreement" -> {
+                tablerow.setOnClickListener( View.OnClickListener {
+                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+                    alert.setMessage("Ticker: " + spacdata[0].toString()
+                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nMarket Cap: " + spacdata[2].toString()
+                            + "\n\nCurrent Price: " + spacdata[10].toString()
+                            + "\n\nTarget: " + spacdata[17].toString()
+                    )
+                    alert.setTitle(spacdata[1].toString())
+                    alert.create().show()
+                })
+            }
+
+            "Option Chads" -> {
+                tablerow.setOnClickListener( View.OnClickListener {
+                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+                    alert.setMessage("Ticker: " + spacdata[0].toString()
+                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nMarket Cap: " + spacdata[2].toString()
+                            + "\n\nEstimated Trust Value: " + spacdata[3].toString()
+                            + "\n\nCurrent Price: " + spacdata[11].toString()
+                    )
+                    alert.setTitle(spacdata[1].toString())
+                    alert.create().show()
+                })
+            }
+
+            "Pre Unit Split" -> {
+                tablerow.setOnClickListener( View.OnClickListener {
+                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+                    alert.setMessage("Ticker: " + spacdata[0].toString()
+                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nUnit & Warrant Details: " + spacdata[5].toString()
+                            + "\n\nEstimated Trust Size: " + spacdata[6].toString()
+                            + "\n\nProminent Leadership / Directors / Advisors: " + spacdata[8].toString()
+                            + "\n\nTarget Focus: " + spacdata[9].toString()
+                    )
+                    alert.setTitle(spacdata[1].toString())
+                    alert.create().show()
+                })
+            }
+
+            "Pre IPO" -> {
+                tablerow.setOnClickListener( View.OnClickListener {
+                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+                    alert.setMessage("Ticker: " + spacdata[0].toString()
+                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nEstimated Trust Value: " + spacdata[2].toString()
+                            + "\n\nManagement Team: " + spacdata[3].toString()
+                            + "\n\nTarget Focus: " + spacdata[4].toString()
+                    )
+                    alert.setTitle(spacdata[1].toString())
+                    alert.create().show()
+                })
+            }
+
+            "Warrants" -> {
+                tablerow.setOnClickListener( View.OnClickListener {
+                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+                    alert.setMessage("Ticker: " + spacdata[0].toString()
+                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nOpen Price: " + spacdata[3].toString()
+                            + "\n\nCurrent Volume: " + spacdata[12].toString()
+                            + "\n\nAverage Volume: " + spacdata[13].toString()
+                    )
+                    alert.setTitle(spacdata[1].toString())
+                    alert.create().show()
+                })
+            }
+
+
+
+        }
     }
 
 }
