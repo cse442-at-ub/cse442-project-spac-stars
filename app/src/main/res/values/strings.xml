@@ -13,4 +13,16 @@
     <string name="reddit">Reddit</string>
     <string name="facebook">Facebook</string>
     <string name="search_terms">Search terms</string>
+    <string name="name_settings">Name</string>
+    <string name="ticker_settings">Ticker</string>
+    <string name="ipo_date_settings">IPO Date</string>
+    <string name="management_settings">Management</string>
+    <string name="cash_in_trust_settings">Cash in Trust</string>
+    <string name="capital_structure_settings">Capital Structure</string>
+    <string name="hide_count_1_description">Enable/Disable Name Column</string>
+    <string name="hide_count_2_description">Enable/Disable Ticker Column</string>
+    <string name="hide_count_3_description">Enable/Disable IPO Date Column</string>
+    <string name="hide_count_4_description">Enable/Disable Management Column</string>
+    <string name="hide_count_5_description">Enable/Disable Cash in Trust Column</string>
+    <string name="hide_count_6_description">Enable/Disable Capital Structure Column</string>
 </resources>

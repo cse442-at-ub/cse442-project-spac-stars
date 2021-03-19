@@ -2,11 +2,11 @@ package com.example.myapplication
 
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 
 class MainActivity : AppCompatActivity(){
@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity(){
         when (item.itemId) {
             R.id.searchsocialmedia -> {
                 val intent = Intent(this, SearchSocialMedia::class.java)
+                startActivity(intent)
+            }
+            R.id.preferences -> {
+                val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
             }
           /* This is currently commented out because I wasn't sure if it would interfere with the menu
