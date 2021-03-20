@@ -38,14 +38,11 @@ class MainActivity : AppCompatActivity(){
                 val intent = Intent(this, SearchSocialMedia::class.java)
                 startActivity(intent)
             }
-          /* This is currently commented out because I wasn't sure if it would interfere with the menu
-            -Chris
-            R.id.showlisting -> {
+            //R.id.showAll -> showListSelection = "Show All"
+            R.id.showAll -> {
                 val intent = Intent(this, ShowListing::class.java)
                 startActivity(intent)
             }
-          */
-            R.id.showAll -> showListSelection = "Show All"
             R.id.preLOI -> showListSelection = "Pre+LOI"
             R.id.defAgree -> showListSelection = "Definitive+Agreement"
             R.id.optionChads -> showListSelection = "Option+Chads"

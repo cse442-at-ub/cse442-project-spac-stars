@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -108,6 +107,7 @@ class ShowListing : AppCompatActivity() {
 
     }
 
+    //Function for getting data from URl
     fun getList(SPACtype: String): JSONArray{
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val jsondata = JSONObject(URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey").readText())
@@ -115,6 +115,7 @@ class ShowListing : AppCompatActivity() {
         return SPAClist
     }
 
+    //Function for adding data entries to the table
     fun addtablerows(table: TableLayout, category: String, data: JSONArray) {
         val context = applicationContext
         for (i in 0 until data.length()) {
@@ -126,7 +127,7 @@ class ShowListing : AppCompatActivity() {
             val darkgraycolor = "#333333"
             //If there is no Ticker associated, don't add it
             if (spacdata[0].toString() != "") {
-                //Add ticker, name, market cap, and trust value all to table
+                //Add ticker, name, and category all to table, set a color for that text
                 Tickerrow.text = spacdata[0].toString() + "\t"
                 Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Tickerrow, 0)
@@ -140,103 +141,137 @@ class ShowListing : AppCompatActivity() {
                 Categoryrow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Categoryrow, 2)
             }
-
+            //Set the row to display data on click
             onclicksetter(tablerow, category, spacdata)
-
+            //Add the row the table
             table.addView(tablerow)
         }
     }
 
-    //Make the table entry show more data when clicked
+    //Make the table entry show more data when clicked, depends on category name
     fun onclicksetter(tablerow: TableRow, category: String, spacdata: JSONArray){
+
         when(category){
+
             "Pre LOI" -> {
-                tablerow.setOnClickListener( View.OnClickListener {
+                tablerow.setOnClickListener {
+                    //Create a builder for the alert window
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+
+                    //Set the message of the alert window that appears
                     alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nCompany Name: " + spacdata[1].toString()
                             + "\n\nMarket Cap: " + spacdata[2].toString()
                             + "\n\nEstimated Trust Value: " + spacdata[3].toString()
-                            + "\n\nCurrent Price: " + spacdata[11].toString()
+                            + "\n\nCurrent Volume: " + spacdata[15].toString()
+                            + "\n\nAverage Volume " + spacdata[16].toString()
+                            + "\n\nWarrant Ticker: " + spacdata[18].toString()
+                            + "\n\nTarget Focus: " + spacdata[26].toString()
+                            + "\n\nUnderwriters: " + spacdata[27].toString()
                             + "\n\nIPO Date: " + spacdata[28].toString()
                             + "\n\nDeadline Date: " + spacdata[30].toString()
                     )
+                    /*  This sets an "OK" button in the dialog window that
+                    doesn't currently do anything except close the window
+                    and print a message to the console  */
+                    alert.setPositiveButton("OK"){
+                        _, _ -> println("POSITIVE PRESSED, PRE LOI")
+                    }
+
+                    //Set the title for the alert window to the SPAC name
                     alert.setTitle(spacdata[1].toString())
+
+                    //Display the window to the user
                     alert.create().show()
-                })
+                }
             }
+
             "Definitive Agreement" -> {
-                tablerow.setOnClickListener( View.OnClickListener {
+                tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nCompany Name: " + spacdata[1].toString()
                             + "\n\nMarket Cap: " + spacdata[2].toString()
-                            + "\n\nCurrent Price: " + spacdata[10].toString()
+                            + "\n\nCurrent Volume: " + spacdata[14].toString()
+                            + "\n\nVolume Average: " + spacdata[15].toString()
                             + "\n\nTarget: " + spacdata[17].toString()
                     )
+                    alert.setPositiveButton("OK"){
+                        _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
+                    }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
-                })
+                }
             }
 
             "Option Chads" -> {
-                tablerow.setOnClickListener( View.OnClickListener {
+                tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nCompany Name: " + spacdata[1].toString()
                             + "\n\nMarket Cap: " + spacdata[2].toString()
                             + "\n\nEstimated Trust Value: " + spacdata[3].toString()
-                            + "\n\nCurrent Price: " + spacdata[11].toString()
+                            + "\n\nCurrent Volume: " + spacdata[15].toString()
+                            + "\n\nAverage Volume " + spacdata[16].toString()
                     )
+                    alert.setPositiveButton("OK"){
+                        _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
+                    }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
-                })
+                }
             }
 
             "Pre Unit Split" -> {
-                tablerow.setOnClickListener( View.OnClickListener {
+                tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nCompany Name: " + spacdata[1].toString()
                             + "\n\nUnit & Warrant Details: " + spacdata[5].toString()
                             + "\n\nEstimated Trust Size: " + spacdata[6].toString()
                             + "\n\nProminent Leadership / Directors / Advisors: " + spacdata[8].toString()
                             + "\n\nTarget Focus: " + spacdata[9].toString()
                     )
+                    alert.setPositiveButton("OK"){
+                        _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
+                    }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
-                })
+                }
             }
 
             "Pre IPO" -> {
-                tablerow.setOnClickListener( View.OnClickListener {
+                tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nName: " + spacdata[1].toString()
+                            + "\n\nCompany Name: " + spacdata[1].toString()
                             + "\n\nEstimated Trust Value: " + spacdata[2].toString()
                             + "\n\nManagement Team: " + spacdata[3].toString()
                             + "\n\nTarget Focus: " + spacdata[4].toString()
                     )
+                    alert.setPositiveButton("OK"){
+                        _, _ -> println("POSITIVE PRESSED, PRE IPO")
+                    }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
-                })
+                }
             }
 
             "Warrants" -> {
-                tablerow.setOnClickListener( View.OnClickListener {
+                tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nName: " + spacdata[1].toString()
-                            + "\n\nOpen Price: " + spacdata[3].toString()
+                            + "\n\nCompany Name: " + spacdata[1].toString()
                             + "\n\nCurrent Volume: " + spacdata[12].toString()
                             + "\n\nAverage Volume: " + spacdata[13].toString()
                     )
+                    alert.setPositiveButton("OK"){
+                        _, _ -> println("POSITIVE PRESSED, WARRANTS")
+                    }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
-                })
+                }
             }
-
-
 
         }
     }
