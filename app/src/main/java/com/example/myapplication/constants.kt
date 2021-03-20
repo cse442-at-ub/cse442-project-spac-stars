@@ -27,4 +27,28 @@ object constants {
     )
     val sheetID: String = "1dZOPswJcmPQ5OqTw7LNeTZOXklnmD-n7fyohbkRSsFE"
     val apikey: String = "AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo"
+
+
+    fun sortingOrder(list: MutableList<Array<String>>, index: Int, type: String): MutableList<Array<String>>{
+//        var sorted: MutableList<Array<String>> = mutableListOf()
+        println(list[0][index].replace("$", "")
+                .replace(",","")
+                .replace(" ","")
+                .toInt())
+        val sorted =
+            if(type == "Int"){
+                list.sortedBy { it[index].replace("$", "")
+                        .replace(",","")
+                        .replace(" ","")
+                        .toInt() }.toMutableList()
+
+            }else{
+                list.sortedBy { it[index] }.toMutableList()
+            }
+
+        for(i in sorted){
+            println(i[0] + ", " + i[1] + ", " + i[2])
+        }
+        return sorted
+    }
 }
