@@ -14,6 +14,7 @@ import com.example.myapplication.constants.categoryInfoColumn
 import com.example.myapplication.constants.categoryInfoLabel
 import com.example.myapplication.constants.apikey
 import com.example.myapplication.constants.sheetID
+import com.example.myapplication.constants.sortingOrder
 
 import java.net.URL
 import org.json.*
@@ -53,7 +54,6 @@ class CategoryList : AppCompatActivity() {
     }
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
-        var response: String = ""
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val extrasColumn: String? = categoryInfoColumn[SPACtype]
         println("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:$extrasColumn?key=$apikey")
@@ -69,10 +69,11 @@ class CategoryList : AppCompatActivity() {
         val finalList: MutableList<Array<String>> = mutableListOf()
 
         for(i in 0..len){
-            if(rawSpacList.getJSONArray(i).getString(0) != "N/A" ||
-                rawSpacList.getJSONArray(i).getString(0) != ""
+            val extraIndex = rawSpacList.getJSONArray(i).length() - 1
+            if(rawSpacList.getJSONArray(i).getString(0) != "N/A" &&
+                rawSpacList.getJSONArray(i).getString(0) != "" &&
+                    rawSpacList.getJSONArray(i).getString(extraIndex) != "#N/A"
             ){
-                val extraIndex = rawSpacList.getJSONArray(i).length() - 1
                 val innerArray: Array<String> = arrayOf(
                     rawSpacList.getJSONArray(i).getString(0),
                     rawSpacList.getJSONArray(i).getString(1).trim(),
@@ -81,6 +82,9 @@ class CategoryList : AppCompatActivity() {
                 finalList.add(innerArray)
             }
         }
+
+        val sorted = sortingOrder(finalList, 2, "Int")
+
 
         return finalList
     }

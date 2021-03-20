@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
 MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/5f5a531b61a0c5507ec086714d967ff3/navigation-fragment-ktx-2.3.3/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment-ktx:1.2.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/74de3afeb51b26b668059b87ea038f02/jetified-fragment-ktx-1.2.4/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui-ktx:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/14aaa823edc8f5a3e7025cc334198ad6/navigation-ui-ktx-2.3.3/AndroidManifest.xml:17:1-24:12
@@ -17,6 +17,7 @@ MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.2.0] /Users/MasPosInc/.g
 MERGED from [androidx.navigation:navigation-ui:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/a2b2581286a3e01a675ad6a79e588f35/navigation-ui-2.3.3/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.material:material:1.3.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/10a1fd9a43e78ddadba51799567f760e/material-1.3.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/ab75dfbbd723f28d9ab1c4d69d43602e/constraintlayout-2.0.4/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.preference:preference:1.1.1] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/6195ca61c3bdd2bc21a55ba3e062eade/preference-1.1.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.2.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/4102c377b7a8a929cfb8c6bcf858d486/appcompat-1.2.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/d26c4581f2aa1b1cbe7b20229144eab6/jetified-viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/56228e3cba1e0105b784c04c8a09c034/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
@@ -25,9 +26,9 @@ MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/MasPosIn
 MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/6fbde3eb0bd4b3be096c7e1fce5ac21f/dynamicanimation-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/96e956f09c012297edcddd2775f65c0b/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/2a8076bdfc58cd2ace7c4c78c5754ac7/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/976c00641c40d82db70ae37f64007c6f/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-fragment:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/f9c81aebc3529e74297ccbda675ffa1b/navigation-fragment-2.3.3/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment:1.2.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/8424eccb2914450df71e7fb1902b3ec8/fragment-1.2.4/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/976c00641c40d82db70ae37f64007c6f/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/efbbf25f7ee25cf0acf8d96cb8a0a78e/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/1ad2232e5d54277c9bfa76f1a93aaedb/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/68a7a02e650c01e26665107e7d3e2ec0/customview-1.1.0/AndroidManifest.xml:17:1-24:12
@@ -52,20 +53,20 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/MasPosInc/.grad
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/d5abaf28ea5acb6296bc3841821b8930/lifecycle-livedata-core-2.2.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/9db0ec2213a228a5db2b1034656eefd5/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.annotation:annotation-experimental:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/0aaff4fb6b8684e27d7e3963216ee549/jetified-annotation-experimental-1.0.0/AndroidManifest.xml:17:1-24:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
-INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
+INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
 	package
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-28:12
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:1-29:12
 		INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:2:11-69
@@ -74,7 +75,7 @@ ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/An
 	android:name
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:5:22-64
 application
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:7:5-27:19
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:7:5-28:19
 MERGED from [com.google.android.material:material:1.3.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/10a1fd9a43e78ddadba51799567f760e/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.3.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/10a1fd9a43e78ddadba51799567f760e/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/ab75dfbbd723f28d9ab1c4d69d43602e/constraintlayout-2.0.4/AndroidManifest.xml:9:5-20
@@ -113,20 +114,24 @@ activity#com.example.myapplication.SearchSocialMedia
 ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:18:9-55
 	android:name
 		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:18:19-52
+activity#com.example.myapplication.SettingsActivity
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:9-54
+	android:name
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:19-51
 activity#com.example.myapplication.MainActivity
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:9-26:20
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:20:9-27:20
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:19:19-47
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:20:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:21:13-25:29
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:22:13-26:29
 action#android.intent.action.MAIN
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:22:17-69
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:22:25-66
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:24:17-77
+ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:24:27-74
+		ADDED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml:25:27-74
 uses-sdk
 INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/MasPosInc/StudioProjects/cse442-project-team-1/app/src/main/AndroidManifest.xml
@@ -157,6 +162,8 @@ MERGED from [com.google.android.material:material:1.3.0] /Users/MasPosInc/.gradl
 MERGED from [com.google.android.material:material:1.3.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/10a1fd9a43e78ddadba51799567f760e/material-1.3.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/ab75dfbbd723f28d9ab1c4d69d43602e/constraintlayout-2.0.4/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/ab75dfbbd723f28d9ab1c4d69d43602e/constraintlayout-2.0.4/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.preference:preference:1.1.1] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/6195ca61c3bdd2bc21a55ba3e062eade/preference-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.preference:preference:1.1.1] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/6195ca61c3bdd2bc21a55ba3e062eade/preference-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.2.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/4102c377b7a8a929cfb8c6bcf858d486/appcompat-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.2.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/4102c377b7a8a929cfb8c6bcf858d486/appcompat-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/d26c4581f2aa1b1cbe7b20229144eab6/jetified-viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
@@ -173,12 +180,12 @@ MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/MasPo
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/96e956f09c012297edcddd2775f65c0b/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/2a8076bdfc58cd2ace7c4c78c5754ac7/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/2a8076bdfc58cd2ace7c4c78c5754ac7/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/976c00641c40d82db70ae37f64007c6f/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/976c00641c40d82db70ae37f64007c6f/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.navigation:navigation-fragment:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/f9c81aebc3529e74297ccbda675ffa1b/navigation-fragment-2.3.3/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-fragment:2.3.3] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/f9c81aebc3529e74297ccbda675ffa1b/navigation-fragment-2.3.3/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.2.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/8424eccb2914450df71e7fb1902b3ec8/fragment-1.2.4/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.2.4] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/8424eccb2914450df71e7fb1902b3ec8/fragment-1.2.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/976c00641c40d82db70ae37f64007c6f/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/976c00641c40d82db70ae37f64007c6f/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/efbbf25f7ee25cf0acf8d96cb8a0a78e/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/efbbf25f7ee25cf0acf8d96cb8a0a78e/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/MasPosInc/.gradle/caches/transforms-2/files-2.1/1ad2232e5d54277c9bfa76f1a93aaedb/viewpager-1.0.0/AndroidManifest.xml:20:5-44
