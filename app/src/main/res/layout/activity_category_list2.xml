@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".CategoryList">
 
-    <ListView
-        android:id="@+id/categoryList"
+<!--    <ListView-->
+<!--        android:id="@+id/categoryList"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--    >-->
+<!--        -->
+<!--    </ListView>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    />
+        android:scrollbars="vertical"
+        tools:listitem="@layout/list_display"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
