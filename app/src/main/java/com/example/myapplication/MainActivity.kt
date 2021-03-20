@@ -2,11 +2,11 @@ package com.example.myapplication
 
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 
 class MainActivity : AppCompatActivity(){
@@ -38,7 +38,14 @@ class MainActivity : AppCompatActivity(){
                 val intent = Intent(this, SearchSocialMedia::class.java)
                 startActivity(intent)
             }
-            //R.id.showAll -> showListSelection = "Show All"
+
+                
+            R.id.preferences -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+
+          //R.id.showAll -> showListSelection = "Show All"
             R.id.showAll -> {
                 val intent = Intent(this, ShowListing::class.java)
                 startActivity(intent)
