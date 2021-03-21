@@ -40,10 +40,6 @@
                 android:id="@+id/preIPO"
                 android:title="Pre&#160;IPO"
                 />
-            <item
-                android:id="@+id/warrants"
-                android:title="Warrants&#160;(Testing)"
-                />
         </menu>
     </item>
     <item

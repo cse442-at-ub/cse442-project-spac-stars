@@ -2173,6 +2173,7 @@ id submenuarrow
 id submit_area
 id switchWidget
 id tabMode
+id tableRow
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans
 id tag_accessibility_heading
@@ -2227,7 +2228,6 @@ id useLogo
 id view_offset_helper
 id visible
 id visible_removing_fragment_view_tag
-id warrants
 id webView
 id withText
 id withinBounds
