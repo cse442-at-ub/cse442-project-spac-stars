@@ -111,7 +111,7 @@ class CategoryList : AppCompatActivity() {
             R.id.optionChads -> showListSelection = "Option+Chads"
             R.id.preUnit -> showListSelection = "Pre+Unit+Split"
             R.id.preIPO -> showListSelection = "Pre+IPO"
-            R.id.warrants -> showListSelection = "Warrants+(Testing)"
+//            R.id.warrants -> showListSelection = "Warrants+(Testing)"
         }
 
         if(worksheetsStartingRow.containsKey(showListSelection)){

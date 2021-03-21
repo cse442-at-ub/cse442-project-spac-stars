@@ -103,7 +103,7 @@ class ShowListing : AppCompatActivity() {
         while(Warrantsvalues.length() == 0){
             //Block until table can be populated
         }
-        addtablerows(table, "Warrants", Warrantsvalues)
+//        addtablerows(table, "Warrants", Warrantsvalues)
 
     }
 
