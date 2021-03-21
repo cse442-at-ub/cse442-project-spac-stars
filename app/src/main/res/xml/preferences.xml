@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen>
+    <PreferenceCategory android:title="Show Listing Page - Select Columns to show"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="hide_single_count"
+        android:title="@string/name_settings"
+        android:summary="@string/hide_count_1_description"
+        android:defaultValue="false" />
+    <SwitchPreference
+        android:key="hide_single_count"
+        android:title="@string/ticker_settings"
+        android:summary="@string/hide_count_2_description"
+        android:defaultValue="false" />
+    <SwitchPreference
+        android:key="hide_single_count"
+        android:title="@string/ipo_date_settings"
+        android:summary="@string/hide_count_3_description"
+        android:defaultValue="false" />
+    <SwitchPreference
+        android:key="hide_single_count"
+        android:title="@string/management_settings"
+        android:summary="@string/hide_count_4_description"
+        android:defaultValue="false" />
+    <SwitchPreference
+        android:key="hide_single_count"
+        android:title="@string/cash_in_trust_settings"
+        android:summary="@string/hide_count_5_description"
+        android:defaultValue="false" />
+    <SwitchPreference
+        android:key="hide_single_count"
+        android:title="@string/capital_structure_settings"
+        android:summary="@string/hide_count_6_description"
+        android:defaultValue="false" />
+    </PreferenceCategory>
+</PreferenceScreen>
