@@ -7,15 +7,30 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.DBHandlerSavedList
 
 
 class MainActivity : AppCompatActivity(){
+
+
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
 
         //Set the xml page to use as display page. R.layout is resources folder (res) / layout folder, as in app/res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
 
+        val db = DBHandlerSavedList(this)
+//        db.insertNewSavedSPAC("TEST", "test")
+        val saved = db.getAllSavedSPAC()
+
+        val listAdapter = SavedListAdapter(saved)
+        val viewList: RecyclerView = findViewById(R.id.recyclerViewSaved)
+        viewList.adapter = listAdapter
+        viewList.layoutManager = LinearLayoutManager(this)
+        viewList.setHasFixedSize(true)
     }
 
 

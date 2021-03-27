@@ -38,9 +38,7 @@ class CategoryList : AppCompatActivity() {
             println(results.joinToString())
             this@CategoryList.runOnUiThread(Runnable {
                 val listAdapter = TickerListAdapter(results, categoryInfoLabel[SPACtype])
-                println(listAdapter)
                 val viewList: RecyclerView = findViewById(R.id.recyclerView)
-                println("view set")
                 viewList.adapter = listAdapter
                 viewList.layoutManager = LinearLayoutManager(this)
                 viewList.setHasFixedSize(true)
