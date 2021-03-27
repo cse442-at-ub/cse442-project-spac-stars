@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.DBHandlerSavedList
 
 
 class MainActivity : AppCompatActivity(){
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         val db = DBHandlerSavedList(this)
-//        db.insertNewSavedSPAC("TEST", "test")
+        db.insertNewSavedSPAC("TEST", "test")
         val saved = db.getAllSavedSPAC()
 
         val listAdapter = SavedListAdapter(saved)
@@ -81,6 +83,25 @@ class MainActivity : AppCompatActivity(){
 
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun removeButtonHandler(view: View) {
+        //LinearLayout vwParentRow = (LinearLayout)v.getParent();
+        //
+        //        TextView child = (TextView)vwParentRow.getChildAt(0);
+        //        Button btnChild = (Button)vwParentRow.getChildAt(1);
+        //        btnChild.setText(child.getText());
+        //        btnChild.setText("I've been clicked!");
+        //
+        //        int c = Color.CYAN;
+        //
+        //        vwParentRow.setBackgroundColor(c);
+        //        vwParentRow.refreshDrawableState();
+        val parent = view.parent.parent as View
+        val ticker = parent.findViewById<TextView>(R.id.ticker).text
+//        val name = parent.findViewById<TextView>(R.id.name)
+        val db = DBHandlerSavedList(this)
+        db.removeSPAC(ticker.toString())
     }
 
 }
