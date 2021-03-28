@@ -8,17 +8,15 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
-import com.example.myapplication.constants.worksheetsStartingRow
+import com.example.myapplication.constants.apikey
 import com.example.myapplication.constants.categoryInfoColumn
 import com.example.myapplication.constants.categoryInfoLabel
-import com.example.myapplication.constants.apikey
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.sortingOrder
-
+import com.example.myapplication.constants.worksheetsStartingRow
+import org.json.JSONObject
 import java.net.URL
-import org.json.*
-import kotlin.concurrent.*
+import kotlin.concurrent.thread
 
 
 
@@ -122,8 +120,5 @@ class CategoryList : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-
-
-
 
 }
