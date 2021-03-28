@@ -16,19 +16,24 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity(){
 
-
+    private var saved = mutableListOf<Array<String>>()
+    private var listAdapter = SavedListAdapter(saved)
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
 
         //Set the xml page to use as display page. R.layout is resources folder (res) / layout folder, as in app/res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
-
         val db = DBHandlerSavedList(this)
         db.insertNewSavedSPAC("TEST", "test")
-        val saved = db.getAllSavedSPAC()
+        saved.addAll(db.getAllSavedSPAC())
+        //https://suragch.medium.com/updating-data-in-an-android-recyclerview-842e56adbfd8
+//        listAdapter = SavedListAdapter(saved)
+        listAdapter.notifyDataSetChanged()
 
-        val listAdapter = SavedListAdapter(saved)
+//        val db = DBHandlerSavedList(this)
+//        db.insertNewSavedSPAC("TEST", "test")
+
         val viewList: RecyclerView = findViewById(R.id.recyclerViewSaved)
         viewList.adapter = listAdapter
         viewList.layoutManager = LinearLayoutManager(this)
@@ -100,8 +105,12 @@ class MainActivity : AppCompatActivity(){
         val parent = view.parent.parent as View
         val ticker = parent.findViewById<TextView>(R.id.ticker).text
 //        val name = parent.findViewById<TextView>(R.id.name)
+        println(saved.indexOfFirst { it[0] == ticker })
         val db = DBHandlerSavedList(this)
         db.removeSPAC(ticker.toString())
+        saved.removeAt(saved.indexOfFirst { it[0] == ticker })
+        println(saved.size)
+        listAdapter.notifyDataSetChanged()
     }
 
 }
