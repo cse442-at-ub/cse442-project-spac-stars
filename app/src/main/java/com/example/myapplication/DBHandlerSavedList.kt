@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper
 //https://www.tutorialspoint.com/how-to-use-a-simple-sqlite-database-in-kotlin-android
 
 class DBHandlerSavedList(context: Context) : SQLiteOpenHelper(context, "SPACStars", null, 1) {
+    //creates tables
     override fun onCreate(db: SQLiteDatabase?) {
         val createTableSaved =
                 "CREATE TABLE IF NOT EXISTS " +
@@ -25,6 +26,7 @@ class DBHandlerSavedList(context: Context) : SQLiteOpenHelper(context, "SPACStar
         TODO("Not yet implemented")
     }
 
+    //inserts SPAC into saved list
     fun insertNewSavedSPAC(ticker: String, name: String){
         if(!getSavedSPACExists(ticker)){
             val values = ContentValues()
@@ -36,6 +38,8 @@ class DBHandlerSavedList(context: Context) : SQLiteOpenHelper(context, "SPACStar
         }
     }
 
+
+    //gets all SPACs from saved list
     fun getAllSavedSPAC(): MutableList<Array<String>>{
         val query = "SELECT * FROM SavedList"
         val db = this.writableDatabase
@@ -54,6 +58,7 @@ class DBHandlerSavedList(context: Context) : SQLiteOpenHelper(context, "SPACStar
         return finalList
     }
 
+    //check if a SPAC was saved
     fun getSavedSPACExists(ticker: String): Boolean{
         var exists = false
         val query = "SELECT * FROM SavedList WHERE ticker = \"$ticker\""
@@ -69,6 +74,7 @@ class DBHandlerSavedList(context: Context) : SQLiteOpenHelper(context, "SPACStar
     }
 
 
+    //remove SPAC from saved list
     fun removeSPAC(ticker: String){
         val query = "SELECT * FROM SavedList WHERE ticker = \"$ticker\""
         val db = this.writableDatabase
