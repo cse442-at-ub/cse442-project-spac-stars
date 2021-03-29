@@ -25,8 +25,4 @@
     <string name="hide_count_4_description">Enable/Disable Management Column</string>
     <string name="hide_count_5_description">Enable/Disable Cash in Trust Column</string>
     <string name="hide_count_6_description">Enable/Disable Capital Structure Column</string>
-    <string name="addremove">addremove</string>
-    <string name="saved_spacs">Saved SPACS</string>
-    <string name="add_spacs">Add SPACs</string>
-    <string name="remove">Remove</string>
 </resources>

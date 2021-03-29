@@ -8,15 +8,17 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.constants.apikey
+
+import com.example.myapplication.constants.worksheetsStartingRow
 import com.example.myapplication.constants.categoryInfoColumn
 import com.example.myapplication.constants.categoryInfoLabel
+import com.example.myapplication.constants.apikey
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.sortingOrder
-import com.example.myapplication.constants.worksheetsStartingRow
-import org.json.JSONObject
+
 import java.net.URL
-import kotlin.concurrent.thread
+import org.json.*
+import kotlin.concurrent.*
 
 
 
@@ -36,7 +38,9 @@ class CategoryList : AppCompatActivity() {
             println(results.joinToString())
             this@CategoryList.runOnUiThread(Runnable {
                 val listAdapter = TickerListAdapter(results, categoryInfoLabel[SPACtype])
+                println(listAdapter)
                 val viewList: RecyclerView = findViewById(R.id.recyclerView)
+                println("view set")
                 viewList.adapter = listAdapter
                 viewList.layoutManager = LinearLayoutManager(this)
                 viewList.setHasFixedSize(true)
@@ -118,5 +122,8 @@ class CategoryList : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+
+
 
 }

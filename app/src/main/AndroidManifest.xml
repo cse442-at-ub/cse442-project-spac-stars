@@ -3,8 +3,6 @@
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -15,11 +13,9 @@
         android:theme="@style/Theme.MyApplication">
 
         <activity android:name=".ShowListing" />
-        <activity android:name=".Alerts" />
         <activity android:name=".CategoryList"></activity>
         <activity android:name=".WebSearch" />
         <activity android:name=".SearchSocialMedia" />
-        <activity android:name=".SPACLivePricesMain" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".MainActivity">
           
@@ -29,8 +25,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".Alerts$timedNotification" >
-        </receiver>
-
     </application>
 </manifest>
