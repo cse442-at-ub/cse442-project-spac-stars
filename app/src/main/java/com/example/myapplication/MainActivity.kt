@@ -31,6 +31,9 @@ class MainActivity : AppCompatActivity(){
 //        listAdapter = SavedListAdapter(saved)
         listAdapter.notifyDataSetChanged()
 
+//        //THIS IS A TEST
+//        val test = TestHandler(this)
+
 //        val db = DBHandlerSavedList(this)
 //        db.insertNewSavedSPAC("TEST", "test")
 

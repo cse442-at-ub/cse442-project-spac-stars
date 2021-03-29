@@ -26,6 +26,9 @@ class DBHandlerSavedList(context: Context) : SQLiteOpenHelper(context, "SPACStar
         TODO("Not yet implemented")
     }
 
+
+
+    //methods for the saved list
     //inserts SPAC into saved list
     fun insertNewSavedSPAC(ticker: String, name: String){
         if(!getSavedSPACExists(ticker)){
