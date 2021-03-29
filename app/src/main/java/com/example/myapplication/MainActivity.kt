@@ -44,6 +44,10 @@ class MainActivity : AppCompatActivity(){
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
             }
+            R.id.alertsetup -> {
+                val intent = Intent(this, Alerts::class.java)
+                startActivity(intent)
+            }
 
           //R.id.showAll -> showListSelection = "Show All"
             R.id.showAll -> {
