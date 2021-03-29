@@ -31,7 +31,7 @@ class ShowListing : AppCompatActivity() {
         var OptionChadsvalues: JSONArray = JSONArray()
         var PreUnitSplittvalues: JSONArray = JSONArray()
         var PreIPOvalues: JSONArray = JSONArray()
-        var Warrantsvalues: JSONArray = JSONArray()
+        //var Warrantsvalues: JSONArray = JSONArray()
 
         //Get the data from the sheet
         thread(start = true) {
@@ -40,7 +40,7 @@ class ShowListing : AppCompatActivity() {
             OptionChadsvalues = getList("Option+Chads")
             PreUnitSplittvalues = getList("Pre+Unit+Split")
             PreIPOvalues = getList("Pre+IPO")
-            Warrantsvalues = getList("Warrants+(Testing)")
+            //Warrantsvalues = getList("Warrants+(Testing)")
         }
 
         //Update the titlebar from "SPAC Stars" to "Show Listing"
@@ -100,9 +100,9 @@ class ShowListing : AppCompatActivity() {
         addtablerows(table, "Pre IPO", PreIPOvalues)
 
         //Add all the values for Warrants (Testing)
-        while(Warrantsvalues.length() == 0){
+       // while(Warrantsvalues.length() == 0){
             //Block until table can be populated
-        }
+        //}
 //        addtablerows(table, "Warrants", Warrantsvalues)
 
     }
