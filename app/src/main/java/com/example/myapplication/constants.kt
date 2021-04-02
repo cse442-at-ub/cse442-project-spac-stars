@@ -29,8 +29,14 @@ object constants {
     val apikey: String = "AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo"
 
 
+    //parameters:
+    // list = of arrays, each array is in the format of [ticker, name, information] (all Strings)
+    // index = which index of the individual array to sort by (example: index 0 would sort by ticker
+    // type = String or Int, determines if you want to sort the information by alphabetical or numeric order (usually only the information is sorted numerically)
+    // isDescending = if you want the list sorted in descending order
+
+    //returns a list of arrays, each array is in the format of [ticker, name, information] (all Strings)
     fun sortingOrder(list: MutableList<Array<String>>, index: Int, type: String, isDescending: Boolean): MutableList<Array<String>>{
-//        var sorted: MutableList<Array<String>> = mutableListOf()
         var sorted =
             if(type == "Int"){
                 list.sortedBy { it[index].replace("$", "")
@@ -44,9 +50,6 @@ object constants {
         if(isDescending){
             sorted = sorted.asReversed()
         }
-//        for(i in sorted){
-//            println(i[0] + ", " + i[1] + ", " + i[2])
-//        }
         return sorted
     }
 }
