@@ -29,13 +29,13 @@ object constants {
     val apikey: String = "AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo"
 
 
-    fun sortingOrder(list: MutableList<Array<String>>, index: Int, type: String): MutableList<Array<String>>{
+    fun sortingOrder(list: MutableList<Array<String>>, index: Int, type: String, isDescending: Boolean): MutableList<Array<String>>{
 //        var sorted: MutableList<Array<String>> = mutableListOf()
         println(list[0][index].replace("$", "")
                 .replace(",","")
                 .replace(" ","")
                 .toInt())
-        val sorted =
+        var sorted =
             if(type == "Int"){
                 list.sortedBy { it[index].replace("$", "")
                         .replace(",","")
@@ -45,10 +45,12 @@ object constants {
             }else{
                 list.sortedBy { it[index] }.toMutableList()
             }
-
-        for(i in sorted){
-            println(i[0] + ", " + i[1] + ", " + i[2])
+        if(isDescending){
+            sorted = sorted.asReversed()
         }
+//        for(i in sorted){
+//            println(i[0] + ", " + i[1] + ", " + i[2])
+//        }
         return sorted
     }
 }

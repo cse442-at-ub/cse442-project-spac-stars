@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,25 @@ class CategoryList : AppCompatActivity() {
             SPACtype = extras.getString("key").toString()
         }
 
+        val spinner:Spinner = findViewById(R.id.sortDropdown)
+        val items: Array<String> =
+                arrayOf("Ticker (A-Z)",
+                        "Ticker (Z-A)",
+                        "Name (A-Z)",
+                        "Name (Z-A)",
+                        categoryInfoLabel[SPACtype] + "(ascending)",
+                        categoryInfoLabel[SPACtype] + "(descending)"
+                )
+
+        val parameterMap: Array<Triple<Int, String, Boolean>> = arrayOf(
+                Triple(0, "String", false),
+                Triple(0, "String", true),
+                Triple(1, "String", false),
+                Triple(1, "String", true),
+                Triple(2, "Int", false),
+                Triple(2, "Int", true)
+        )
+
         thread(start=true) {
             val results = getList(SPACtype)
             println(results.joinToString())
@@ -44,6 +64,9 @@ class CategoryList : AppCompatActivity() {
 
 
         }
+
+
+
 
 
 
@@ -79,7 +102,7 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
-        val sorted = sortingOrder(finalList, 2, "Int")
+//        val sorted = sortingOrder(finalList, 2, "Int", "ascending")
 
 
         return finalList
