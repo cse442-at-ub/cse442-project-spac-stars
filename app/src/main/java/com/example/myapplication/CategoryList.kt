@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +25,9 @@ import kotlin.concurrent.thread
 
 
 class CategoryList : AppCompatActivity() {
+
+    private var results: MutableList<Array<String>> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_list2)
@@ -34,7 +40,8 @@ class CategoryList : AppCompatActivity() {
 
         val spinner:Spinner = findViewById(R.id.sortDropdown)
         val items: Array<String> =
-                arrayOf("Ticker (A-Z)",
+                arrayOf("Select Sorting Order",
+                        "Ticker (A-Z)",
                         "Ticker (Z-A)",
                         "Name (A-Z)",
                         "Name (Z-A)",
@@ -51,8 +58,30 @@ class CategoryList : AppCompatActivity() {
                 Triple(2, "Int", true)
         )
 
+        val dropdownAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
+        spinner.adapter = dropdownAdapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                println(parent.getItemAtPosition(position).toString())
+                if(position != 0){
+                    val index = items.indexOfFirst { it == parent.getItemAtPosition(position).toString() } - 1
+                    val newOrder = sortingOrder(results, parameterMap[index].first, parameterMap[index].second, parameterMap[index].third)
+                    results = newOrder
+                    val listAdapter = TickerListAdapter(results, categoryInfoLabel[SPACtype])
+                    val viewList: RecyclerView = findViewById(R.id.recyclerView)
+                    viewList.adapter = listAdapter
+                }
+//                viewList.layoutManager = LinearLayoutManager(this)
+//                viewList.setHasFixedSize(true)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+
         thread(start=true) {
-            val results = getList(SPACtype)
+            results = getList(SPACtype)
             println(results.joinToString())
             this@CategoryList.runOnUiThread(Runnable {
                 val listAdapter = TickerListAdapter(results, categoryInfoLabel[SPACtype])

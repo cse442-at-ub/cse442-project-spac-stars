@@ -31,10 +31,6 @@ object constants {
 
     fun sortingOrder(list: MutableList<Array<String>>, index: Int, type: String, isDescending: Boolean): MutableList<Array<String>>{
 //        var sorted: MutableList<Array<String>> = mutableListOf()
-        println(list[0][index].replace("$", "")
-                .replace(",","")
-                .replace(" ","")
-                .toInt())
         var sorted =
             if(type == "Int"){
                 list.sortedBy { it[index].replace("$", "")
@@ -43,7 +39,7 @@ object constants {
                         .toInt() }.toMutableList()
 
             }else{
-                list.sortedBy { it[index] }.toMutableList()
+                list.sortedBy { it[index].toLowerCase() }.toMutableList()
             }
         if(isDescending){
             sorted = sorted.asReversed()

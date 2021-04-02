@@ -6,28 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".CategoryList">
 
-    <Spinner
-        android:id="@+id/sortDropdown"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:spinnerMode="dropdown"
-        />
+        android:orientation="vertical"
+        >
+        <Spinner
+            android:id="@+id/sortDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-<!--    <ListView-->
-<!--        android:id="@+id/categoryList"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--    >-->
-<!--        -->
-<!--    </ListView>-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/list_display"
-        />
+            android:spinnerMode="dropdown"
+            />
+
+        <!--    <ListView-->
+        <!--        android:id="@+id/categoryList"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="match_parent"-->
+        <!--    >-->
+        <!--        -->
+        <!--    </ListView>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/list_display"
+            />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
