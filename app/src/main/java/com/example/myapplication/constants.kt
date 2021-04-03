@@ -1,5 +1,8 @@
 package com.example.myapplication
 
+import android.widget.TableRow
+import android.widget.TextView
+
 object constants {
     val worksheetsStartingRow: Map<String, String> = mapOf(
         "Pre+LOI" to "A5",
@@ -47,6 +50,14 @@ object constants {
             }else{
                 list.sortedBy { it[index].toLowerCase() }.toMutableList()
             }
+        if(isDescending){
+            sorted = sorted.asReversed()
+        }
+        return sorted
+    }
+
+    fun sortTableRows(rows: MutableList<TableRow>, index: Int, isDescending: Boolean): MutableList<TableRow>{
+        var sorted = rows.sortedBy { (it.getVirtualChildAt(index) as TextView).text.toString().toLowerCase() }.toMutableList()
         if(isDescending){
             sorted = sorted.asReversed()
         }

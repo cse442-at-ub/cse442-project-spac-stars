@@ -5,34 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical"
+        >
+        <Spinner
+            android:id="@+id/sortDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-        <TableLayout
-            android:id="@+id/listingtable"
+            android:spinnerMode="dropdown"
+            />
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="?attr/dividerHorizontal"
-            android:isScrollContainer="true"
-            android:showDividers="middle|beginning|end"
-            app:layout_constraintTop_toBottomOf="@+id/tableRow">
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        </TableLayout>
+            <TableLayout
+                android:id="@+id/listingtable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="?attr/dividerHorizontal"
+                android:isScrollContainer="true"
+                android:showDividers="middle|beginning|end"
+                app:layout_constraintTop_toBottomOf="@+id/tableRow">
 
-    </ScrollView>
+            </TableLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
