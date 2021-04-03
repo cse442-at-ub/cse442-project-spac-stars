@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 class MainActivity : AppCompatActivity(){
 
     private var saved = mutableListOf<Array<String>>()
-    private var listAdapter = SavedListAdapter(saved)
+    private var listAdapter = SavedListAdapter(this, saved, this)
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
