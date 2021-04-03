@@ -1,24 +1,29 @@
 package com.example.myapplication
 
+import android.content.ContextWrapper
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONObject
 
 import com.example.myapplication.constants.worksheetsStartingRow
 import com.example.myapplication.constants.apikey
 import com.example.myapplication.constants.sheetID
+import com.example.myapplication.constants.sortTableRows
 import org.json.JSONArray
 import java.net.URL
 import kotlin.concurrent.thread
 
 class ShowListing : AppCompatActivity() {
+
+    private var tableRows: MutableList<TableRow> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.show_listing)
@@ -32,6 +37,40 @@ class ShowListing : AppCompatActivity() {
         var PreUnitSplittvalues: JSONArray = JSONArray()
         var PreIPOvalues: JSONArray = JSONArray()
         //var Warrantsvalues: JSONArray = JSONArray()
+
+        val spinner: Spinner = findViewById(R.id.sortDropdown)
+        val items: Array<String> =
+                arrayOf("Select Sorting Order",
+                        "Ticker (A-Z)",
+                        "Ticker (Z-A)",
+                        "Name (A-Z)",
+                        "Name (Z-A)"
+                )
+
+        val parameterMap: Array<Triple<Int, String, Boolean>> = arrayOf(
+                Triple(0, "String", false),
+                Triple(0, "String", true),
+                Triple(1, "String", false),
+                Triple(1, "String", true)
+        )
+
+        val dropdownAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
+        spinner.adapter = dropdownAdapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                println(parent.getItemAtPosition(position).toString())
+                if(position != 0){
+                    val index = items.indexOfFirst { it == parent.getItemAtPosition(position).toString() } - 1
+                    alterTable(parameterMap[index], table)
+                }
+//                viewList.layoutManager = LinearLayoutManager(this)
+//                viewList.setHasFixedSize(true)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
 
         //Get the data from the sheet
         thread(start = true) {
@@ -50,24 +89,27 @@ class ShowListing : AppCompatActivity() {
         }
 
         //Create the first row for the table that shows "TICKER  SPAC NAME   CATEGORY"
-        val firstrow = TableRow(context)
-        val Tickerrow = TextView(context)
-        val Namerow = TextView(context)
-        val Categoryrow = TextView(context)
-        val Blackcolor = "#000000"
-        Tickerrow.setTypeface(null, Typeface.BOLD_ITALIC)
-        Namerow.setTypeface(null, Typeface.BOLD_ITALIC)
-        Categoryrow.setTypeface(null, Typeface.BOLD_ITALIC)
-        Tickerrow.text = "TICKER\t"
-        Tickerrow.setTextColor(Color.parseColor(Blackcolor))
-        Namerow.setTextColor(Color.parseColor(Blackcolor))
-        Categoryrow.setTextColor(Color.parseColor(Blackcolor))
-        Namerow.text = "SPAC NAME\t"
-        Categoryrow.text = "CATEGORY\t"
-        firstrow.addView(Tickerrow, 0)
-        firstrow.addView(Namerow, 1)
-        firstrow.addView(Categoryrow, 2)
-        table.addView(firstrow)
+
+        addFirstRow(context, table)
+
+//        val firstrow = TableRow(context)
+//        val Tickerrow = TextView(context)
+//        val Namerow = TextView(context)
+//        val Categoryrow = TextView(context)
+//        val Blackcolor = "#000000"
+//        Tickerrow.setTypeface(null, Typeface.BOLD_ITALIC)
+//        Namerow.setTypeface(null, Typeface.BOLD_ITALIC)
+//        Categoryrow.setTypeface(null, Typeface.BOLD_ITALIC)
+//        Tickerrow.text = "TICKER\t"
+//        Tickerrow.setTextColor(Color.parseColor(Blackcolor))
+//        Namerow.setTextColor(Color.parseColor(Blackcolor))
+//        Categoryrow.setTextColor(Color.parseColor(Blackcolor))
+//        Namerow.text = "SPAC NAME\t"
+//        Categoryrow.text = "CATEGORY\t"
+//        firstrow.addView(Tickerrow, 0)
+//        firstrow.addView(Namerow, 1)
+//        firstrow.addView(Categoryrow, 2)
+//        table.addView(firstrow)
 
         //Add all the values to the table for Pre LOI
         while(PreLOIvalues.length() == 0){
@@ -99,6 +141,7 @@ class ShowListing : AppCompatActivity() {
         }
         addtablerows(table, "Pre IPO", PreIPOvalues)
 
+
         //Add all the values for Warrants (Testing)
        // while(Warrantsvalues.length() == 0){
             //Block until table can be populated
@@ -126,7 +169,7 @@ class ShowListing : AppCompatActivity() {
             val Categoryrow = TextView(context)
             val darkgraycolor = "#333333"
             //If there is no Ticker associated, don't add it
-            if (spacdata[0].toString() != "") {
+            if (spacdata[0].toString() != "" && spacdata[0].toString() != "N/A") {
                 //Add ticker, name, and category all to table, set a color for that text
                 Tickerrow.text = spacdata[0].toString() + "\t"
                 Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
@@ -141,11 +184,48 @@ class ShowListing : AppCompatActivity() {
                 Categoryrow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Categoryrow, 2)
             }
-            //Set the row to display data on click
-            onclicksetter(tablerow, category, spacdata)
-            //Add the row the table
-            table.addView(tablerow)
+
+            if(tablerow.getChildAt(0) != null){
+                //Set the row to display data on click
+                onclicksetter(tablerow, category, spacdata)
+                //Add the row the table
+                table.addView(tablerow)
+                tableRows.add(tablerow)
+            }
         }
+    }
+
+    fun addFirstRow(context: android.content.Context, table: TableLayout){
+//        val context = applicationContext
+        val firstrow = TableRow(context)
+        val Tickerrow = TextView(context)
+        val Namerow = TextView(context)
+        val Categoryrow = TextView(context)
+        val Blackcolor = "#000000"
+        Tickerrow.setTypeface(null, Typeface.BOLD_ITALIC)
+        Namerow.setTypeface(null, Typeface.BOLD_ITALIC)
+        Categoryrow.setTypeface(null, Typeface.BOLD_ITALIC)
+        Tickerrow.text = "TICKER\t"
+        Tickerrow.setTextColor(Color.parseColor(Blackcolor))
+        Namerow.setTextColor(Color.parseColor(Blackcolor))
+        Categoryrow.setTextColor(Color.parseColor(Blackcolor))
+        Namerow.text = "SPAC NAME\t"
+        Categoryrow.text = "CATEGORY\t"
+        firstrow.addView(Tickerrow, 0)
+        firstrow.addView(Namerow, 1)
+        firstrow.addView(Categoryrow, 2)
+        table.addView(firstrow)
+    }
+
+    //rebuild table after sorting
+    fun alterTable(selection: Triple<Int, String, Boolean>, table: TableLayout){
+        tableRows = sortTableRows(tableRows, selection.first, selection.third)
+        table.removeAllViews()
+        addFirstRow(applicationContext, table)
+        for(i in tableRows){
+            table.addView(i)
+        }
+
     }
 
     //Make the table entry show more data when clicked, depends on category name

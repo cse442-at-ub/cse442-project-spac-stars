@@ -1,5 +1,8 @@
 package com.example.myapplication
 
+import android.widget.TableRow
+import android.widget.TextView
+
 object constants {
     val worksheetsStartingRow: Map<String, String> = mapOf(
         "Pre+LOI" to "A5",
@@ -29,13 +32,15 @@ object constants {
     val apikey: String = "AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo"
 
 
-    fun sortingOrder(list: MutableList<Array<String>>, index: Int, type: String): MutableList<Array<String>>{
-//        var sorted: MutableList<Array<String>> = mutableListOf()
-        println(list[0][index].replace("$", "")
-                .replace(",","")
-                .replace(" ","")
-                .toInt())
-        val sorted =
+    //parameters:
+    // list = of arrays, each array is in the format of [ticker, name, information] (all Strings)
+    // index = which index of the individual array to sort by (example: index 0 would sort by ticker
+    // type = String or Int, determines if you want to sort the information by alphabetical or numeric order (usually only the information is sorted numerically)
+    // isDescending = if you want the list sorted in descending order
+
+    //returns a list of arrays, each array is in the format of [ticker, name, information] (all Strings)
+    fun sortingOrder(list: MutableList<Array<String>>, index: Int, type: String, isDescending: Boolean): MutableList<Array<String>>{
+        var sorted =
             if(type == "Int"){
                 list.sortedBy { it[index].replace("$", "")
                         .replace(",","")
@@ -43,11 +48,18 @@ object constants {
                         .toInt() }.toMutableList()
 
             }else{
-                list.sortedBy { it[index] }.toMutableList()
+                list.sortedBy { it[index].toLowerCase() }.toMutableList()
             }
+        if(isDescending){
+            sorted = sorted.asReversed()
+        }
+        return sorted
+    }
 
-        for(i in sorted){
-            println(i[0] + ", " + i[1] + ", " + i[2])
+    fun sortTableRows(rows: MutableList<TableRow>, index: Int, isDescending: Boolean): MutableList<TableRow>{
+        var sorted = rows.sortedBy { (it.getVirtualChildAt(index) as TextView).text.toString().toLowerCase() }.toMutableList()
+        if(isDescending){
+            sorted = sorted.asReversed()
         }
         return sorted
     }
