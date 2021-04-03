@@ -217,6 +217,7 @@ class ShowListing : AppCompatActivity() {
         table.addView(firstrow)
     }
 
+    //rebuild table after sorting
     fun alterTable(selection: Triple<Int, String, Boolean>, table: TableLayout){
         tableRows = sortTableRows(tableRows, selection.first, selection.third)
         table.removeAllViews()
@@ -225,15 +226,6 @@ class ShowListing : AppCompatActivity() {
             table.addView(i)
         }
 
-
-//        for(i in 0 until table.childCount){
-////            val row = table.getChildAt(i) as TableRow
-////            val ticker = row.getVirtualChildAt(0) as TextView
-////            val name = row.getVirtualChildAt(1) as TextView
-////            val categoryname = row.getVirtualChildAt(2) as TextView
-////            println(ticker.text.toString() + ", " + name.text.toString() + ", " + categoryname.text.toString())
-//
-//        }
     }
 
     //Make the table entry show more data when clicked, depends on category name
