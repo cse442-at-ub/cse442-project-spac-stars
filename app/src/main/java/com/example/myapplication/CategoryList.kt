@@ -18,6 +18,7 @@ import com.example.myapplication.constants.categoryInfoLabel
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.sortingOrder
 import com.example.myapplication.constants.worksheetsStartingRow
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
 import kotlin.concurrent.thread
@@ -27,12 +28,14 @@ import kotlin.concurrent.thread
 class CategoryList : AppCompatActivity() {
 
     private var results: MutableList<Array<String>> = mutableListOf()
+    private var tickerMap: MutableMap<String, JSONArray> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_list2)
 
         val extras = intent.extras
+        val context = this
         var SPACtype: String = ""
         if (extras != null) {
             SPACtype = extras.getString("key").toString()
@@ -62,12 +65,12 @@ class CategoryList : AppCompatActivity() {
         spinner.adapter = dropdownAdapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                println(parent.getItemAtPosition(position).toString())
+//                println(parent.getItemAtPosition(position).toString())
                 if(position != 0){
                     val index = items.indexOfFirst { it == parent.getItemAtPosition(position).toString() } - 1
                     val newOrder = sortingOrder(results, parameterMap[index].first, parameterMap[index].second, parameterMap[index].third)
                     results = newOrder
-                    val listAdapter = TickerListAdapter(results, categoryInfoLabel[SPACtype])
+                    val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
                     val viewList: RecyclerView = findViewById(R.id.recyclerView)
                     viewList.adapter = listAdapter
                 }
@@ -82,9 +85,9 @@ class CategoryList : AppCompatActivity() {
 
         thread(start=true) {
             results = getList(SPACtype)
-            println(results.joinToString())
+//            println(results.joinToString())
             this@CategoryList.runOnUiThread(Runnable {
-                val listAdapter = TickerListAdapter(results, categoryInfoLabel[SPACtype])
+                val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
                 val viewList: RecyclerView = findViewById(R.id.recyclerView)
                 viewList.adapter = listAdapter
                 viewList.layoutManager = LinearLayoutManager(this)
@@ -103,10 +106,10 @@ class CategoryList : AppCompatActivity() {
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
         val startingRow: String? = worksheetsStartingRow[SPACtype]
-        val extrasColumn: String? = categoryInfoColumn[SPACtype]
-        println("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:$extrasColumn?key=$apikey")
+        val extraIndex: Int = categoryInfoColumn[SPACtype] as Int
+//        println("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:$extrasColumn?key=$apikey")
         val jsonResult =
-            URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:$extrasColumn?key=$apikey")
+            URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey")
                 .readText()
 
         val information: JSONObject = JSONObject(jsonResult)
@@ -117,7 +120,7 @@ class CategoryList : AppCompatActivity() {
         val finalList: MutableList<Array<String>> = mutableListOf()
 
         for(i in 0..len){
-            val extraIndex = rawSpacList.getJSONArray(i).length() - 1
+//            val extraIndex = rawSpacList.getJSONArray(i).length() - 1
             if(rawSpacList.getJSONArray(i).getString(0) != "N/A" &&
                 rawSpacList.getJSONArray(i).getString(0) != "" &&
                     rawSpacList.getJSONArray(i).getString(extraIndex) != "#N/A"
@@ -128,6 +131,7 @@ class CategoryList : AppCompatActivity() {
                     rawSpacList.getJSONArray(i).getString(extraIndex)
                 )
                 finalList.add(innerArray)
+                tickerMap[rawSpacList.getJSONArray(i).getString(0)] = rawSpacList.getJSONArray(i)
             }
         }
 
@@ -151,6 +155,10 @@ class CategoryList : AppCompatActivity() {
         when (item.itemId) {
             R.id.searchsocialmedia -> {
                 val intent = Intent(this, SearchSocialMedia::class.java)
+                startActivity(intent)
+            }
+            R.id.addremove -> {
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
             R.id.showAll -> showListSelection = "Show All"

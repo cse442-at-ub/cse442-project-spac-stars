@@ -230,6 +230,7 @@ class ShowListing : AppCompatActivity() {
 
     //Make the table entry show more data when clicked, depends on category name
     fun onclicksetter(tablerow: TableRow, category: String, spacdata: JSONArray){
+        val db = DBHandlerSavedList(applicationContext)
 
         when(category){
 
@@ -257,6 +258,12 @@ class ShowListing : AppCompatActivity() {
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE LOI")
                     }
+                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                        alert.setNegativeButton("SAVE"){ _, _ ->
+                            println("NEGATIVE PRESSED, SAVE SPAC PRE LOI")
+                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                        }
+                    }
 
                     //Set the title for the alert window to the SPAC name
                     alert.setTitle(spacdata[1].toString())
@@ -279,6 +286,12 @@ class ShowListing : AppCompatActivity() {
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
                     }
+                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                        alert.setNegativeButton("SAVE"){ _, _ ->
+                            println("NEGATIVE PRESSED, SAVE SPAC DEFINITIVE AGREEMENT")
+                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                        }
+                    }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
                 }
@@ -296,6 +309,12 @@ class ShowListing : AppCompatActivity() {
                     )
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
+                    }
+                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                        alert.setNegativeButton("SAVE"){ _, _ ->
+                            println("NEGATIVE PRESSED, SAVE SPAC OPTION CHADS")
+                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                        }
                     }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
@@ -315,6 +334,12 @@ class ShowListing : AppCompatActivity() {
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
                     }
+                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                        alert.setNegativeButton("SAVE"){ _, _ ->
+                            println("NEGATIVE PRESSED, SAVE SPAC PRE UNIT SPLIT")
+                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                        }
+                    }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
                 }
@@ -332,26 +357,32 @@ class ShowListing : AppCompatActivity() {
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE IPO")
                     }
-                    alert.setTitle(spacdata[1].toString())
-                    alert.create().show()
-                }
-            }
-
-            "Warrants" -> {
-                tablerow.setOnClickListener {
-                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nCurrent Volume: " + spacdata[12].toString()
-                            + "\n\nAverage Volume: " + spacdata[13].toString()
-                    )
-                    alert.setPositiveButton("OK"){
-                        _, _ -> println("POSITIVE PRESSED, WARRANTS")
+                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                        alert.setNegativeButton("SAVE"){ _, _ ->
+                            println("NEGATIVE PRESSED, SAVE SPAC PRE IPO")
+                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                        }
                     }
                     alert.setTitle(spacdata[1].toString())
                     alert.create().show()
                 }
             }
+
+//            "Warrants" -> {
+//                tablerow.setOnClickListener {
+//                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+//                    alert.setMessage("Ticker: " + spacdata[0].toString()
+//                            + "\n\nCompany Name: " + spacdata[1].toString()
+//                            + "\n\nCurrent Volume: " + spacdata[12].toString()
+//                            + "\n\nAverage Volume: " + spacdata[13].toString()
+//                    )
+//                    alert.setPositiveButton("OK"){
+//                        _, _ -> println("POSITIVE PRESSED, WARRANTS")
+//                    }
+//                    alert.setTitle(spacdata[1].toString())
+//                    alert.create().show()
+//                }
+//            }
 
         }
     }
