@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,8 +63,18 @@ class MainActivity : AppCompatActivity(){
                 startActivity(intent)
             }
 
-            R.id.spacliveprices -> {
+            R.id.all -> {
                 val intent = Intent(this, SPACLivePricesMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.top10DailyPriceChange -> {
+                val intent = Intent(this, SPACTopDailyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.bottom10DailyPriceChange -> {
+                val intent = Intent(this, SPACBottomDailyPriceChangeMain::class.java)
                 startActivity(intent)
             }
 

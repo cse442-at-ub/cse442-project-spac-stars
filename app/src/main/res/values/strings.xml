@@ -29,4 +29,17 @@
     <string name="saved_spacs">Saved SPACS</string>
     <string name="add_spacs">Add SPACs</string>
     <string name="remove">Remove</string>
+    <string name="show_160_all"><![CDATA[Show All]]></string>
+    <string name="pre_160_loi"><![CDATA[Pre LOI]]></string>
+    <string name="definitive_160_agreement"><![CDATA[Definitive Agreement]]></string>
+    <string name="option_160_chads"><![CDATA[Option Chads]]></string>
+    <string name="pre_160_unit_160_split"><![CDATA[Pre Unit Split]]></string>
+    <string name="pre_160_ipo"><![CDATA[Pre IPO]]></string>
+    <string name="all">All</string>
+    <string name="top_10_daily_price_change">Top 10 Daily Price Change</string>
+    <string name="bottom_10_daily_price_change">Bottom 10 Daily Price Change</string>
+    <string name="top_10_weekly_price_change">Top 10 Weekly Price Change</string>
+    <string name="bottom_10_weekly_price_change">Bottom 10 Weekly Price Change</string>
+    <string name="top_10_monthly_price_change">Top 10 Monthly Price Change</string>
+    <string name="bottom_10_monthly_price_change">Bottom 10 Monthly Price Change</string>
 </resources>
