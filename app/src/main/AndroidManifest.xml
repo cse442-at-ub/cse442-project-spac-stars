@@ -20,6 +20,8 @@
         <activity android:name=".WebSearch" />
         <activity android:name=".SearchSocialMedia" />
         <activity android:name=".SPACLivePricesMain" />
+        <activity android:name=".SPACTopDailyPriceChangeMain" />
+        <activity android:name=".SPACBottomDailyPriceChangeMain" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".MainActivity">
           
