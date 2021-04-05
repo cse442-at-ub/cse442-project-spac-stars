@@ -25,4 +25,15 @@
     <string name="hide_count_4_description">Enable/Disable Management Column</string>
     <string name="hide_count_5_description">Enable/Disable Cash in Trust Column</string>
     <string name="hide_count_6_description">Enable/Disable Capital Structure Column</string>
+    <string name="addremove">addremove</string>
+    <string name="saved_spacs">Saved SPACS</string>
+    <string name="add_spacs">Add SPACs</string>
+    <string name="remove">Remove</string>
+    <string name="all">All</string>
+    <string name="top_10_daily_price_change">Top 10 Daily Price Change</string>
+    <string name="bottom_10_daily_price_change">Bottom 10 Daily Price Change</string>
+    <string name="top_10_weekly_price_change">Top 10 Weekly Price Change</string>
+    <string name="bottom_10_weekly_price_change">Bottom 10 Weekly Price Change</string>
+    <string name="top_10_monthly_price_change">Top 10 Monthly Price Change</string>
+    <string name="bottom_10_monthly_price_change">Bottom 10 Monthly Price Change</string>
 </resources>
