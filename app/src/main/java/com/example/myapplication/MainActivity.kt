@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 class MainActivity : AppCompatActivity(){
 
     private var saved = mutableListOf<Array<String>>()
-    private var listAdapter = SavedListAdapter(saved)
+    private var listAdapter = SavedListAdapter(this, saved, this)
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(){
         //Set the xml page to use as display page. R.layout is resources folder (res) / layout folder, as in app/res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
         val db = DBHandlerSavedList(this)
-        db.insertNewSavedSPAC("TEST", "test")
+//        db.insertNewSavedSPAC("TEST", "test")
         saved.addAll(db.getAllSavedSPAC())
         //https://suragch.medium.com/updating-data-in-an-android-recyclerview-842e56adbfd8
 //        listAdapter = SavedListAdapter(saved)

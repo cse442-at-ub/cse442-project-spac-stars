@@ -6,19 +6,19 @@ import android.widget.TextView
 object constants {
     val worksheetsStartingRow: Map<String, String> = mapOf(
         "Pre+LOI" to "A5",
-        "Definitive+Agreement" to "A5",
+        "Definitive+Agreement" to "A4",
         "Option+Chads" to "A3",
         "Pre+Unit+Split" to "A3",
         "Pre+IPO" to "A3",
         "Warrants+(Testing)" to "A2"
     )
-    val categoryInfoColumn: Map<String, String> = mapOf(
-        "Pre+LOI" to "P",
-        "Definitive+Agreement" to "O",
-        "Option+Chads" to "P",
-        "Pre+Unit+Split" to "G",
-        "Pre+IPO" to "C",
-        "Warrants+(Testing)" to "M"
+    val categoryInfoColumn: Map<String, Int> = mapOf(
+        "Pre+LOI" to 15,
+        "Definitive+Agreement" to 14,
+        "Option+Chads" to 15,
+        "Pre+Unit+Split" to 6,
+        "Pre+IPO" to 2,
+        "Warrants+(Testing)" to 12
     )
     val categoryInfoLabel: Map<String, String> = mapOf(
         "Pre+LOI" to "Current Volume",
