@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONObject
 
@@ -74,11 +75,13 @@ class ShowListing : AppCompatActivity() {
 
         //Get the data from the sheet
         thread(start = true) {
+            println("getting data")
             PreLOIvalues = getList("Pre+LOI")
             DefinitiveAgreementvalues = getList("Definitive+Agreement")
             OptionChadsvalues = getList("Option+Chads")
             PreUnitSplittvalues = getList("Pre+Unit+Split")
             PreIPOvalues = getList("Pre+IPO")
+            println("got data")
             //Warrantsvalues = getList("Warrants+(Testing)")
         }
 
@@ -231,27 +234,44 @@ class ShowListing : AppCompatActivity() {
     //Make the table entry show more data when clicked, depends on category name
     fun onclicksetter(tablerow: TableRow, category: String, spacdata: JSONArray){
         val db = DBHandlerSavedList(applicationContext)
-
+        //Load the user preferences
+        val preference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        var alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
         when(category){
 
             "Pre LOI" -> {
                 tablerow.setOnClickListener {
                     //Create a builder for the alert window
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
-
+                    if(preference.getBoolean("preloi_marketcap", true)){
+                        alertstring += "\n\nMarket Cap: " + spacdata[2].toString()
+                    }
+                    if(preference.getBoolean("preloi_esttrustvalue", true)){
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3].toString()
+                    }
+                    if(preference.getBoolean("preloi_currentvolume", true)){
+                        alertstring += "\n\nCurrent Volume: " + spacdata[15].toString()
+                    }
+                    if(preference.getBoolean("preloi_averagevolume", true)){
+                        alertstring += "\n\nAverage Volume " + spacdata[16].toString()
+                    }
+                    if(preference.getBoolean("preloi_warrantticker", true)){
+                        alertstring += "\n\nWarrant Ticker: " + spacdata[18].toString()
+                    }
+                    if(preference.getBoolean("preloi_targetfocus", true)){
+                        alertstring += "\n\nTarget Focus: " + spacdata[26].toString()
+                    }
+                    if(preference.getBoolean("preloi_underwriters", true)){
+                        alertstring += "\n\nUnderwriters: " + spacdata[27].toString()
+                    }
+                    if(preference.getBoolean("preloi_ipodate", true)){
+                        alertstring += "\n\nIPO Date: " + spacdata[28].toString()
+                    }
+                    if(preference.getBoolean("preloi_deadlinedate", true)){
+                        alertstring += "\n\nDeadline Date: " + spacdata[30].toString()
+                    }
                     //Set the message of the alert window that appears
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nMarket Cap: " + spacdata[2].toString()
-                            + "\n\nEstimated Trust Value: " + spacdata[3].toString()
-                            + "\n\nCurrent Volume: " + spacdata[15].toString()
-                            + "\n\nAverage Volume " + spacdata[16].toString()
-                            + "\n\nWarrant Ticker: " + spacdata[18].toString()
-                            + "\n\nTarget Focus: " + spacdata[26].toString()
-                            + "\n\nUnderwriters: " + spacdata[27].toString()
-                            + "\n\nIPO Date: " + spacdata[28].toString()
-                            + "\n\nDeadline Date: " + spacdata[30].toString()
-                    )
+                    alert.setMessage(alertstring)
                     /*  This sets an "OK" button in the dialog window that
                     doesn't currently do anything except close the window
                     and print a message to the console  */
@@ -276,13 +296,19 @@ class ShowListing : AppCompatActivity() {
             "Definitive Agreement" -> {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nMarket Cap: " + spacdata[2].toString()
-                            + "\n\nCurrent Volume: " + spacdata[14].toString()
-                            + "\n\nVolume Average: " + spacdata[15].toString()
-                            + "\n\nTarget: " + spacdata[17].toString()
-                    )
+                    if(preference.getBoolean("definitiveagreement_marketcap", true)){
+                        alertstring += "\n\nMarket Cap: " + spacdata[2].toString()
+                    }
+                    if(preference.getBoolean("definitiveagreement_currentvolume", true)){
+                        alertstring += "\n\nCurrent Volume: " + spacdata[14].toString()
+                    }
+                    if(preference.getBoolean("definitiveagreement_volumeaverage", true)){
+                        alertstring += "\n\nVolume Average: " + spacdata[15].toString()
+                    }
+                    if(preference.getBoolean("definitiveagreement_target", true)){
+                        alertstring += "\n\nTarget: " + spacdata[17].toString()
+                    }
+                    alert.setMessage(alertstring)
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
                     }
@@ -300,13 +326,19 @@ class ShowListing : AppCompatActivity() {
             "Option Chads" -> {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nMarket Cap: " + spacdata[2].toString()
-                            + "\n\nEstimated Trust Value: " + spacdata[3].toString()
-                            + "\n\nCurrent Volume: " + spacdata[15].toString()
-                            + "\n\nAverage Volume " + spacdata[16].toString()
-                    )
+                    if(preference.getBoolean("optionchads_marketcap", true)){
+                        alertstring += "\n\nMarket Cap: " + spacdata[2].toString()
+                    }
+                    if(preference.getBoolean("optionchads_esttrustvalue", true)){
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3].toString()
+                    }
+                    if(preference.getBoolean("optionchads_currentvolume", true)){
+                        alertstring += "\n\nCurrent Volume: " + spacdata[15].toString()
+                    }
+                    if(preference.getBoolean("optionchads_volumeaverage", true)){
+                        alertstring += "\n\nAverage Volume " + spacdata[16].toString()
+                    }
+                    alert.setMessage(alertstring)
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
                     }
@@ -324,13 +356,19 @@ class ShowListing : AppCompatActivity() {
             "Pre Unit Split" -> {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nUnit & Warrant Details: " + spacdata[5].toString()
-                            + "\n\nEstimated Trust Size: " + spacdata[6].toString()
-                            + "\n\nProminent Leadership / Directors / Advisors: " + spacdata[8].toString()
-                            + "\n\nTarget Focus: " + spacdata[9].toString()
-                    )
+                    if(preference.getBoolean("preunit_unit", true)){
+                        alertstring += "\n\nUnit & Warrant Details: " + spacdata[5].toString()
+                    }
+                    if(preference.getBoolean("preunit_ets", true)){
+                        alertstring += "\n\nEstimated Trust Size: " + spacdata[6].toString()
+                    }
+                    if(preference.getBoolean("preunit_pl", true)){
+                        alertstring += "\n\nProminent Leadership / Directors / Advisors: " + spacdata[8].toString()
+                    }
+                    if(preference.getBoolean("preunit_tf", true)){
+                        alertstring += "\n\nTarget Focus: " + spacdata[9].toString()
+                    }
+                    alert.setMessage(alertstring)
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
                     }
@@ -348,12 +386,16 @@ class ShowListing : AppCompatActivity() {
             "Pre IPO" -> {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nEstimated Trust Value: " + spacdata[2].toString()
-                            + "\n\nManagement Team: " + spacdata[3].toString()
-                            + "\n\nTarget Focus: " + spacdata[4].toString()
-                    )
+                    if(preference.getBoolean("preipo_etv", true)){
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[2].toString()
+                    }
+                    if(preference.getBoolean("preipo_managementteam", true)){
+                        alertstring += "\n\nManagement Team: " + spacdata[3].toString()
+                    }
+                    if(preference.getBoolean("preipo_targetfocus", true)){
+                        alertstring += "\n\nTarget Focus: " + spacdata[4].toString()
+                    }
+                    alert.setMessage(alertstring)
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE IPO")
                     }
@@ -367,7 +409,7 @@ class ShowListing : AppCompatActivity() {
                     alert.create().show()
                 }
             }
-
+//Warrants currently disabled.
 //            "Warrants" -> {
 //                tablerow.setOnClickListener {
 //                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)

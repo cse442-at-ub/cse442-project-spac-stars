@@ -64,8 +64,18 @@ class MainActivity : AppCompatActivity(){
                 startActivity(intent)
             }
 
-            R.id.spacliveprices -> {
+            R.id.all -> {
                 val intent = Intent(this, SPACLivePricesMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.top10DailyPriceChange -> {
+                val intent = Intent(this, SPACTopDailyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.bottom10DailyPriceChange -> {
+                val intent = Intent(this, SPACBottomDailyPriceChangeMain::class.java)
                 startActivity(intent)
             }
 
