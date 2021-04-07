@@ -22,6 +22,10 @@
         <activity android:name=".SPACLivePricesMain" />
         <activity android:name=".SPACTopDailyPriceChangeMain" />
         <activity android:name=".SPACBottomDailyPriceChangeMain" />
+        <activity android:name=".SPACTopWeeklyPriceChangeMain" />
+        <activity android:name=".SPACBottomWeeklyPriceChangeMain" />
+        <activity android:name=".SPACTopMonthlyPriceChangeMain" />
+        <activity android:name=".SPACBottomMonthlyPriceChangeMain" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".MainActivity">
           
