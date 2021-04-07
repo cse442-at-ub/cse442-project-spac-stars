@@ -9,7 +9,7 @@ class DataSourceTopDaily {
 
     fun loadSPACs(): List<SPACTopDailyPriceChange> {
         val list: MutableList<SPACTopDailyPriceChange> = mutableListOf()
-        val jsonArray = URL("https://sheets.googleapis.com/v4/spreadsheets/1D61Q4V_LwTXVCOedHkg-IROuZKTiJ25wg_qL75XvWlc/values/Sheet2!A2:E265?key=AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo").readText()
+        val jsonArray = URL("https://sheets.googleapis.com/v4/spreadsheets/1D61Q4V_LwTXVCOedHkg-IROuZKTiJ25wg_qL75XvWlc/values/Daily % Change!A2:E265?key=AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo").readText()
         val info = JSONObject(jsonArray).getJSONArray("values")
 
         val len = info.length() - 1
