@@ -1,15 +1,13 @@
 package com.example.myapplication
 
-import android.app.Activity
 import android.content.Context
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
+import com.example.myapplication.storageHandlers.DBHandlerSavedList
 
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.apikey
@@ -17,7 +15,6 @@ import com.example.myapplication.constants.worksheetsStartingRow
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
-import java.util.logging.Handler
 import kotlin.concurrent.thread
 
 

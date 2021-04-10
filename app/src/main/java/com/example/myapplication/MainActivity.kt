@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.storageHandlers.DBHandlerSavedList
 
 
 class MainActivity : AppCompatActivity(){
@@ -24,17 +25,12 @@ class MainActivity : AppCompatActivity(){
         //Set the xml page to use as display page. R.layout is resources folder (res) / layout folder, as in app/res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
         val db = DBHandlerSavedList(this)
-//        db.insertNewSavedSPAC("TEST", "test")
         saved.addAll(db.getAllSavedSPAC())
+        db.closeDB()
         //https://suragch.medium.com/updating-data-in-an-android-recyclerview-842e56adbfd8
 //        listAdapter = SavedListAdapter(saved)
         listAdapter.notifyDataSetChanged()
 
-//        //THIS IS A TEST
-//        val test = TestHandler(this)
-
-//        val db = DBHandlerSavedList(this)
-//        db.insertNewSavedSPAC("TEST", "test")
 
         val viewList: RecyclerView = findViewById(R.id.recyclerViewSaved)
         viewList.adapter = listAdapter
@@ -131,17 +127,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun removeButtonHandler(view: View) {
-        //LinearLayout vwParentRow = (LinearLayout)v.getParent();
-        //
-        //        TextView child = (TextView)vwParentRow.getChildAt(0);
-        //        Button btnChild = (Button)vwParentRow.getChildAt(1);
-        //        btnChild.setText(child.getText());
-        //        btnChild.setText("I've been clicked!");
-        //
-        //        int c = Color.CYAN;
-        //
-        //        vwParentRow.setBackgroundColor(c);
-        //        vwParentRow.refreshDrawableState();
         val parent = view.parent.parent as View
         val ticker = parent.findViewById<TextView>(R.id.ticker).text
 //        val name = parent.findViewById<TextView>(R.id.name)

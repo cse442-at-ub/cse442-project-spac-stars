@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -18,8 +19,14 @@ import com.example.myapplication.constants.categoryInfoLabel
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.sortingOrder
 import com.example.myapplication.constants.worksheetsStartingRow
+import com.example.myapplication.constants.SPACColumns
+import com.example.myapplication.constants.SPACColumnName
+import com.example.myapplication.constants.SPACTableName
+import com.example.myapplication.constants.categoryInfoDB
+import com.example.myapplication.storageHandlers.DBHandlerPreLOI
 import org.json.JSONArray
 import org.json.JSONObject
+import java.net.InetAddress
 import java.net.URL
 import kotlin.concurrent.thread
 
@@ -28,7 +35,7 @@ import kotlin.concurrent.thread
 class CategoryList : AppCompatActivity() {
 
     private var results: MutableList<Array<String>> = mutableListOf()
-    private var tickerMap: MutableMap<String, JSONArray> = mutableMapOf()
+    private var tickerMap: MutableMap<String, Array<String>> = mutableMapOf() //information for each ticker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,20 +90,86 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
-        thread(start=true) {
-            results = getList(SPACtype)
+//        if(SPACtype == "Pre+LOI"){
+//            val db = DBHandlerPreLOI(this)
+//            results = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+//            if(results.isNotEmpty()){
+//                for(i in results){
+//                    tickerMap[i[0]] = i
+//                }
+//                val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+//                val viewList: RecyclerView = findViewById(R.id.recyclerView)
+//                viewList.adapter = listAdapter
+//                viewList.layoutManager = LinearLayoutManager(this)
+//                viewList.setHasFixedSize(true)
+//            }else{
+//                println("must create table first")
+//                thread(start=true) {
+//                    results = getList(SPACtype)
+//                    this@CategoryList.runOnUiThread(Runnable {
+//                        val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+//                        val viewList: RecyclerView = findViewById(R.id.recyclerView)
+//                        viewList.adapter = listAdapter
+//                        viewList.layoutManager = LinearLayoutManager(this)
+//                        viewList.setHasFixedSize(true)
+//                    })
+//
+//                    for(i in results){
+//                        val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
+//                        val rowData: MutableMap<String, String> = mutableMapOf()
+//                        val info = tickerMap[i[0]] as Array<String>
+//                        for((k,v) in dataMap){
+//                            rowData[k] = info[v]
+//                        }
+//                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+//                    }
+//                }
+//            }
+////                db.rebuildTable(SPACtype)
+//        }
+
+        val db = DBHandlerPreLOI(this)
+        val dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+        db.closeDB()
+        if(dbPull.isNotEmpty()){
+            val listDisplay: MutableList<Array<String>> = mutableListOf()
+            for(i in dbPull){
+                tickerMap[i[0]] = i
+                listDisplay.add(arrayOf(i[0], i[1], i[categoryInfoDB[SPACtype] as Int]))
+            }
+            val listAdapter = TickerListAdapter(context, listDisplay, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+            val viewList: RecyclerView = findViewById(R.id.recyclerView)
+            viewList.adapter = listAdapter
+            viewList.layoutManager = LinearLayoutManager(this)
+            viewList.setHasFixedSize(true)
+        }else {
+
+            thread(start = true) {
+                results = getList(SPACtype)
 //            println(results.joinToString())
-            this@CategoryList.runOnUiThread(Runnable {
-                val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
-                val viewList: RecyclerView = findViewById(R.id.recyclerView)
-                viewList.adapter = listAdapter
-                viewList.layoutManager = LinearLayoutManager(this)
-                viewList.setHasFixedSize(true)
-            })
+                this@CategoryList.runOnUiThread(Runnable {
+                    val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+                    val viewList: RecyclerView = findViewById(R.id.recyclerView)
+                    viewList.adapter = listAdapter
+                    viewList.layoutManager = LinearLayoutManager(this)
+                    viewList.setHasFixedSize(true)
+                })
 
+                for(i in results){
+                    val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
+                    val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
+                    columnArray.sortBy { it.value }
+                    val rowData: MutableMap<String, String> = mutableMapOf()
+                    val info = tickerMap[i[0]] as Array<String>
+                    for((k,v) in columnArray){
+                        rowData[k] = info[columnArray.indexOfFirst { it.key == k }]
+                    }
+                    db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                }
+                db.closeDB()
 
+            }
         }
-
 
 
 
@@ -105,12 +178,20 @@ class CategoryList : AppCompatActivity() {
     }
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
+
+        if(!InetAddress.getByName("sheets.googleapis.com").isReachable(1000)){
+            println("no internet")
+            return mutableListOf()
+            //return empty if no internet
+        }
+
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val extraIndex: Int = categoryInfoColumn[SPACtype] as Int
 //        println("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:$extrasColumn?key=$apikey")
         val jsonResult =
             URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey")
                 .readText()
+        //if there is no internet, exception will occur
 
         val information: JSONObject = JSONObject(jsonResult)
         val rawSpacList = information.getJSONArray("values")
@@ -131,7 +212,17 @@ class CategoryList : AppCompatActivity() {
                     rawSpacList.getJSONArray(i).getString(extraIndex)
                 )
                 finalList.add(innerArray)
-                tickerMap[rawSpacList.getJSONArray(i).getString(0)] = rawSpacList.getJSONArray(i)
+
+                val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
+                val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
+                columnArray.sortBy { it.value }
+                val infoArr: MutableList<String> = mutableListOf()
+                val rawRow = rawSpacList.getJSONArray(i)
+                for((k,v) in columnArray){
+                    infoArr.add(rawRow.getString(v))
+                }
+
+                tickerMap[rawSpacList.getJSONArray(i).getString(0)] = infoArr.toTypedArray()
             }
         }
 

@@ -1,3 +1,5 @@
+
+
 package com.example.myapplication
 
 import android.widget.TableRow
@@ -24,12 +26,86 @@ object constants {
         "Pre+LOI" to "Current Volume",
         "Definitive+Agreement" to "Current Volume",
         "Option+Chads" to "Current Volume",
-        "Pre+Unit+Split" to "Est. Trust Value",
-        "Pre+IPO" to "Est. Trust Size",
+        "Pre+Unit+Split" to "Est. Trust Size",
+        "Pre+IPO" to "Est. Trust Value",
         "Warrants+(Testing)" to "Current Volume"
+    )
+    val categoryInfoDB: Map<String, Int> = mapOf(
+            "Pre+LOI" to 4,
+            "Definitive+Agreement" to 3,
+            "Option+Chads" to 4,
+            "Pre+Unit+Split" to 3,
+            "Pre+IPO" to 2
     )
     val sheetID: String = "1dZOPswJcmPQ5OqTw7LNeTZOXklnmD-n7fyohbkRSsFE"
     val apikey: String = "AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo"
+
+    val SPACColumns: Map<String, Int> = mapOf(
+            "Pre+LOI" to 11,
+            "Definitive+Agreement" to 6,
+            "Option+Chads" to 6,
+            "Pre+Unit+Split" to 6,
+            "Pre+IPO" to 5,
+            "Warrants+(Testing)" to 12
+    )
+
+    val SPACColumnName: Map<String, Map<String,Int>> = mapOf(
+            "Pre+LOI" to mapOf(
+                        "ticker" to 0,
+                        "name" to 1,
+                        "market_cap" to 2,
+                        "estimated_trust_value" to 3,
+                        "current_volume" to 15,
+                        "average_volume" to 16,
+                        "warrant_ticker" to 18,
+                        "target_focus" to 26,
+                        "underwriters" to 27,
+                        "IPO_date" to 28,
+                        "deadline_date" to 30
+                        ),
+            "Definitive+Agreement" to mapOf(
+                    "ticker" to 0,
+                    "name" to 1,
+                    "market_cap" to 2,
+                    "current_volume" to 14,
+                    "volume_average" to 15,
+                    "target" to 17
+            ),
+            "Option+Chads" to mapOf(
+                    "ticker" to 0,
+                    "name" to 1,
+                    "market_cap" to 2,
+                    "estimated_trust_value" to 3,
+                    "current_volume" to 15,
+                    "average_volume" to 16
+            ),
+            "Pre+Unit+Split" to mapOf(
+                    "ticker" to 0,
+                    "name" to 1,
+                    "unit_warrant_details" to 5,
+                    "estimated_trust_size" to 6,
+                    "prominent_leadership" to 8,
+                    "target_focus" to 9
+            ),
+            "Pre+IPO" to mapOf(
+                    "ticker" to 0,
+                    "name" to 1,
+                    "estimated_trust_value" to 2,
+                    "management_team" to 3,
+                    "target_focus" to 4
+            )
+    )
+
+
+    val SPACTableName: Map<String, String> = mapOf(
+            "Pre+LOI" to "PreLOI",
+            "Definitive+Agreement" to "DefAgreement",
+            "Option+Chads" to "OptionChads",
+            "Pre+Unit+Split" to "PreUnitSplit",
+            "Pre+IPO" to "PreIPO",
+            "Warrants+(Testing)" to "Current Volume"
+    )
+
 
 
     //parameters:

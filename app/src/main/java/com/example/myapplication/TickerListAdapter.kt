@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
+import com.example.myapplication.storageHandlers.DBHandlerSavedList
 import org.json.JSONArray
 
 
 class TickerListAdapter(private val context: Context,
                         private val listing: MutableList<Array<String>>,
                         private val infoLabel: String?,
-                        private val category: String, private val infoMap: MutableMap<String,JSONArray>)
+                        private val category: String, private val infoMap: MutableMap<String,Array<String>>)
     : RecyclerView.Adapter<TickerListAdapter.ListViewHolder>(){
 
     //source: https://www.youtube.com/watch?v=afl_i6uvvU0
@@ -47,24 +46,24 @@ class TickerListAdapter(private val context: Context,
 
         holder.itemView.setOnClickListener {
             val alert: AlertDialog.Builder = AlertDialog.Builder(context)
-            val spacdata = infoMap[current[0]] as JSONArray
+            val spacdata = infoMap[current[0]] as Array<String>
             val db = DBHandlerSavedList(context)
             when(category){
 
                 "Pre+LOI" -> {
 
                     //Set the message of the alert window that appears
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nMarket Cap: " + spacdata[2].toString()
-                            + "\n\nEstimated Trust Value: " + spacdata[3].toString()
-                            + "\n\nCurrent Volume: " + spacdata[15].toString()
-                            + "\n\nAverage Volume " + spacdata[16].toString()
-                            + "\n\nWarrant Ticker: " + spacdata[18].toString()
-                            + "\n\nTarget Focus: " + spacdata[26].toString()
-                            + "\n\nUnderwriters: " + spacdata[27].toString()
-                            + "\n\nIPO Date: " + spacdata[28].toString()
-                            + "\n\nDeadline Date: " + spacdata[30].toString()
+                    alert.setMessage("Ticker: " + spacdata[0]
+                            + "\n\nCompany Name: " + spacdata[1]
+                            + "\n\nMarket Cap: " + spacdata[2]
+                            + "\n\nEstimated Trust Value: " + spacdata[3]
+                            + "\n\nCurrent Volume: " + spacdata[4]
+                            + "\n\nAverage Volume " + spacdata[5]
+                            + "\n\nWarrant Ticker: " + spacdata[6]
+                            + "\n\nTarget Focus: " + spacdata[7]
+                            + "\n\nUnderwriters: " + spacdata[8]
+                            + "\n\nIPO Date: " + spacdata[9]
+                            + "\n\nDeadline Date: " + spacdata[10]
                     )
                     /*  This sets an "OK" button in the dialog window that
                         doesn't currently do anything except close the window
@@ -79,19 +78,19 @@ class TickerListAdapter(private val context: Context,
                     }
 
                     //Set the title for the alert window to the SPAC name
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
 
                     //Display the window to the user
                     alert.create().show()
                 }
 
                 "Definitive+Agreement" -> {
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nMarket Cap: " + spacdata[2].toString()
-                            + "\n\nCurrent Volume: " + spacdata[14].toString()
-                            + "\n\nVolume Average: " + spacdata[15].toString()
-                            + "\n\nTarget: " + spacdata[17].toString()
+                    alert.setMessage("Ticker: " + spacdata[0]
+                            + "\n\nCompany Name: " + spacdata[1]
+                            + "\n\nMarket Cap: " + spacdata[2]
+                            + "\n\nCurrent Volume: " + spacdata[3]
+                            + "\n\nVolume Average: " + spacdata[4]
+                            + "\n\nTarget: " + spacdata[5]
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
                     }
@@ -101,17 +100,17 @@ class TickerListAdapter(private val context: Context,
                             db.insertNewSavedSPAC(current[0], current[1], category)
                         }
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
                 "Option+Chads" -> {
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nMarket Cap: " + spacdata[2].toString()
-                            + "\n\nEstimated Trust Value: " + spacdata[3].toString()
-                            + "\n\nCurrent Volume: " + spacdata[15].toString()
-                            + "\n\nAverage Volume " + spacdata[16].toString()
+                    alert.setMessage("Ticker: " + spacdata[0]
+                            + "\n\nCompany Name: " + spacdata[1]
+                            + "\n\nMarket Cap: " + spacdata[2]
+                            + "\n\nEstimated Trust Value: " + spacdata[3]
+                            + "\n\nCurrent Volume: " + spacdata[4]
+                            + "\n\nAverage Volume " + spacdata[5]
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
                     }
@@ -121,17 +120,17 @@ class TickerListAdapter(private val context: Context,
                             db.insertNewSavedSPAC(current[0], current[1], category)
                         }
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
                 "Pre+Unit+Split" -> {
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nUnit & Warrant Details: " + spacdata[5].toString()
-                            + "\n\nEstimated Trust Size: " + spacdata[6].toString()
-                            + "\n\nProminent Leadership / Directors / Advisors: " + spacdata[8].toString()
-                            + "\n\nTarget Focus: " + spacdata[9].toString()
+                    alert.setMessage("Ticker: " + spacdata[0]
+                            + "\n\nCompany Name: " + spacdata[1]
+                            + "\n\nUnit & Warrant Details: " + spacdata[2]
+                            + "\n\nEstimated Trust Size: " + spacdata[3]
+                            + "\n\nProminent Leadership / Directors / Advisors: " + spacdata[4]
+                            + "\n\nTarget Focus: " + spacdata[5]
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
                     }
@@ -141,16 +140,16 @@ class TickerListAdapter(private val context: Context,
                             db.insertNewSavedSPAC(current[0], current[1], category)
                         }
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
                 "Pre+IPO" -> {
-                    alert.setMessage("Ticker: " + spacdata[0].toString()
-                            + "\n\nCompany Name: " + spacdata[1].toString()
-                            + "\n\nEstimated Trust Value: " + spacdata[2].toString()
-                            + "\n\nManagement Team: " + spacdata[3].toString()
-                            + "\n\nTarget Focus: " + spacdata[4].toString()
+                    alert.setMessage("Ticker: " + spacdata[0]
+                            + "\n\nCompany Name: " + spacdata[1]
+                            + "\n\nEstimated Trust Value: " + spacdata[2]
+                            + "\n\nManagement Team: " + spacdata[3]
+                            + "\n\nTarget Focus: " + spacdata[4]
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, PRE IPO")
                     }
@@ -160,7 +159,7 @@ class TickerListAdapter(private val context: Context,
                             db.insertNewSavedSPAC(current[0], current[1], category)
                         }
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
