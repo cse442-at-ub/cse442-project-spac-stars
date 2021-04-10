@@ -20,14 +20,14 @@
 
             android:spinnerMode="dropdown"
             />
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Refresh"
+            android:onClick="refreshButtonHandler"
+            />
 
-        <!--    <ListView-->
-        <!--        android:id="@+id/categoryList"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="match_parent"-->
-        <!--    >-->
-        <!--        -->
-        <!--    </ListView>-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

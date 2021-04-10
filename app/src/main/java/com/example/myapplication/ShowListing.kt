@@ -76,9 +76,13 @@ class ShowListing : AppCompatActivity() {
         thread(start = true) {
             println("getting data")
             PreLOIvalues = getList("Pre+LOI")
+            println("got 1")
             DefinitiveAgreementvalues = getList("Definitive+Agreement")
+            println("got 1")
             OptionChadsvalues = getList("Option+Chads")
+            println("got 1")
             PreUnitSplittvalues = getList("Pre+Unit+Split")
+            println("got 1")
             PreIPOvalues = getList("Pre+IPO")
             println("got data")
             //Warrantsvalues = getList("Warrants+(Testing)")

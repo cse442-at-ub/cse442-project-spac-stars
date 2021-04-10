@@ -103,6 +103,11 @@ class MainActivity : AppCompatActivity(){
                 startActivity(intent)
             }
 
+            R.id.addremove -> {
+                this.recreate()
+            }
+
+
           //R.id.showAll -> showListSelection = "Show All"
             R.id.showAll -> {
                 val intent = Intent(this, ShowListing::class.java)
