@@ -39,6 +39,8 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
         holder.nameView.text = name
 
         holder.itemView.setOnClickListener{
+
+            //get data from sqlite
             val db = DBHandlerSavedList(context)
             val info = db.getSavedSPACInfo(current[0])
             val category = info[2]

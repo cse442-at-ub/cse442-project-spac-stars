@@ -69,6 +69,8 @@ class CategoryList : AppCompatActivity() {
                 Triple(2, "Int", true)
         )
 
+
+        //sorting dropdown
         val dropdownAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         spinner.adapter = dropdownAdapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -92,6 +94,8 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
+
+        //get data from different types of categories through the db
         var dbPull:MutableList<Array<String>> = mutableListOf()
 
         when(SPACtype){
@@ -122,6 +126,8 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
+
+        //check if db is empty, if not, use the db's pull, if it is, get from online API
         if(dbPull.isNotEmpty()){
             val listDisplay: MutableList<Array<String>> = mutableListOf()
             for(i in dbPull){
