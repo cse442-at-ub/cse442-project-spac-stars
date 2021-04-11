@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.content.ContextWrapper
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -10,13 +9,17 @@ import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONObject
 
 import com.example.myapplication.constants.worksheetsStartingRow
 import com.example.myapplication.constants.apikey
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.sortTableRows
+import com.example.myapplication.constants.SPACColumnName
+import com.example.myapplication.constants.SPACColumns
+import com.example.myapplication.constants.SPACTableName
+import com.example.myapplication.constants.categoryInfoLabel
+import com.example.myapplication.storageHandlers.*
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
 import org.w3c.dom.Text
@@ -79,10 +82,12 @@ class ShowListing : AppCompatActivity() {
             }
         }
 
+
         //Create the first row for the table that shows "TICKER  SPAC NAME   CATEGORY"
         addFirstRow(context, table)
 
         //Get the data for each category, starts on different threads
+
         getdata("Pre+LOI", table)
         getdata("Definitive+Agreement", table)
         getdata("Option+Chads", table)
@@ -106,11 +111,113 @@ class ShowListing : AppCompatActivity() {
     fun getdata(category: String, table: TableLayout){
         val displaycategory = category.replace("+", " ")
         println("Getting Data: $displaycategory")
-        thread(start = true){
-            val datalist = getList(category)
-            runOnUiThread { addtablerows(table, displaycategory, datalist) }
-            loadeddata += 1
-            println("Data Acquired: $displaycategory")
+
+        var dbPull:MutableList<Array<String>> = mutableListOf()
+
+
+
+        when(category){
+            "Pre+LOI" -> {
+                val db = DBHandlerPreLOI(applicationContext)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[category], SPACColumns[category])
+//                db.closeDB()
+            }
+
+            "Definitive+Agreement" -> {
+                val db = DBHandlerDefAgreement(applicationContext)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[category], SPACColumns[category])
+//                db.closeDB()
+            }
+
+            "Option+Chads" -> {
+                val db = DBHandlerOptionChads(applicationContext)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[category], SPACColumns[category])
+//                db.closeDB()
+            }
+
+            "Pre+Unit+Split" -> {
+                val db = DBHandlerPreUnitSplit(applicationContext)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[category], SPACColumns[category])
+//                db.closeDB()
+            }
+
+            "Pre+IPO" -> {
+                val db = DBHandlerPreIPO(applicationContext)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[category], SPACColumns[category])
+//                db.closeDB()
+            }
+        }
+
+        println(dbPull)
+
+        if(dbPull.isNotEmpty()){
+            println(dbPull)
+            addtablerows(table,displaycategory,dbPull)
+        }
+        else {
+
+            thread(start = true) {
+                val datalist = getList(category)
+
+                val len = datalist.length()
+                val dataMap: Map<String, Int> = SPACColumnName[category] as Map<String, Int>
+                val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
+                columnArray.sortBy { it.value }
+                val fullData: MutableList<Array<String>> = mutableListOf()
+                val dbData: MutableList<Map<String, String>> = mutableListOf()
+                for (i in 0 until len) {
+                    val rowData: MutableList<String> = mutableListOf()
+                    val sqlrowData: MutableMap<String, String> = mutableMapOf()
+                    for ((k, v) in columnArray) {
+                        rowData.add(datalist.getJSONArray(i).getString(v))
+                        sqlrowData[k] = datalist.getJSONArray(i).getString(v)
+                    }
+                    dbData.add(sqlrowData)
+                    fullData.add(rowData.toTypedArray())
+                }
+
+
+                runOnUiThread { addtablerows(table, displaycategory, fullData) }
+                loadeddata += 1
+                println("Data Acquired: $displaycategory")
+
+                //cache into db
+               for(i in dbData){
+                   when(category){
+                       "Pre+LOI" -> {
+                           val db = DBHandlerPreLOI(applicationContext)
+                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+//                           db.closeDB()
+                       }
+
+                       "Definitive+Agreement" -> {
+                           val db = DBHandlerDefAgreement(applicationContext)
+                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+//                           db.closeDB()
+                       }
+
+                       "Option+Chads" -> {
+                           val db = DBHandlerOptionChads(applicationContext)
+                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+//                           db.closeDB()
+                       }
+
+                       "Pre+Unit+Split" -> {
+                           val db = DBHandlerPreUnitSplit(applicationContext)
+                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+//                           db.closeDB()
+                       }
+
+                       "Pre+IPO" -> {
+                           val db = DBHandlerPreIPO(applicationContext)
+                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+//                           db.closeDB()
+                       }
+                   }
+               }
+
+
+            }
         }
     }
 
@@ -123,24 +230,25 @@ class ShowListing : AppCompatActivity() {
     }
 
     //Function for adding data entries to the table
-    fun addtablerows(table: TableLayout, category: String, data: JSONArray) {
+    fun addtablerows(table: TableLayout, category: String, data: MutableList<Array<String>>) {
         val context = applicationContext
-        for (i in 0 until data.length()) {
-            val spacdata = data.getJSONArray(i)
+
+        for (i in data) {
+            val spacdata = i
             val tablerow = TableRow(context)
             val Tickerrow = TextView(context)
             val Namerow = TextView(context)
             val Categoryrow = TextView(context)
             val darkgraycolor = "#333333"
             //If there is no Ticker associated, don't add it
-            if (spacdata[0].toString() != "" && spacdata[0].toString() != "N/A") {
+            if (spacdata[0] != "" && spacdata[0] != "N/A") {
                 //Add ticker, name, and category all to table, set a color for that text
-                Tickerrow.text = spacdata[0].toString() + "\t"
+                Tickerrow.text = spacdata[0] + "\t"
                 //Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Tickerrow, 0)
 
                 Namerow.maxWidth = 448
-                Namerow.text = spacdata[1].toString() + "\n"
+                Namerow.text = spacdata[1] + "\n"
                 //Namerow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Namerow, 1)
 
@@ -159,6 +267,41 @@ class ShowListing : AppCompatActivity() {
                 tableRows.add(tablerow)
             }
         }
+
+//        for (i in 0 until data.length()) {
+//            val spacdata = data.getJSONArray(i)
+//            val tablerow = TableRow(context)
+//            val Tickerrow = TextView(context)
+//            val Namerow = TextView(context)
+//            val Categoryrow = TextView(context)
+//            val darkgraycolor = "#333333"
+//            //If there is no Ticker associated, don't add it
+//            if (spacdata[0].toString() != "" && spacdata[0].toString() != "N/A") {
+//                //Add ticker, name, and category all to table, set a color for that text
+//                Tickerrow.text = spacdata[0].toString() + "\t"
+//                //Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
+//                tablerow.addView(Tickerrow, 0)
+//
+//                Namerow.maxWidth = 448
+//                Namerow.text = spacdata[1].toString() + "\n"
+//                //Namerow.setTextColor(Color.parseColor(darkgraycolor))
+//                tablerow.addView(Namerow, 1)
+//
+//                Categoryrow.text = "\t" + category
+//                //Categoryrow.setTextColor(Color.parseColor(darkgraycolor))
+//                tablerow.addView(Categoryrow, 2)
+//                //Sets the tag to be used when searching later, adds \t do separate ticker and name
+//                tablerow.tag = spacdata[0].toString() + "\t" + spacdata[1].toString()
+//            }
+//
+//            if(tablerow.getChildAt(0) != null){
+//                //Set the row to display data on click
+//                onclicksetter(tablerow, category, spacdata)
+//                //Add the row the table
+//                table.addView(tablerow)
+//                tableRows.add(tablerow)
+//            }
+//        }
     }
 
     fun addFirstRow(context: android.content.Context, table: TableLayout){
@@ -195,11 +338,11 @@ class ShowListing : AppCompatActivity() {
     }
 
     //Make the table entry show more data when clicked, depends on category name
-    fun onclicksetter(tablerow: TableRow, category: String, spacdata: JSONArray){
+    fun onclicksetter(tablerow: TableRow, category: String, spacdata: Array<String>){
         val db = DBHandlerSavedList(applicationContext)
         //Load the user preferences
         val preference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        var alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
+        var alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
         when(category){
 
             "Pre LOI" -> {
@@ -209,36 +352,36 @@ class ShowListing : AppCompatActivity() {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     //Display data based on preferences chosen
                     if(preference.getBoolean("preloi_marketcap", true)){
-                        alertstring += "\n\nMarket Cap: " + spacdata[2].toString()
+                        alertstring += "\n\nMarket Cap: " + spacdata[2]
                     }
                     if(preference.getBoolean("preloi_esttrustvalue", true)){
-                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3].toString()
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3]
                     }
                     if(preference.getBoolean("preloi_currentvolume", true)){
-                        alertstring += "\n\nCurrent Volume: " + spacdata[15].toString()
+                        alertstring += "\n\nCurrent Volume: " + spacdata[4]
                     }
                     if(preference.getBoolean("preloi_averagevolume", true)){
-                        alertstring += "\n\nAverage Volume " + spacdata[16].toString()
+                        alertstring += "\n\nAverage Volume " + spacdata[5]
                     }
                     if(preference.getBoolean("preloi_warrantticker", true)){
-                        alertstring += "\n\nWarrant Ticker: " + spacdata[18].toString()
+                        alertstring += "\n\nWarrant Ticker: " + spacdata[6]
                     }
                     if(preference.getBoolean("preloi_targetfocus", true)){
-                        alertstring += "\n\nTarget Focus: " + spacdata[26].toString()
+                        alertstring += "\n\nTarget Focus: " + spacdata[7]
                     }
                     if(preference.getBoolean("preloi_underwriters", true)){
-                        alertstring += "\n\nUnderwriters: " + spacdata[27].toString()
+                        alertstring += "\n\nUnderwriters: " + spacdata[8]
                     }
                     if(preference.getBoolean("preloi_ipodate", true)){
-                        alertstring += "\n\nIPO Date: " + spacdata[28].toString()
+                        alertstring += "\n\nIPO Date: " + spacdata[9]
                     }
                     if(preference.getBoolean("preloi_deadlinedate", true)){
-                        alertstring += "\n\nDeadline Date: " + spacdata[30].toString()
+                        alertstring += "\n\nDeadline Date: " + spacdata[10]
                     }
                     //Set the message of the alert window that appears
                     alert.setMessage(alertstring)
                     //Reset the string so that it doesn't display duplicate data when clicked again
-                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     /*  This sets an "OK" button in the dialog window that
                     doesn't currently do anything except close the window
                     and print a message to the console  */
@@ -248,12 +391,12 @@ class ShowListing : AppCompatActivity() {
                     if(!db.getSavedSPACExists(spacdata[0].toString())){
                         alert.setNegativeButton("SAVE"){ _, _ ->
                             println("NEGATIVE PRESSED, SAVE SPAC PRE LOI")
-                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                            db.insertNewSavedSPAC(spacdata[0], spacdata[1], category.replace(" ", "+"))
                         }
                     }
 
                     //Set the title for the alert window to the SPAC name
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
 
                     //Display the window to the user
                     alert.create().show()
@@ -264,29 +407,29 @@ class ShowListing : AppCompatActivity() {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     if(preference.getBoolean("definitiveagreement_marketcap", true)){
-                        alertstring += "\n\nMarket Cap: " + spacdata[2].toString()
+                        alertstring += "\n\nMarket Cap: " + spacdata[2]
                     }
                     if(preference.getBoolean("definitiveagreement_currentvolume", true)){
-                        alertstring += "\n\nCurrent Volume: " + spacdata[14].toString()
+                        alertstring += "\n\nCurrent Volume: " + spacdata[3]
                     }
                     if(preference.getBoolean("definitiveagreement_volumeaverage", true)){
-                        alertstring += "\n\nVolume Average: " + spacdata[15].toString()
+                        alertstring += "\n\nVolume Average: " + spacdata[4]
                     }
                     if(preference.getBoolean("definitiveagreement_target", true)){
-                        alertstring += "\n\nTarget: " + spacdata[17].toString()
+                        alertstring += "\n\nTarget: " + spacdata[5]
                     }
                     alert.setMessage(alertstring)
-                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
                     }
-                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                    if(!db.getSavedSPACExists(spacdata[0])){
                         alert.setNegativeButton("SAVE"){ _, _ ->
                             println("NEGATIVE PRESSED, SAVE SPAC DEFINITIVE AGREEMENT")
-                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                            db.insertNewSavedSPAC(spacdata[0], spacdata[1], category.replace(" ", "+"))
                         }
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
             }
@@ -295,26 +438,26 @@ class ShowListing : AppCompatActivity() {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     if(preference.getBoolean("optionchads_marketcap", true)){
-                        alertstring += "\n\nMarket Cap: " + spacdata[2].toString()
+                        alertstring += "\n\nMarket Cap: " + spacdata[2]
                     }
                     if(preference.getBoolean("optionchads_esttrustvalue", true)){
-                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3].toString()
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3]
                     }
                     if(preference.getBoolean("optionchads_currentvolume", true)){
-                        alertstring += "\n\nCurrent Volume: " + spacdata[15].toString()
+                        alertstring += "\n\nCurrent Volume: " + spacdata[4]
                     }
                     if(preference.getBoolean("optionchads_volumeaverage", true)){
-                        alertstring += "\n\nAverage Volume " + spacdata[16].toString()
+                        alertstring += "\n\nAverage Volume " + spacdata[5]
                     }
                     alert.setMessage(alertstring)
-                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
                     }
-                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                    if(!db.getSavedSPACExists(spacdata[0])){
                         alert.setNegativeButton("SAVE"){ _, _ ->
                             println("NEGATIVE PRESSED, SAVE SPAC OPTION CHADS")
-                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                            db.insertNewSavedSPAC(spacdata[0], spacdata[1], category.replace(" ", "+"))
                         }
                     }
                     alert.setTitle(spacdata[1].toString())
@@ -326,29 +469,29 @@ class ShowListing : AppCompatActivity() {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     if(preference.getBoolean("preunit_unit", true)){
-                        alertstring += "\n\nUnit & Warrant Details: " + spacdata[5].toString()
+                        alertstring += "\n\nUnit & Warrant Details: " + spacdata[2]
                     }
                     if(preference.getBoolean("preunit_ets", true)){
-                        alertstring += "\n\nEstimated Trust Size: " + spacdata[6].toString()
+                        alertstring += "\n\nEstimated Trust Size: " + spacdata[3]
                     }
                     if(preference.getBoolean("preunit_pl", true)){
-                        alertstring += "\n\nProminent Leadership / Directors / Advisors: " + spacdata[8].toString()
+                        alertstring += "\n\nProminent Leadership / Directors / Advisors: " + spacdata[4]
                     }
                     if(preference.getBoolean("preunit_tf", true)){
-                        alertstring += "\n\nTarget Focus: " + spacdata[9].toString()
+                        alertstring += "\n\nTarget Focus: " + spacdata[5]
                     }
                     alert.setMessage(alertstring)
-                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
                     }
-                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                    if(!db.getSavedSPACExists(spacdata[0])){
                         alert.setNegativeButton("SAVE"){ _, _ ->
                             println("NEGATIVE PRESSED, SAVE SPAC PRE UNIT SPLIT")
-                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                            db.insertNewSavedSPAC(spacdata[0], spacdata[1], category.replace(" ", "+"))
                         }
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
             }
@@ -357,26 +500,26 @@ class ShowListing : AppCompatActivity() {
                 tablerow.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
                     if(preference.getBoolean("preipo_etv", true)){
-                        alertstring += "\n\nEstimated Trust Value: " + spacdata[2].toString()
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[2]
                     }
                     if(preference.getBoolean("preipo_managementteam", true)){
-                        alertstring += "\n\nManagement Team: " + spacdata[3].toString()
+                        alertstring += "\n\nManagement Team: " + spacdata[3]
                     }
                     if(preference.getBoolean("preipo_targetfocus", true)){
-                        alertstring += "\n\nTarget Focus: " + spacdata[4].toString()
+                        alertstring += "\n\nTarget Focus: " + spacdata[4]
                     }
                     alert.setMessage(alertstring)
-                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE IPO")
                     }
-                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                    if(!db.getSavedSPACExists(spacdata[0])){
                         alert.setNegativeButton("SAVE"){ _, _ ->
                             println("NEGATIVE PRESSED, SAVE SPAC PRE IPO")
-                            db.insertNewSavedSPAC(spacdata[0].toString(), spacdata[1].toString(), category.replace(" ", "+"))
+                            db.insertNewSavedSPAC(spacdata[0], spacdata[1], category.replace(" ", "+"))
                         }
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
             }

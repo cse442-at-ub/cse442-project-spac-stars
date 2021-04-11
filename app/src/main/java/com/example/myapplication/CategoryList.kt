@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -16,8 +17,14 @@ import com.example.myapplication.constants.categoryInfoLabel
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.sortingOrder
 import com.example.myapplication.constants.worksheetsStartingRow
+import com.example.myapplication.constants.SPACColumns
+import com.example.myapplication.constants.SPACColumnName
+import com.example.myapplication.constants.SPACTableName
+import com.example.myapplication.constants.categoryInfoDB
+import com.example.myapplication.storageHandlers.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.net.InetAddress
 import java.net.URL
 import kotlin.concurrent.thread
 
@@ -26,7 +33,8 @@ import kotlin.concurrent.thread
 class CategoryList : AppCompatActivity() {
 
     private var results: MutableList<Array<String>> = mutableListOf()
-    private var tickerMap: MutableMap<String, JSONArray> = mutableMapOf()
+    private var tickerMap: MutableMap<String, Array<String>> = mutableMapOf() //information for each ticker
+    private var SPACtype: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +46,7 @@ class CategoryList : AppCompatActivity() {
 
         val extras = intent.extras
         val context = this
-        var SPACtype: String = ""
+
         if (extras != null) {
             SPACtype = extras.getString("key").toString()
         }
@@ -63,6 +71,8 @@ class CategoryList : AppCompatActivity() {
                 Triple(2, "Int", true)
         )
 
+
+        //sorting dropdown
         val dropdownAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         spinner.adapter = dropdownAdapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -72,6 +82,7 @@ class CategoryList : AppCompatActivity() {
                     val index = items.indexOfFirst { it == parent.getItemAtPosition(position).toString() } - 1
                     val newOrder = sortingOrder(results, parameterMap[index].first, parameterMap[index].second, parameterMap[index].third)
                     results = newOrder
+                    println(results)
                     val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
                     val viewList: RecyclerView = findViewById(R.id.recyclerView)
                     viewList.adapter = listAdapter
@@ -85,21 +96,112 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
-        thread(start=true) {
-            results = getList(SPACtype)
-//            println(results.joinToString())
-            this@CategoryList.runOnUiThread(Runnable {
-                val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
-                val viewList: RecyclerView = findViewById(R.id.recyclerView)
-                viewList.adapter = listAdapter
-                viewList.layoutManager = LinearLayoutManager(this)
-                viewList.setHasFixedSize(true)
-            })
-            searchtext.hint = "Search..."
-            search.setOnClickListener { searchspacs(searchtext, SPACtype) }
 
+
+        //get data from different types of categories through the db
+        var dbPull:MutableList<Array<String>> = mutableListOf()
+
+
+        when(SPACtype){
+            "Pre+LOI" -> {
+                val db = DBHandlerPreLOI(this)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+                db.closeDB()
+            }
+            "Definitive+Agreement" -> {
+                val db = DBHandlerDefAgreement(this)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+                db.closeDB()
+            }
+            "Option+Chads" -> {
+                val db = DBHandlerOptionChads(this)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+                db.closeDB()
+            }
+            "Pre+Unit+Split" -> {
+                val db = DBHandlerPreUnitSplit(this)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+                db.closeDB()
+            }
+            "Pre+IPO" -> {
+                val db = DBHandlerPreIPO(this)
+                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+                db.closeDB()
+            }
         }
 
+
+        //check if db is empty, if not, use the db's pull, if it is, get from online API
+        if(dbPull.isNotEmpty()){
+            println(dbPull)
+            val listDisplay: MutableList<Array<String>> = mutableListOf()
+            for(i in dbPull){
+                tickerMap[i[0]] = i
+                listDisplay.add(arrayOf(i[0], i[1], i[categoryInfoDB[SPACtype] as Int]))
+            }
+            results = listDisplay
+            val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+            val viewList: RecyclerView = findViewById(R.id.recyclerView)
+            viewList.adapter = listAdapter
+            viewList.layoutManager = LinearLayoutManager(this)
+            viewList.setHasFixedSize(true)
+        }else {
+
+            thread(start = true) {
+                results = getList(SPACtype)
+//            println(results.joinToString())
+                this@CategoryList.runOnUiThread(Runnable {
+                    val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+                    val viewList: RecyclerView = findViewById(R.id.recyclerView)
+                    viewList.adapter = listAdapter
+                    viewList.layoutManager = LinearLayoutManager(this)
+                    viewList.setHasFixedSize(true)
+                })
+
+                searchtext.hint = "Search..."
+                search.setOnClickListener { searchspacs(searchtext, SPACtype) }
+
+                for(i in results){
+                    val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
+                    val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
+                    columnArray.sortBy { it.value }
+                    val rowData: MutableMap<String, String> = mutableMapOf()
+                    val info = tickerMap[i[0]] as Array<String>
+                    for((k,v) in columnArray){
+                        rowData[k] = info[columnArray.indexOfFirst { it.key == k }]
+                    }
+                    when(SPACtype){
+                        "Pre+LOI" -> {
+                            val db = DBHandlerPreLOI(this)
+                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                            db.closeDB()
+                        }
+                        "Definitive+Agreement" -> {
+                            val db = DBHandlerDefAgreement(this)
+                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                            db.closeDB()
+                        }
+                        "Option+Chads" -> {
+                            val db = DBHandlerOptionChads(this)
+                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                            db.closeDB()
+                        }
+                        "Pre+Unit+Split" -> {
+                            val db = DBHandlerPreUnitSplit(this)
+                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                            db.closeDB()
+                        }
+                        "Pre+IPO" -> {
+                            val db = DBHandlerPreIPO(this)
+                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                            db.closeDB()
+                        }
+                    }
+                }
+
+
+            }
+        }
 
 
 
@@ -108,12 +210,20 @@ class CategoryList : AppCompatActivity() {
     }
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
+
+        if(!InetAddress.getByName("sheets.googleapis.com").isReachable(1000)){
+            println("no internet")
+            return mutableListOf()
+            //return empty if no internet
+        }
+
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val extraIndex: Int = categoryInfoColumn[SPACtype] as Int
 //        println("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:$extrasColumn?key=$apikey")
         val jsonResult =
             URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey")
                 .readText()
+        //if there is no internet, exception will occur
 
         val information: JSONObject = JSONObject(jsonResult)
         val rawSpacList = information.getJSONArray("values")
@@ -134,7 +244,17 @@ class CategoryList : AppCompatActivity() {
                     rawSpacList.getJSONArray(i).getString(extraIndex)
                 )
                 finalList.add(innerArray)
-                tickerMap[rawSpacList.getJSONArray(i).getString(0)] = rawSpacList.getJSONArray(i)
+
+                val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
+                val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
+                columnArray.sortBy { it.value }
+                val infoArr: MutableList<String> = mutableListOf()
+                val rawRow = rawSpacList.getJSONArray(i)
+                for((k,v) in columnArray){
+                    infoArr.add(rawRow.getString(v))
+                }
+
+                tickerMap[rawSpacList.getJSONArray(i).getString(0)] = infoArr.toTypedArray()
             }
         }
 
@@ -142,6 +262,61 @@ class CategoryList : AppCompatActivity() {
 
 
         return finalList
+    }
+
+    fun refreshButtonHandler(view: View){
+        thread(start = true) {
+            results = getList(SPACtype)
+//            println(results.joinToString())
+            this@CategoryList.runOnUiThread(Runnable {
+                val listAdapter = TickerListAdapter(this, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+                val viewList: RecyclerView = findViewById(R.id.recyclerView)
+                viewList.adapter = listAdapter
+                viewList.layoutManager = LinearLayoutManager(this)
+                println("reset list")
+                viewList.setHasFixedSize(true)
+            })
+
+            for(i in results){
+                val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
+                val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
+                columnArray.sortBy { it.value }
+                val rowData: MutableMap<String, String> = mutableMapOf()
+                val info = tickerMap[i[0]] as Array<String>
+                for((k,v) in columnArray){
+                    rowData[k] = info[columnArray.indexOfFirst { it.key == k }]
+                }
+                when(SPACtype){
+                    "Pre+LOI" -> {
+                        val db = DBHandlerPreLOI(this)
+                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                        db.closeDB()
+                    }
+                    "Definitive+Agreement" -> {
+                        val db = DBHandlerDefAgreement(this)
+                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                        db.closeDB()
+                    }
+                    "Option+Chads" -> {
+                        val db = DBHandlerOptionChads(this)
+                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                        db.closeDB()
+                    }
+                    "Pre+Unit+Split" -> {
+                        val db = DBHandlerPreUnitSplit(this)
+                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                        db.closeDB()
+                    }
+                    "Pre+IPO" -> {
+                        val db = DBHandlerPreIPO(this)
+                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
+                        db.closeDB()
+                    }
+                }
+
+            }
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -156,15 +331,63 @@ class CategoryList : AppCompatActivity() {
 
 
         when (item.itemId) {
+
             R.id.searchsocialmedia -> {
                 val intent = Intent(this, SearchSocialMedia::class.java)
+                startActivity(intent)
+            }
+
+            R.id.all -> {
+                val intent = Intent(this, SPACLivePricesMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.top10DailyPriceChange -> {
+                val intent = Intent(this, SPACTopDailyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.bottom10DailyPriceChange -> {
+                val intent = Intent(this, SPACBottomDailyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.top10WeeklyPriceChange -> {
+                val intent = Intent(this, SPACTopWeeklyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.bottom10WeeklyPriceChange -> {
+                val intent = Intent(this, SPACBottomWeeklyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.top10MonthlyPriceChange -> {
+                val intent = Intent(this, SPACTopMonthlyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.bottom10MonthlyPriceChange -> {
+                val intent = Intent(this, SPACBottomMonthlyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.preferences -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.alertsetup -> {
+                val intent = Intent(this, Alerts::class.java)
                 startActivity(intent)
             }
             R.id.addremove -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
-            R.id.showAll -> showListSelection = "Show All"
+            R.id.showAll -> {
+                val intent = Intent(this, ShowListing::class.java)
+                startActivity(intent)
+            }
             R.id.preLOI -> showListSelection = "Pre+LOI"
             R.id.defAgree -> showListSelection = "Definitive+Agreement"
             R.id.optionChads -> showListSelection = "Option+Chads"

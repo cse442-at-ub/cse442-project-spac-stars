@@ -36,4 +36,5 @@
     <string name="bottom_10_weekly_price_change">Bottom 10 Weekly Price Change</string>
     <string name="top_10_monthly_price_change">Top 10 Monthly Price Change</string>
     <string name="bottom_10_monthly_price_change">Bottom 10 Monthly Price Change</string>
+    <string name="Refresh">Refresh</string>
 </resources>
