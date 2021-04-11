@@ -35,6 +35,7 @@ interface DBHandlerDataList {
             result.close()
         }
         result.close()
+        db.close()
         return info
     }
 
