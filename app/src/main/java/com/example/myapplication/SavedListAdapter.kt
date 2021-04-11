@@ -73,7 +73,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
                     }
 
                     //Set the title for the alert window to the SPAC name
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
 
                     //Display the window to the user
                     alert.create().show()
@@ -94,7 +94,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
@@ -113,7 +113,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
@@ -132,7 +132,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
@@ -150,7 +150,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
                     )
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, PRE IPO")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[1])
                     alert.create().show()
                 }
 
