@@ -9,7 +9,7 @@ class DataSource {
 
     fun loadSPACs(): List<SPACLivePrices> {
         val finalList: MutableList<SPACLivePrices> = mutableListOf()
-        val jsonArray = URL("https://sheets.googleapis.com/v4/spreadsheets/1D61Q4V_LwTXVCOedHkg-IROuZKTiJ25wg_qL75XvWlc/values/Sheet1!A2:C329?key=AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo").readText()
+        val jsonArray = URL("https://sheets.googleapis.com/v4/spreadsheets/1D61Q4V_LwTXVCOedHkg-IROuZKTiJ25wg_qL75XvWlc/values/SPAC Live Prices!A2:C265?key=AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo").readText()
         val info = JSONObject(jsonArray).getJSONArray("values")
 
         val len = info.length() - 1

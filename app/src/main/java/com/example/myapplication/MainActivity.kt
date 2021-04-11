@@ -91,6 +91,25 @@ class MainActivity : AppCompatActivity(){
                 startActivity(intent)
             }
 
+            R.id.top10WeeklyPriceChange -> {
+                val intent = Intent(this, SPACTopWeeklyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.bottom10WeeklyPriceChange -> {
+                val intent = Intent(this, SPACBottomWeeklyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.top10MonthlyPriceChange -> {
+                val intent = Intent(this, SPACTopMonthlyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
+
+            R.id.bottom10MonthlyPriceChange -> {
+                val intent = Intent(this, SPACBottomMonthlyPriceChangeMain::class.java)
+                startActivity(intent)
+            }
                 
             R.id.preferences -> {
                 val intent = Intent(this, SettingsActivity::class.java)

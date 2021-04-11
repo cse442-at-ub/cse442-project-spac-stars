@@ -1,4 +1,0 @@
-#Mon Apr 05 16:46:03 EDT 2021
-base.0=/Users/MasPosInc/StudioProjects/cse442-project-team-1/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
