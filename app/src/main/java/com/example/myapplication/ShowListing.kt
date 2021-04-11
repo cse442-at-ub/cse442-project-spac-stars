@@ -18,6 +18,7 @@ import com.example.myapplication.constants.sortTableRows
 import com.example.myapplication.constants.SPACColumnName
 import com.example.myapplication.constants.SPACColumns
 import com.example.myapplication.constants.SPACTableName
+import com.example.myapplication.constants.categoryInfoColumn
 import com.example.myapplication.constants.categoryInfoLabel
 import com.example.myapplication.storageHandlers.*
 import com.google.android.material.textfield.TextInputEditText
@@ -166,14 +167,20 @@ class ShowListing : AppCompatActivity() {
                 val fullData: MutableList<Array<String>> = mutableListOf()
                 val dbData: MutableList<Map<String, String>> = mutableListOf()
                 for (i in 0 until len) {
-                    val rowData: MutableList<String> = mutableListOf()
-                    val sqlrowData: MutableMap<String, String> = mutableMapOf()
-                    for ((k, v) in columnArray) {
-                        rowData.add(datalist.getJSONArray(i).getString(v))
-                        sqlrowData[k] = datalist.getJSONArray(i).getString(v)
+                    if(datalist.getJSONArray(i).getString(0) != "N/A" &&
+                        datalist.getJSONArray(i).getString(0) != "" &&
+                        datalist.getJSONArray(i).getString(categoryInfoColumn[category] as Int) != "#N/A"
+                    ){
+                        val rowData: MutableList<String> = mutableListOf()
+                        val sqlrowData: MutableMap<String, String> = mutableMapOf()
+                        for ((k, v) in columnArray) {
+                            rowData.add(datalist.getJSONArray(i).getString(v))
+                            sqlrowData[k] = datalist.getJSONArray(i).getString(v)
+                        }
+                        dbData.add(sqlrowData)
+                        fullData.add(rowData.toTypedArray())
                     }
-                    dbData.add(sqlrowData)
-                    fullData.add(rowData.toTypedArray())
+
                 }
 
 
