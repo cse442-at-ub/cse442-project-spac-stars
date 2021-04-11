@@ -108,6 +108,93 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
         onCreate(db)
     }
 
+    fun insertNewSPAC(ticker: String?, writableDB: SQLiteDatabase, tablename: String?, columns: Int?, data: Map<String, String>){
+        println("inserting")
+        if(getSPACData(ticker, writableDB, tablename, columns).isEmpty()){
+            val values = ContentValues()
+            for((k, v) in data){
+                values.put(k,v)
+            }
+            val db = this.writableDatabase
+
+            while(db.isDbLockedByCurrentThread){
+                println(db.isDbLockedByCurrentThread)
+            }
+
+            db.insert(tablename, null, values)
+            db.close()
+        }
+    }
+
+    fun getSPACData(ticker: String?, writableDB: SQLiteDatabase, tablename: String?, columns: Int?): MutableList<String>{
+        var info = mutableListOf<String>()
+        val db = this.writableDatabase
+
+        while(db.isDbLockedByCurrentThread){
+            println(db.isDbLockedByCurrentThread)
+        }
+
+        val result = db.query(false, tablename, null, "ticker=?", arrayOf(ticker), null, null, null, null)
+
+
+        if (result.moveToFirst()) {
+            for(i in 1 until columns as Int + 1){
+                info.add(result.getString(i))
+            }
+            result.close()
+        }
+        result.close()
+        db.close()
+        return info
+    }
+
+    fun getAllSPACData(writableDB: SQLiteDatabase, tablename: String?, columns: Int?): MutableList<Array<String>>{
+        val db = this.writableDatabase
+
+        while(db.isDbLockedByCurrentThread){
+            println(db.isDbLockedByCurrentThread)
+        }
+
+        val result = db.query(false, tablename, null, null, null, null, null, null, null)
+
+        val finalList: MutableList<Array<String>> = mutableListOf()
+        if (result.moveToFirst()) {
+            do {
+                val row = mutableListOf<String>()
+                for(i in 1 until columns as Int + 1){
+                    row.add(result.getString(i))
+                }
+                val info = row.toTypedArray()
+                finalList.add(info)
+            }
+            while (result.moveToNext())
+            result.close()
+        }
+
+        db.close()
+
+        return finalList
+    }
+
+    fun removeSPAC(ticker: String?, writableDB: SQLiteDatabase, tablename: String?){
+        val db = this.writableDatabase
+
+        while(db.isDbLockedByCurrentThread){
+            println(db.isDbLockedByCurrentThread)
+        }
+
+        val result = db.query(false, "SavedList", null, "ticker=?", arrayOf(ticker), null, null, null, null)
+
+        if (result.moveToFirst()) {
+            db.delete(tablename, "ticker = ?", arrayOf(ticker))
+            result.close()
+        }
+        db.close()
+    }
+
+    abstract fun rebuildTable()
+    abstract fun createTable()
+
     fun closeDB(){
         val db = this.writableDatabase
         db.close()

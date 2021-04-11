@@ -30,6 +30,7 @@ object constants {
         "Pre+IPO" to "Est. Trust Value",
         "Warrants+(Testing)" to "Current Volume"
     )
+
     val categoryInfoDB: Map<String, Int> = mapOf(
             "Pre+LOI" to 4,
             "Definitive+Agreement" to 3,

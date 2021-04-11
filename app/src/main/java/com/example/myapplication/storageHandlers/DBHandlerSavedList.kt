@@ -19,6 +19,11 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
             values.put("name", name)
             values.put("category", category)
             val db = this.writableDatabase
+
+            while(db.isDbLockedByCurrentThread){
+                println(db.isDbLockedByCurrentThread)
+            }
+
             db.insert("SavedList", null, values)
             db.close()
         }
@@ -30,6 +35,10 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
 //        val query = "SELECT * FROM SavedList"
         val db = this.writableDatabase
 //        val result = db.rawQuery(query, null)
+
+        while(db.isDbLockedByCurrentThread){
+            println(db.isDbLockedByCurrentThread)
+        }
 
         val result = db.query(false, "SavedList",null,null, null, null, null, null, null)
 
@@ -52,6 +61,11 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
 //        val query = "SELECT * FROM SavedList WHERE ticker = \"$ticker\""
         val db = this.writableDatabase
 //        val result = db.rawQuery(query, null)
+
+        while(db.isDbLockedByCurrentThread){
+            println(db.isDbLockedByCurrentThread)
+        }
+
         val result = db.query(false, "SavedList", null, "ticker=?", arrayOf(ticker), null, null, null, null)
 
         if (result.moveToFirst()) {
@@ -68,6 +82,10 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
         val db = this.writableDatabase
 //        val result = db.rawQuery(query, null)
 
+        while(db.isDbLockedByCurrentThread){
+            println(db.isDbLockedByCurrentThread)
+        }
+
         val result = db.query(false, "SavedList", null, "ticker=?", arrayOf(ticker), null, null, null, null)
         if (result.moveToFirst()) {
             info = mutableListOf(result.getString(1), result.getString(2), result.getString(3))
@@ -81,6 +99,12 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
     //remove SPAC from saved list
     fun removeSPAC(ticker: String){
         val db = this.writableDatabase
+
+
+        while(db.isDbLockedByCurrentThread){
+            println(db.isDbLockedByCurrentThread)
+        }
+
         val result = db.query(false, "SavedList", null, "ticker=?", arrayOf(ticker), null, null, null, null)
 
         if (result.moveToFirst()) {
@@ -88,6 +112,13 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
             result.close()
         }
         db.close()
+    }
+
+    override fun rebuildTable() {
+
+    }
+
+    override fun createTable() {
     }
 
 

@@ -2,7 +2,7 @@ package com.example.myapplication.storageHandlers
 
 import android.content.Context
 
-class DBHandlerOptionChads (context: Context)  : DBHandlerBase(context), DBHandlerDataList {
+class DBHandlerOptionChads (context: Context)  : DBHandlerBase(context) {
     override fun rebuildTable() {
         val db = this.writableDatabase
         db.execSQL("DROP TABLE IF EXISTS OptionChads")

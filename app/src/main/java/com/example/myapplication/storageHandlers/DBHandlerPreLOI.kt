@@ -2,7 +2,7 @@ package com.example.myapplication.storageHandlers
 
 import android.content.Context
 
-class DBHandlerPreLOI(context: Context) : DBHandlerBase(context), DBHandlerDataList {
+class DBHandlerPreLOI(context: Context) : DBHandlerBase(context) {
 
     override fun rebuildTable() {
         val db = this.writableDatabase

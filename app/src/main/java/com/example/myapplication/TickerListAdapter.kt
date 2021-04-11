@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.storageHandlers.DBHandlerSavedList
 import org.json.JSONArray
@@ -48,23 +49,42 @@ class TickerListAdapter(private val context: Context,
             val alert: AlertDialog.Builder = AlertDialog.Builder(context)
             val spacdata = infoMap[current[0]] as Array<String>
             val db = DBHandlerSavedList(context)
+            var alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
+            val preference = PreferenceManager.getDefaultSharedPreferences(context)
             when(category){
 
                 "Pre+LOI" -> {
-
                     //Set the message of the alert window that appears
-                    alert.setMessage("Ticker: " + spacdata[0]
-                            + "\n\nCompany Name: " + spacdata[1]
-                            + "\n\nMarket Cap: " + spacdata[2]
-                            + "\n\nEstimated Trust Value: " + spacdata[3]
-                            + "\n\nCurrent Volume: " + spacdata[4]
-                            + "\n\nAverage Volume " + spacdata[5]
-                            + "\n\nWarrant Ticker: " + spacdata[6]
-                            + "\n\nTarget Focus: " + spacdata[7]
-                            + "\n\nUnderwriters: " + spacdata[8]
-                            + "\n\nIPO Date: " + spacdata[9]
-                            + "\n\nDeadline Date: " + spacdata[10]
-                    )
+                    if(preference.getBoolean("preloi_marketcap", true)){
+                        alertstring += "\n\nMarket Cap: " + spacdata[2]
+                    }
+                    if(preference.getBoolean("preloi_esttrustvalue", true)){
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3]
+                    }
+                    if(preference.getBoolean("preloi_currentvolume", true)){
+                        alertstring += "\n\nCurrent Volume: " + spacdata[4]
+                    }
+                    if(preference.getBoolean("preloi_averagevolume", true)){
+                        alertstring += "\n\nAverage Volume " + spacdata[5]
+                    }
+                    if(preference.getBoolean("preloi_warrantticker", true)){
+                        alertstring += "\n\nWarrant Ticker: " + spacdata[6]
+                    }
+                    if(preference.getBoolean("preloi_targetfocus", true)){
+                        alertstring += "\n\nTarget Focus: " + spacdata[7]
+                    }
+                    if(preference.getBoolean("preloi_underwriters", true)){
+                        alertstring += "\n\nUnderwriters: " + spacdata[8]
+                    }
+                    if(preference.getBoolean("preloi_ipodate", true)){
+                        alertstring += "\n\nIPO Date: " + spacdata[9]
+                    }
+                    if(preference.getBoolean("preloi_deadlinedate", true)){
+                        alertstring += "\n\nDeadline Date: " + spacdata[10]
+                    }
+                    //Set the message of the alert window that appears
+                    alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     /*  This sets an "OK" button in the dialog window that
                         doesn't currently do anything except close the window
                         and print a message to the console  */
@@ -85,13 +105,21 @@ class TickerListAdapter(private val context: Context,
                 }
 
                 "Definitive+Agreement" -> {
-                    alert.setMessage("Ticker: " + spacdata[0]
-                            + "\n\nCompany Name: " + spacdata[1]
-                            + "\n\nMarket Cap: " + spacdata[2]
-                            + "\n\nCurrent Volume: " + spacdata[3]
-                            + "\n\nVolume Average: " + spacdata[4]
-                            + "\n\nTarget: " + spacdata[5]
-                    )
+
+                    if(preference.getBoolean("definitiveagreement_marketcap", true)){
+                        alertstring += "\n\nMarket Cap: " + spacdata[2]
+                    }
+                    if(preference.getBoolean("definitiveagreement_currentvolume", true)){
+                        alertstring += "\n\nCurrent Volume: " + spacdata[3]
+                    }
+                    if(preference.getBoolean("definitiveagreement_volumeaverage", true)){
+                        alertstring += "\n\nVolume Average: " + spacdata[4]
+                    }
+                    if(preference.getBoolean("definitiveagreement_target", true)){
+                        alertstring += "\n\nTarget: " + spacdata[5]
+                    }
+                    alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
                     }
                     if(!db.getSavedSPACExists(current[0])){
@@ -105,13 +133,20 @@ class TickerListAdapter(private val context: Context,
                 }
 
                 "Option+Chads" -> {
-                    alert.setMessage("Ticker: " + spacdata[0]
-                            + "\n\nCompany Name: " + spacdata[1]
-                            + "\n\nMarket Cap: " + spacdata[2]
-                            + "\n\nEstimated Trust Value: " + spacdata[3]
-                            + "\n\nCurrent Volume: " + spacdata[4]
-                            + "\n\nAverage Volume " + spacdata[5]
-                    )
+                    if(preference.getBoolean("optionchads_marketcap", true)){
+                        alertstring += "\n\nMarket Cap: " + spacdata[2]
+                    }
+                    if(preference.getBoolean("optionchads_esttrustvalue", true)){
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[3]
+                    }
+                    if(preference.getBoolean("optionchads_currentvolume", true)){
+                        alertstring += "\n\nCurrent Volume: " + spacdata[4]
+                    }
+                    if(preference.getBoolean("optionchads_volumeaverage", true)){
+                        alertstring += "\n\nAverage Volume " + spacdata[5]
+                    }
+                    alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
                     }
                     if(!db.getSavedSPACExists(current[0])){
@@ -125,13 +160,21 @@ class TickerListAdapter(private val context: Context,
                 }
 
                 "Pre+Unit+Split" -> {
-                    alert.setMessage("Ticker: " + spacdata[0]
-                            + "\n\nCompany Name: " + spacdata[1]
-                            + "\n\nUnit & Warrant Details: " + spacdata[2]
-                            + "\n\nEstimated Trust Size: " + spacdata[3]
-                            + "\n\nProminent Leadership / Directors / Advisors: " + spacdata[4]
-                            + "\n\nTarget Focus: " + spacdata[5]
-                    )
+
+                    if(preference.getBoolean("preunit_unit", true)){
+                        alertstring += "\n\nUnit & Warrant Details: " + spacdata[2]
+                    }
+                    if(preference.getBoolean("preunit_ets", true)){
+                        alertstring += "\n\nEstimated Trust Size: " + spacdata[3]
+                    }
+                    if(preference.getBoolean("preunit_pl", true)){
+                        alertstring += "\n\nProminent Leadership / Directors / Advisors: " + spacdata[4]
+                    }
+                    if(preference.getBoolean("preunit_tf", true)){
+                        alertstring += "\n\nTarget Focus: " + spacdata[5]
+                    }
+                    alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0] + "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
                     }
                     if(!db.getSavedSPACExists(current[0])){
@@ -145,12 +188,17 @@ class TickerListAdapter(private val context: Context,
                 }
 
                 "Pre+IPO" -> {
-                    alert.setMessage("Ticker: " + spacdata[0]
-                            + "\n\nCompany Name: " + spacdata[1]
-                            + "\n\nEstimated Trust Value: " + spacdata[2]
-                            + "\n\nManagement Team: " + spacdata[3]
-                            + "\n\nTarget Focus: " + spacdata[4]
-                    )
+                    if(preference.getBoolean("preipo_etv", true)){
+                        alertstring += "\n\nEstimated Trust Value: " + spacdata[2].toString()
+                    }
+                    if(preference.getBoolean("preipo_managementteam", true)){
+                        alertstring += "\n\nManagement Team: " + spacdata[3].toString()
+                    }
+                    if(preference.getBoolean("preipo_targetfocus", true)){
+                        alertstring += "\n\nTarget Focus: " + spacdata[4].toString()
+                    }
+                    alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0]+ "\n\nCompany Name: " + spacdata[1]
                     alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, PRE IPO")
                     }
                     if(!db.getSavedSPACExists(current[0])){

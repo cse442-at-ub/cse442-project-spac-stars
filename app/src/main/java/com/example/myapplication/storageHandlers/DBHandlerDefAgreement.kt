@@ -2,7 +2,7 @@ package com.example.myapplication.storageHandlers
 
 import android.content.Context
 
-class DBHandlerDefAgreement(context: Context)  : DBHandlerBase(context), DBHandlerDataList {
+class DBHandlerDefAgreement(context: Context)  : DBHandlerBase(context) {
     override fun rebuildTable() {
         val db = this.writableDatabase
         db.execSQL("DROP TABLE IF EXISTS DefAgreement")
