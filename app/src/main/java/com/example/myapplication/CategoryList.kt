@@ -6,9 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +31,10 @@ class CategoryList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_list2)
+
+        val searchtext = findViewById<TextView>(R.id.categorysearchinput)
+        val search = findViewById<Button>(R.id.categorysearch)
+        searchtext.hint = "Loading SPACs..."
 
         val extras = intent.extras
         val context = this
@@ -93,7 +95,8 @@ class CategoryList : AppCompatActivity() {
                 viewList.layoutManager = LinearLayoutManager(this)
                 viewList.setHasFixedSize(true)
             })
-
+            searchtext.hint = "Search..."
+            search.setOnClickListener { searchspacs(searchtext, SPACtype) }
 
         }
 
@@ -177,6 +180,30 @@ class CategoryList : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    //Spac Search Function
+    fun searchspacs(text: TextView, SPACtype: String){
+        val searchresults: MutableList<Array<String>> = mutableListOf()
+        val query = text.text.toString().toUpperCase()
+        if(query.isEmpty()){
+            val listAdapter = TickerListAdapter(this, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+            val viewList: RecyclerView = findViewById(R.id.recyclerView)
+            viewList.adapter = listAdapter
+        }
+        else {
+            for (i in results) {
+                for (j in i) {
+                    if (j.toUpperCase().contains(query)) {
+                        searchresults.add(0, i)
+                        break
+                    }
+                }
+            }
+            val listAdapter = TickerListAdapter(this, searchresults, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
+            val viewList: RecyclerView = findViewById(R.id.recyclerView)
+            viewList.adapter = listAdapter
+        }
     }
 
 }

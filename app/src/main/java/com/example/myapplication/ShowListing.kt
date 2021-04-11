@@ -17,13 +17,16 @@ import com.example.myapplication.constants.worksheetsStartingRow
 import com.example.myapplication.constants.apikey
 import com.example.myapplication.constants.sheetID
 import com.example.myapplication.constants.sortTableRows
+import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
+import org.w3c.dom.Text
 import java.net.URL
 import kotlin.concurrent.thread
 
 class ShowListing : AppCompatActivity() {
 
     private var tableRows: MutableList<TableRow> = mutableListOf()
+    private var loadeddata = 0
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -32,12 +35,15 @@ class ShowListing : AppCompatActivity() {
         //Initialize values for updating the SPAC table
         val table = findViewById<TableLayout>(R.id.listingtable)
         val context = applicationContext
-        var PreLOIvalues: JSONArray = JSONArray()
-        var DefinitiveAgreementvalues: JSONArray = JSONArray()
-        var OptionChadsvalues: JSONArray = JSONArray()
-        var PreUnitSplittvalues: JSONArray = JSONArray()
-        var PreIPOvalues: JSONArray = JSONArray()
-        //var Warrantsvalues: JSONArray = JSONArray()
+        val searchtext = findViewById<TextView>(R.id.searchinput)
+        searchtext.hint = "Loading SPACs..."
+
+        //Update the titlebar from "SPAC Stars" to "Show Listing"
+        val titlebar: ActionBar? = supportActionBar
+        if (titlebar != null) {
+            titlebar.title = "Show Listings"
+            titlebar.subtitle = "Show All"
+        }
 
         val spinner: Spinner = findViewById(R.id.sortDropdown)
         val items: Array<String> =
@@ -73,84 +79,39 @@ class ShowListing : AppCompatActivity() {
             }
         }
 
-        //Get the data from the sheet
-        thread(start = true) {
-            println("getting data")
-            PreLOIvalues = getList("Pre+LOI")
-            DefinitiveAgreementvalues = getList("Definitive+Agreement")
-            OptionChadsvalues = getList("Option+Chads")
-            PreUnitSplittvalues = getList("Pre+Unit+Split")
-            PreIPOvalues = getList("Pre+IPO")
-            println("got data")
-            //Warrantsvalues = getList("Warrants+(Testing)")
-        }
-
-        //Update the titlebar from "SPAC Stars" to "Show Listing"
-        val titlebar: ActionBar? = supportActionBar
-        if (titlebar != null) {
-            titlebar.title = "Show Listings: Show All"
-        }
-
         //Create the first row for the table that shows "TICKER  SPAC NAME   CATEGORY"
-
         addFirstRow(context, table)
 
-//        val firstrow = TableRow(context)
-//        val Tickerrow = TextView(context)
-//        val Namerow = TextView(context)
-//        val Categoryrow = TextView(context)
-//        val Blackcolor = "#000000"
-//        Tickerrow.setTypeface(null, Typeface.BOLD_ITALIC)
-//        Namerow.setTypeface(null, Typeface.BOLD_ITALIC)
-//        Categoryrow.setTypeface(null, Typeface.BOLD_ITALIC)
-//        Tickerrow.text = "TICKER\t"
-//        Tickerrow.setTextColor(Color.parseColor(Blackcolor))
-//        Namerow.setTextColor(Color.parseColor(Blackcolor))
-//        Categoryrow.setTextColor(Color.parseColor(Blackcolor))
-//        Namerow.text = "SPAC NAME\t"
-//        Categoryrow.text = "CATEGORY\t"
-//        firstrow.addView(Tickerrow, 0)
-//        firstrow.addView(Namerow, 1)
-//        firstrow.addView(Categoryrow, 2)
-//        table.addView(firstrow)
+        //Get the data for each category, starts on different threads
+        getdata("Pre+LOI", table)
+        getdata("Definitive+Agreement", table)
+        getdata("Option+Chads", table)
+        getdata("Pre+Unit+Split", table)
+        getdata("Pre+IPO", table)
 
-        //Add all the values to the table for Pre LOI
-        while(PreLOIvalues.length() == 0){
-            //Block until table can be populated
+        val search = findViewById<Button>(R.id.searchbutton)
+        //Once all the data is loaded, enable the search button
+        load(search, table, searchtext)
+    }
+
+    //Wait until data is retrieved to allow search
+    fun load(button: Button, table: TableLayout, searchtext: TextView){
+        thread(start = true) {
+            while(loadeddata < 5){"wait for data to load before search becomes available"}
+            searchtext.hint = "Search..."
+            button.setOnClickListener { searchTable(table, searchtext) }
         }
-        addtablerows(table, "Pre LOI", PreLOIvalues)
+    }
 
-        //Add all the values for Definitive Agreement
-        while(DefinitiveAgreementvalues.length() == 0){
-            //Block until table can be populated
+    fun getdata(category: String, table: TableLayout){
+        val displaycategory = category.replace("+", " ")
+        println("Getting Data: $displaycategory")
+        thread(start = true){
+            val datalist = getList(category)
+            runOnUiThread { addtablerows(table, displaycategory, datalist) }
+            loadeddata += 1
+            println("Data Acquired: $displaycategory")
         }
-        addtablerows(table, "Definitive Agreement", DefinitiveAgreementvalues)
-
-        //Add all the values for Option Chads
-        while(OptionChadsvalues.length() == 0){
-            //Block until table can be populated
-        }
-        addtablerows(table, "Option Chads", OptionChadsvalues)
-
-        //Add all the values for Pre Unit Split
-        while(PreUnitSplittvalues.length() == 0){
-            //Block until table can be populated
-        }
-        addtablerows(table, "Pre Unit Split", PreUnitSplittvalues)
-
-        //Add all the values for Pre IPO
-        while(PreIPOvalues.length() == 0){
-            //Block until table can be populated
-        }
-        addtablerows(table, "Pre IPO", PreIPOvalues)
-
-
-        //Add all the values for Warrants (Testing)
-       // while(Warrantsvalues.length() == 0){
-            //Block until table can be populated
-        //}
-//        addtablerows(table, "Warrants", Warrantsvalues)
-
     }
 
     //Function for getting data from URl
@@ -175,17 +136,19 @@ class ShowListing : AppCompatActivity() {
             if (spacdata[0].toString() != "" && spacdata[0].toString() != "N/A") {
                 //Add ticker, name, and category all to table, set a color for that text
                 Tickerrow.text = spacdata[0].toString() + "\t"
-                Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
+                //Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Tickerrow, 0)
 
                 Namerow.maxWidth = 448
                 Namerow.text = spacdata[1].toString() + "\n"
-                Namerow.setTextColor(Color.parseColor(darkgraycolor))
+                //Namerow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Namerow, 1)
 
                 Categoryrow.text = "\t" + category
-                Categoryrow.setTextColor(Color.parseColor(darkgraycolor))
+                //Categoryrow.setTextColor(Color.parseColor(darkgraycolor))
                 tablerow.addView(Categoryrow, 2)
+                //Sets the tag to be used when searching later, adds \t do separate ticker and name
+                tablerow.tag = spacdata[0].toString() + "\t" + spacdata[1].toString()
             }
 
             if(tablerow.getChildAt(0) != null){
@@ -209,9 +172,9 @@ class ShowListing : AppCompatActivity() {
         Namerow.setTypeface(null, Typeface.BOLD_ITALIC)
         Categoryrow.setTypeface(null, Typeface.BOLD_ITALIC)
         Tickerrow.text = "TICKER\t"
-        Tickerrow.setTextColor(Color.parseColor(Blackcolor))
-        Namerow.setTextColor(Color.parseColor(Blackcolor))
-        Categoryrow.setTextColor(Color.parseColor(Blackcolor))
+        //Tickerrow.setTextColor(Color.parseColor(Blackcolor))
+        //Namerow.setTextColor(Color.parseColor(Blackcolor))
+        //Categoryrow.setTextColor(Color.parseColor(Blackcolor))
         Namerow.text = "SPAC NAME\t"
         Categoryrow.text = "CATEGORY\t"
         firstrow.addView(Tickerrow, 0)
@@ -240,9 +203,11 @@ class ShowListing : AppCompatActivity() {
         when(category){
 
             "Pre LOI" -> {
+                //Set a boolean for not duplicating the data
                 tablerow.setOnClickListener {
                     //Create a builder for the alert window
                     val alert: AlertDialog.Builder = AlertDialog.Builder(this)
+                    //Display data based on preferences chosen
                     if(preference.getBoolean("preloi_marketcap", true)){
                         alertstring += "\n\nMarket Cap: " + spacdata[2].toString()
                     }
@@ -272,6 +237,8 @@ class ShowListing : AppCompatActivity() {
                     }
                     //Set the message of the alert window that appears
                     alert.setMessage(alertstring)
+                    //Reset the string so that it doesn't display duplicate data when clicked again
+                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
                     /*  This sets an "OK" button in the dialog window that
                     doesn't currently do anything except close the window
                     and print a message to the console  */
@@ -309,6 +276,7 @@ class ShowListing : AppCompatActivity() {
                         alertstring += "\n\nTarget: " + spacdata[17].toString()
                     }
                     alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, DEFINITIVE AGREEMENT")
                     }
@@ -339,6 +307,7 @@ class ShowListing : AppCompatActivity() {
                         alertstring += "\n\nAverage Volume " + spacdata[16].toString()
                     }
                     alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
                     }
@@ -369,6 +338,7 @@ class ShowListing : AppCompatActivity() {
                         alertstring += "\n\nTarget Focus: " + spacdata[9].toString()
                     }
                     alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE UNIT SPLIT")
                     }
@@ -396,6 +366,7 @@ class ShowListing : AppCompatActivity() {
                         alertstring += "\n\nTarget Focus: " + spacdata[4].toString()
                     }
                     alert.setMessage(alertstring)
+                    alertstring = "Ticker: " + spacdata[0].toString() + "\n\nCompany Name: " + spacdata[1].toString()
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE IPO")
                     }
@@ -409,24 +380,27 @@ class ShowListing : AppCompatActivity() {
                     alert.create().show()
                 }
             }
-//Warrants currently disabled.
-//            "Warrants" -> {
-//                tablerow.setOnClickListener {
-//                    val alert: AlertDialog.Builder = AlertDialog.Builder(this)
-//                    alert.setMessage("Ticker: " + spacdata[0].toString()
-//                            + "\n\nCompany Name: " + spacdata[1].toString()
-//                            + "\n\nCurrent Volume: " + spacdata[12].toString()
-//                            + "\n\nAverage Volume: " + spacdata[13].toString()
-//                    )
-//                    alert.setPositiveButton("OK"){
-//                        _, _ -> println("POSITIVE PRESSED, WARRANTS")
-//                    }
-//                    alert.setTitle(spacdata[1].toString())
-//                    alert.create().show()
-//                }
-//            }
-
         }
+    }
+
+    //rebuild table after searching
+    fun searchTable(table: TableLayout, text: TextView){
+        val query = text.text.toString().toUpperCase()
+        table.removeAllViews()
+        addFirstRow(applicationContext, table)
+        //Reset when search is empty, otherwise only display items that match the search
+        if(query.isEmpty()){
+            for(i in tableRows){
+                    table.addView(i)
+            }
+        }
+        else{
+        for(i in tableRows){
+            if(i.tag.toString().toUpperCase().contains(query)) {
+                table.addView(i)
+            }
+        }}
+
     }
 
 }
