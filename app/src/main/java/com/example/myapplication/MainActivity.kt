@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,17 @@ class MainActivity : AppCompatActivity(){
         viewList.adapter = listAdapter
         viewList.layoutManager = LinearLayoutManager(this)
         viewList.setHasFixedSize(true)
+
+        //Set up search interface
+        val searchtext = findViewById<TextView>(R.id.mainsearchtext)
+        val search = findViewById<Button>(R.id.mainsearchbutton)
+        search.setOnClickListener {search(searchtext, viewList)}
+        //If there is no saved lists, tell user to add some
+        if(saved.isEmpty()){
+            searchtext.hint = "Save SPACs from the listings!"
+            searchtext.isEnabled = false
+            search.visibility = View.GONE
+        }
     }
 
 
@@ -133,6 +145,30 @@ class MainActivity : AppCompatActivity(){
         saved.removeAt(saved.indexOfFirst { it[0] == ticker })
         println(saved.size)
         listAdapter.notifyDataSetChanged()
+    }
+
+    //Search the saved list
+    fun search(text: TextView, viewlist: RecyclerView){
+        val query = text.text.toString().toUpperCase()
+        val searchresults: MutableList<Array<String>> = mutableListOf()
+        if(query.isEmpty()){
+            listAdapter = SavedListAdapter(this, saved, this)
+            viewlist.adapter = listAdapter
+            listAdapter.notifyDataSetChanged()
+        }
+        else {
+            for (i in saved) {
+                for (j in i) {
+                    if (j.toUpperCase().contains(query)) {
+                        searchresults.add(0, i)
+                        break
+                    }
+                }
+            }
+            listAdapter = SavedListAdapter(this, searchresults, this)
+            viewlist.adapter = listAdapter
+            listAdapter.notifyDataSetChanged()
+        }
     }
 
 }
