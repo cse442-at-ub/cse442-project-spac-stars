@@ -161,6 +161,8 @@ class CategoryList : AppCompatActivity() {
                 searchtext.hint = "Search..."
                 search.setOnClickListener { searchspacs(searchtext, SPACtype) }
 
+                val dbData: MutableList<Map<String,String>> = mutableListOf()
+
                 for(i in results){
                     val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
                     val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
@@ -170,32 +172,36 @@ class CategoryList : AppCompatActivity() {
                     for((k,v) in columnArray){
                         rowData[k] = info[columnArray.indexOfFirst { it.key == k }]
                     }
-                    when(SPACtype){
-                        "Pre+LOI" -> {
-                            val db = DBHandlerPreLOI(this)
-                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                            db.closeDB()
-                        }
-                        "Definitive+Agreement" -> {
-                            val db = DBHandlerDefAgreement(this)
-                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                            db.closeDB()
-                        }
-                        "Option+Chads" -> {
-                            val db = DBHandlerOptionChads(this)
-                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                            db.closeDB()
-                        }
-                        "Pre+Unit+Split" -> {
-                            val db = DBHandlerPreUnitSplit(this)
-                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                            db.closeDB()
-                        }
-                        "Pre+IPO" -> {
-                            val db = DBHandlerPreIPO(this)
-                            db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                            db.closeDB()
-                        }
+
+                    dbData.add(rowData as Map<String,String>)
+
+                }
+
+                when(SPACtype){
+                    "Pre+LOI" -> {
+                        val db = DBHandlerPreLOI(this)
+                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+                        db.closeDB()
+                    }
+                    "Definitive+Agreement" -> {
+                        val db = DBHandlerDefAgreement(this)
+                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+                        db.closeDB()
+                    }
+                    "Option+Chads" -> {
+                        val db = DBHandlerOptionChads(this)
+                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+                        db.closeDB()
+                    }
+                    "Pre+Unit+Split" -> {
+                        val db = DBHandlerPreUnitSplit(this)
+                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+                        db.closeDB()
+                    }
+                    "Pre+IPO" -> {
+                        val db = DBHandlerPreIPO(this)
+                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+                        db.closeDB()
                     }
                 }
 
