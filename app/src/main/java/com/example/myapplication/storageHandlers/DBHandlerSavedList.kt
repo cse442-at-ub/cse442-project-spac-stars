@@ -73,6 +73,7 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
 //            result.close()
         }
         result.close()
+        db.close()
         return exists
     }
 
