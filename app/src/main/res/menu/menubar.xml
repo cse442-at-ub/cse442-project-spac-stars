@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <!--    <item-->
 <!--        android:id="@+id/dropdown_menu"-->
 <!--        android:icon="@drawable/ic_baseline_menu_24"-->
@@ -39,10 +40,6 @@
                 android:id="@+id/preIPO"
                 android:title="Pre&#160;IPO"
                 />
-            <item
-                android:id="@+id/warrants"
-                android:title="Warrants&#160;(Testing)"
-                />
         </menu>
     </item>
     <item
@@ -56,14 +53,39 @@
     <item
         android:id="@+id/spacliveprices"
         android:title="@string/spac_160_live_160_prices"
-        />
+        >
+        <menu >
+            <item
+                android:id="@+id/all"
+                android:title="@string/all" />
+            <item
+                android:id="@+id/top10DailyPriceChange"
+                android:title="@string/top_10_daily_price_change" />
+            <item
+                android:id="@+id/bottom10DailyPriceChange"
+                android:title="@string/bottom_10_daily_price_change" />
+            <item
+                android:id="@+id/top10WeeklyPriceChange"
+                android:title="@string/top_10_weekly_price_change" />
+            <item
+                android:id="@+id/bottom10WeeklyPriceChange"
+                android:title="@string/bottom_10_weekly_price_change" />
+            <item
+                android:id="@+id/top10MonthlyPriceChange"
+                android:title="@string/top_10_monthly_price_change" />
+            <item
+                android:id="@+id/bottom10MonthlyPriceChange"
+                android:title="@string/bottom_10_monthly_price_change" />
+        </menu>
+    </item>
     <item
         android:id="@+id/addremove"
         android:title="@string/add_remove"
         />
     <item
         android:id="@+id/preferences"
+        android:orderInCategory="100"
         android:title="@string/preferences"
-        />
+        app:showAsAction="never" />
 
 </menu>
