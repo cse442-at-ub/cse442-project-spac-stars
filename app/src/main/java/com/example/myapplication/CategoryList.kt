@@ -145,6 +145,8 @@ class CategoryList : AppCompatActivity() {
             viewList.adapter = listAdapter
             viewList.layoutManager = LinearLayoutManager(this)
             viewList.setHasFixedSize(true)
+            searchtext.hint = "Search..."
+            search.setOnClickListener { searchspacs(searchtext, SPACtype) }
         }else {
 
             thread(start = true) {
@@ -217,18 +219,30 @@ class CategoryList : AppCompatActivity() {
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
 
-        if(!InetAddress.getByName("sheets.googleapis.com").isReachable(1000)){
-            println("no internet")
-            return mutableListOf()
-            //return empty if no internet
-        }
+//        if(!InetAddress.getByName("sheets.googleapis.com").isReachable(1000)){
+//            println("no internet")
+//            return mutableListOf()
+//            //return empty if no internet
+//        }
 
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val extraIndex: Int = categoryInfoColumn[SPACtype] as Int
 //        println("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:$extrasColumn?key=$apikey")
-        val jsonResult =
+        val urlconn =
             URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey")
-                .readText()
+
+//        var jsonResult = urlconn.readText()
+
+        var jsonResult = ""
+
+        try{
+            jsonResult = urlconn.readText()
+        }catch(e: Exception){
+            println("no internet")
+            return mutableListOf()
+        }
+
+
         //if there is no internet, exception will occur
 
         val information: JSONObject = JSONObject(jsonResult)

@@ -154,6 +154,7 @@ class ShowListing : AppCompatActivity() {
         if(dbPull.isNotEmpty()){
             println(dbPull)
             addtablerows(table,displaycategory,dbPull)
+            loadeddata += 1
         }
         else {
 
