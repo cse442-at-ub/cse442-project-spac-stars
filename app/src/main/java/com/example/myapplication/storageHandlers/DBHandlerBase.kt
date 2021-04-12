@@ -126,6 +126,26 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
         }
     }
 
+    fun bulkInsertSPAC(tablename: String?, columns: Int?, data: MutableList<Map<String,String>>){
+        println("bulk inserting")
+        val db = this.writableDatabase
+        db.beginTransaction()
+        try{
+            val values = ContentValues()
+            for(i in data){
+                for((k, v) in i){
+                    values.put(k,v)
+                }
+                db.insert(tablename, null, values)
+            }
+            db.setTransactionSuccessful()
+        }finally{
+            db.endTransaction()
+        }
+//        println(db.query(false, tablename, null, null, null, null, null, null, null))
+        db.close()
+    }
+
     fun getSPACData(ticker: String?, writableDB: SQLiteDatabase, tablename: String?, columns: Int?): MutableList<String>{
         var info = mutableListOf<String>()
         val db = this.writableDatabase
