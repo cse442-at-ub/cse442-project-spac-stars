@@ -242,6 +242,10 @@ class CategoryList : AppCompatActivity() {
             return mutableListOf()
         }
 
+        if(jsonResult == ""){
+            return mutableListOf()
+        }
+
 
         //if there is no internet, exception will occur
 
