@@ -189,39 +189,39 @@ class ShowListing : AppCompatActivity() {
                 println("Data Acquired: $displaycategory")
 
                 //cache into db
-               for(i in dbData){
-                   when(category){
-                       "Pre+LOI" -> {
-                           val db = DBHandlerPreLOI(applicationContext)
-                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
-//                           db.closeDB()
-                       }
-
-                       "Definitive+Agreement" -> {
-                           val db = DBHandlerDefAgreement(applicationContext)
-                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
-//                           db.closeDB()
-                       }
-
-                       "Option+Chads" -> {
-                           val db = DBHandlerOptionChads(applicationContext)
-                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
-//                           db.closeDB()
-                       }
-
-                       "Pre+Unit+Split" -> {
-                           val db = DBHandlerPreUnitSplit(applicationContext)
-                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
-//                           db.closeDB()
-                       }
-
-                       "Pre+IPO" -> {
-                           val db = DBHandlerPreIPO(applicationContext)
-                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
-//                           db.closeDB()
-                       }
-                   }
-               }
+//               for(i in dbData){
+//                   when(category){
+//                       "Pre+LOI" -> {
+//                           val db = DBHandlerPreLOI(applicationContext)
+//                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+////                           db.closeDB()
+//                       }
+//
+//                       "Definitive+Agreement" -> {
+//                           val db = DBHandlerDefAgreement(applicationContext)
+//                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+////                           db.closeDB()
+//                       }
+//
+//                       "Option+Chads" -> {
+//                           val db = DBHandlerOptionChads(applicationContext)
+//                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+////                           db.closeDB()
+//                       }
+//
+//                       "Pre+Unit+Split" -> {
+//                           val db = DBHandlerPreUnitSplit(applicationContext)
+//                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+////                           db.closeDB()
+//                       }
+//
+//                       "Pre+IPO" -> {
+//                           val db = DBHandlerPreIPO(applicationContext)
+//                           db.insertNewSPAC(i["ticker"], db.writableDatabase, SPACTableName[category], SPACColumns[category], i)
+////                           db.closeDB()
+//                       }
+//                   }
+//               }
 
 
             }
@@ -395,7 +395,7 @@ class ShowListing : AppCompatActivity() {
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, PRE LOI")
                     }
-                    if(!db.getSavedSPACExists(spacdata[0].toString())){
+                    if(!db.getSavedSPACExists(spacdata[0])){
                         alert.setNegativeButton("SAVE"){ _, _ ->
                             println("NEGATIVE PRESSED, SAVE SPAC PRE LOI")
                             db.insertNewSavedSPAC(spacdata[0], spacdata[1], category.replace(" ", "+"))
@@ -531,6 +531,7 @@ class ShowListing : AppCompatActivity() {
                 }
             }
         }
+        db.closeDB()
     }
 
     //rebuild table after searching
