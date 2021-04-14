@@ -17,10 +17,14 @@ class DataSourceBottomWeekly {
 //        finalList.add(0, SPACLivePrices("TICKER", "LIVE PRICE", "COMPANY NAME"))
 
         for(i in 0..len) {
+            var company_name = info.getJSONArray(i).getString(4)
+            if(company_name.length > 15){
+                company_name = company_name.slice(IntRange(0,14)) + "..."
+            }
             list.add(i, SPACBottomWeeklyPriceChange(info.getJSONArray(i).getString(0),
                     info.getJSONArray(i).getString(1),
                     info.getJSONArray(i).getString(3).toFloatOrNull(),
-                    info.getJSONArray(i).getString(4)))
+                    company_name))
         }
 
         val finalList: MutableList<SPACBottomWeeklyPriceChange> = mutableListOf()
