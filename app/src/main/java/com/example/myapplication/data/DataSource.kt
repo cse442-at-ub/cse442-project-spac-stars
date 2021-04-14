@@ -17,9 +17,13 @@ class DataSource {
 //        finalList.add(0, SPACLivePrices("TICKER", "LIVE PRICE", "COMPANY NAME"))
 
         for(i in 0..len) {
+            var company_name = info.getJSONArray(i).getString(2)
+            if(company_name.length > 15){
+                company_name = company_name.slice(IntRange(0,14)) + "..."
+            }
             finalList.add(i, SPACLivePrices(info.getJSONArray(i).getString(0),
                     info.getJSONArray(i).getString(1),
-                    info.getJSONArray(i).getString(2)))
+                    company_name, "Current Price"))
         }
 
         return finalList
