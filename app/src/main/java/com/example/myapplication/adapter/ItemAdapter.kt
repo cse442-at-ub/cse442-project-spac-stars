@@ -22,6 +22,7 @@ class ItemAdapter(
         val textView1: TextView = view.findViewById(R.id.item_title1)
         val textView2: TextView = view.findViewById(R.id.item_title2)
         val textView3: TextView = view.findViewById(R.id.item_title3)
+        val textView4: TextView = view.findViewById(R.id.item_title4)
     }
 
     /**
@@ -43,6 +44,7 @@ class ItemAdapter(
         holder.textView1.text = item.stringResourceId1
         holder.textView2.text = item.stringResourceId2
         holder.textView3.text = item.stringResourceId3
+        holder.textView4.text = item.stringResourceId4
     }
 
     /**
