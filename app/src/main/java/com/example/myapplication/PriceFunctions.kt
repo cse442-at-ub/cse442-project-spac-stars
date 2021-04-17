@@ -21,6 +21,7 @@ object PriceFunctions {
     }
 
     fun getdata(category: String, context: Context): MutableList<Array<String>>{
+        var db = DBHandlerBase(context)
         var dbPull:MutableList<Array<String>> = mutableListOf()
         when(category){
             "Pre+LOI" -> {
@@ -53,6 +54,7 @@ object PriceFunctions {
 //                db.closeDB()
             }
         }
+        db.closeDB()
         if(dbPull.isNotEmpty()){
             return dbPull
         }
@@ -80,6 +82,10 @@ object PriceFunctions {
                         fullData.add(rowData.toTypedArray())
                     }
                 }
+                db = DBHandlerBase(context)
+                db.bulkInsertSPAC(constants.SPACTableName[category], constants.SPACColumns[category], dbData)
+                db.closeDB()
+                //cache into db
             }
             t.start()
             t.join()
