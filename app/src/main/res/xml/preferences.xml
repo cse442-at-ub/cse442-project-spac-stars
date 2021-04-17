@@ -2,7 +2,7 @@
 
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title='Select the information to display in the "Show All Listings" page.'>
+    <PreferenceCategory android:title='Select the information to display in the listings pages.'>
 
     </PreferenceCategory>
     <PreferenceCategory android:title="Pre - LOI">

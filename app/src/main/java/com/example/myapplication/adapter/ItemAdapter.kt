@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.PriceFunctions
 import com.example.myapplication.R
 import com.example.myapplication.model.SPACLivePrices
 
 class ItemAdapter(
         private val context: Context,
-        private val dataset: List<SPACLivePrices>
+        private val dataset: List<SPACLivePrices>,
+        //get data for preloi and definitive agreement, this should include everything with a price
+        private val preloidata: MutableList<Array<String>> = PriceFunctions.getdata("Pre+LOI", context),
+        private val definitiveagreementdata: MutableList<Array<String>> = PriceFunctions.getdata("Definitive+Agreement", context)
 ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     // Provide a reference to the views for each data item
@@ -45,6 +49,18 @@ class ItemAdapter(
         holder.textView2.text = item.stringResourceId2
         holder.textView3.text = item.stringResourceId3
         holder.textView4.text = item.stringResourceId4
+
+        //Determine whether it belongs to PreLoi or DefAgreement. If not, list[0] = SPAC NOT FOUND
+        val thisdatapreloi = PriceFunctions.getSPACdata(preloidata, holder.textView1.text.toString())
+        val thisdatadefagreement = PriceFunctions.getSPACdata(definitiveagreementdata, holder.textView1.text.toString())
+        if (thisdatapreloi[0] != "SPAC NOT FOUND") {
+            PriceFunctions.onclicksetter(holder, "Pre LOI", thisdatapreloi, context)
+        } else if (thisdatadefagreement[0] != "SPAC NOT FOUND") {
+            PriceFunctions.onclicksetter(holder, "Definitive Agreement", thisdatadefagreement, context)
+        } else {
+            PriceFunctions.onclicksetter(holder, "NOT_FOUND", arrayOf(item.stringResourceId1, item.stringResourceId3, item.stringResourceId2), context)
+        }
+
     }
 
     /**
