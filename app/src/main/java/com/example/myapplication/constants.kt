@@ -134,7 +134,11 @@ object constants {
     }
 
     fun sortTableRows(rows: MutableList<TableRow>, index: Int, isDescending: Boolean): MutableList<TableRow>{
-        var sorted = rows.sortedBy { (it.getVirtualChildAt(index) as TextView).text.toString().toLowerCase() }.toMutableList()
+        var sorted = if(index == 0){
+            rows.sortedBy { (it.findViewById(R.id.ticker) as TextView).text.toString().toLowerCase() }.toMutableList()
+        }else{
+            rows.sortedBy { (it.findViewById(R.id.name) as TextView).text.toString().toLowerCase() }.toMutableList()
+        }
         if(isDescending){
             sorted = sorted.asReversed()
         }

@@ -115,12 +115,12 @@ class DBHandlerSavedList(context: Context) : DBHandlerBase(context) {
         db.close()
     }
 
-    override fun rebuildTable() {
-
-    }
-
-    override fun createTable() {
-    }
+//    override fun rebuildTable() {
+//
+//    }
+//
+//    override fun createTable() {
+//    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -96,39 +97,20 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
+        getData(context, searchtext, search)
+        searchtext.hint = "Search..."
+        search.setOnClickListener { searchspacs(searchtext, SPACtype) }
 
+    }
 
+    private fun getData(context: Context, searchtext: TextView, search: Button){
         //get data from different types of categories through the db
         var dbPull:MutableList<Array<String>> = mutableListOf()
 
 
-        when(SPACtype){
-            "Pre+LOI" -> {
-                val db = DBHandlerPreLOI(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Definitive+Agreement" -> {
-                val db = DBHandlerDefAgreement(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Option+Chads" -> {
-                val db = DBHandlerOptionChads(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Pre+Unit+Split" -> {
-                val db = DBHandlerPreUnitSplit(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Pre+IPO" -> {
-                val db = DBHandlerPreIPO(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-        }
+        val db = DBHandlerBase(this)
+        dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+        db.closeDB()
 
 
         //check if db is empty, if not, use the db's pull, if it is, get from online API
@@ -145,8 +127,6 @@ class CategoryList : AppCompatActivity() {
             viewList.adapter = listAdapter
             viewList.layoutManager = LinearLayoutManager(this)
             viewList.setHasFixedSize(true)
-            searchtext.hint = "Search..."
-            search.setOnClickListener { searchspacs(searchtext, SPACtype) }
         }else {
 
             thread(start = true) {
@@ -159,9 +139,6 @@ class CategoryList : AppCompatActivity() {
                     viewList.layoutManager = LinearLayoutManager(this)
                     viewList.setHasFixedSize(true)
                 })
-
-                searchtext.hint = "Search..."
-                search.setOnClickListener { searchspacs(searchtext, SPACtype) }
 
                 val dbData: MutableList<Map<String,String>> = mutableListOf()
 
@@ -179,42 +156,13 @@ class CategoryList : AppCompatActivity() {
 
                 }
 
-                when(SPACtype){
-                    "Pre+LOI" -> {
-                        val db = DBHandlerPreLOI(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Definitive+Agreement" -> {
-                        val db = DBHandlerDefAgreement(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Option+Chads" -> {
-                        val db = DBHandlerOptionChads(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Pre+Unit+Split" -> {
-                        val db = DBHandlerPreUnitSplit(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Pre+IPO" -> {
-                        val db = DBHandlerPreIPO(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                }
+                val db = DBHandlerBase(this)
+                db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+                db.closeDB()
 
 
             }
         }
-
-
-
-
-
     }
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
@@ -291,6 +239,7 @@ class CategoryList : AppCompatActivity() {
     fun refreshButtonHandler(view: View){
         thread(start = true) {
             results = getList(SPACtype)
+
 //            println(results.joinToString())
             this@CategoryList.runOnUiThread(Runnable {
                 val listAdapter = TickerListAdapter(this, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
@@ -301,6 +250,7 @@ class CategoryList : AppCompatActivity() {
                 viewList.setHasFixedSize(true)
             })
 
+            val dbData: MutableList<Map<String,String>> = mutableListOf()
             for(i in results){
                 val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
                 val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
@@ -310,35 +260,45 @@ class CategoryList : AppCompatActivity() {
                 for((k,v) in columnArray){
                     rowData[k] = info[columnArray.indexOfFirst { it.key == k }]
                 }
-                when(SPACtype){
-                    "Pre+LOI" -> {
-                        val db = DBHandlerPreLOI(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Definitive+Agreement" -> {
-                        val db = DBHandlerDefAgreement(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Option+Chads" -> {
-                        val db = DBHandlerOptionChads(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Pre+Unit+Split" -> {
-                        val db = DBHandlerPreUnitSplit(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Pre+IPO" -> {
-                        val db = DBHandlerPreIPO(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                }
+                dbData.add(rowData as Map<String,String>)
+//                when(SPACtype){
+//                    "Pre+LOI" -> {
+//                        val db = DBHandlerPreLOI(this)
+//                        db.rebuildTable()
+//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+//                        db.closeDB()
+//                    }
+//                    "Definitive+Agreement" -> {
+//                        val db = DBHandlerDefAgreement(this)
+//                        db.rebuildTable()
+//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+//                        db.closeDB()
+//                    }
+//                    "Option+Chads" -> {
+//                        val db = DBHandlerOptionChads(this)
+//                        db.rebuildTable()
+//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+//                        db.closeDB()
+//                    }
+//                    "Pre+Unit+Split" -> {
+//                        val db = DBHandlerPreUnitSplit(this)
+//                        db.rebuildTable()
+//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+//                        db.closeDB()
+//                    }
+//                    "Pre+IPO" -> {
+//                        val db = DBHandlerPreIPO(this)
+//                        db.rebuildTable()
+//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+//                        db.closeDB()
+//                    }
+//                }
 
             }
+            val db = DBHandlerBase(this)
+            db.rebuildTable(SPACtype)
+            db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+            db.closeDB()
 
         }
     }
@@ -414,7 +374,7 @@ class CategoryList : AppCompatActivity() {
             }
             R.id.preLOI -> showListSelection = "Pre+LOI"
             R.id.defAgree -> showListSelection = "Definitive+Agreement"
-            R.id.optionChads -> showListSelection = "Option+Chads"
+//            R.id.optionChads -> showListSelection = "Option+Chads"
             R.id.preUnit -> showListSelection = "Pre+Unit+Split"
             R.id.preIPO -> showListSelection = "Pre+IPO"
 //            R.id.warrants -> showListSelection = "Warrants+(Testing)"
