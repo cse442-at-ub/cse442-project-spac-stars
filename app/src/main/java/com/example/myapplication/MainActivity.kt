@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity(){
             }
             R.id.preLOI -> showListSelection = "Pre+LOI"
             R.id.defAgree -> showListSelection = "Definitive+Agreement"
-            R.id.optionChads -> showListSelection = "Option+Chads"
+//            R.id.optionChads -> showListSelection = "Option+Chads"
             R.id.preUnit -> showListSelection = "Pre+Unit+Split"
             R.id.preIPO -> showListSelection = "Pre+IPO"
 //            R.id.warrants -> showListSelection = "Warrants+(Testing)"

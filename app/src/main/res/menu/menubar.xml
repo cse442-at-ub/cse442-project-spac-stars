@@ -28,10 +28,10 @@
                 android:id="@+id/defAgree"
                 android:title="Definitive&#160;Agreement"
                 />
-            <item
-                android:id="@+id/optionChads"
-                android:title="Option&#160;Chads"
-                />
+<!--            <item-->
+<!--                android:id="@+id/optionChads"-->
+<!--                android:title="Option&#160;Chads"-->
+<!--                />-->
             <item
                 android:id="@+id/preUnit"
                 android:title="Pre&#160;Unit&#160;Split"
