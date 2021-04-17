@@ -4,8 +4,17 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.myapplication.constants
 
-abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPACStars", null, 3){
+open class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPACStars", null, 3){
+
+    val dbMap: Map<String, String> = mapOf(
+        "Pre+LOI" to "PreLOI",
+        "Definitive+Agreement" to "DefAgreement",
+        "Pre+Unit+Split" to "PreUnitSplit",
+        "Pre+IPO" to "PreIPO"
+    )
+
     override fun onCreate(db: SQLiteDatabase?) {
         var create =
                 "CREATE TABLE IF NOT EXISTS " +
@@ -110,6 +119,7 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
 
     fun insertNewSPAC(ticker: String?, writableDB: SQLiteDatabase, tablename: String?, columns: Int?, data: Map<String, String>){
         println("inserting")
+        createAll()
         if(getSPACData(ticker, writableDB, tablename, columns).isEmpty()){
             val values = ContentValues()
             for((k, v) in data){
@@ -129,6 +139,7 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
     fun bulkInsertSPAC(tablename: String?, columns: Int?, data: MutableList<Map<String,String>>){
         println("bulk inserting")
         val db = this.writableDatabase
+        createAll()
         db.beginTransaction()
         try{
             val values = ContentValues()
@@ -153,6 +164,7 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
         while(db.isDbLockedByCurrentThread){
             println(db.isDbLockedByCurrentThread)
         }
+        createAll()
 
         val result = db.query(false, tablename, null, "ticker=?", arrayOf(ticker), null, null, null, null)
 
@@ -174,6 +186,8 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
         while(db.isDbLockedByCurrentThread){
             println(db.isDbLockedByCurrentThread)
         }
+
+        createAll()
 
         val result = db.query(false, tablename, null, null, null, null, null, null, null)
 
@@ -198,6 +212,7 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
 
     fun removeSPAC(ticker: String?, writableDB: SQLiteDatabase, tablename: String?){
         val db = this.writableDatabase
+        createAll()
 
         while(db.isDbLockedByCurrentThread){
             println(db.isDbLockedByCurrentThread)
@@ -212,12 +227,181 @@ abstract class DBHandlerBase(context: Context) : SQLiteOpenHelper(context, "SPAC
         db.close()
     }
 
-    abstract fun rebuildTable()
-    abstract fun createTable()
+//    abstract fun rebuildTable()
+//    abstract fun createTable()
+
+    fun createTable(category: String){
+        var create = ""
+        val db = this.writableDatabase
+        println(category)
+        when(category){
+            "Pre+LOI" -> {
+                create =
+                    "CREATE TABLE IF NOT EXISTS " +
+                            "PreLOI " +
+                            "(" +
+                            "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "ticker VARCHAR(256)," +
+                            "name VARCHAR(256)," +
+                            "market_cap VARCHAR(256)," +
+                            "estimated_trust_value VARCHAR(256)," +
+                            "current_volume VARCHAR(256)," +
+                            "average_volume VARCHAR(256)," +
+                            "warrant_ticker VARCHAR(256)," +
+                            "target_focus VARCHAR(256)," +
+                            "underwriters VARCHAR(256)," +
+                            "IPO_date VARCHAR(256)," +
+                            "deadline_date VARCHAR(256)" +
+                            ")"
+            }
+            "Definitive+Agreement" -> {
+                create = "CREATE TABLE IF NOT EXISTS " +
+                        "DefAgreement " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "market_cap VARCHAR(256)," +
+                        "current_volume VARCHAR(256)," +
+                        "volume_average VARCHAR(256)," +
+                        "target VARCHAR(256)" +
+                        ")"
+            }
+            "Pre+Unit+Split" -> {
+                create = "CREATE TABLE IF NOT EXISTS " +
+                        "PreUnitSplit " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "unit_warrant_details VARCHAR(256)," +
+                        "estimated_trust_size VARCHAR(256)," +
+                        "prominent_leadership VARCHAR(256)," +
+                        "target_focus VARCHAR(256)" +
+                        ")"
+            }
+            "Pre+IPO" -> {
+                create = "CREATE TABLE IF NOT EXISTS " +
+                        "PreIPO " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "estimated_trust_value VARCHAR(256)," +
+                        "management_team VARCHAR(256)," +
+                        "target_focus VARCHAR(256)" +
+                        ")"
+            }
+        }
+        println(create)
+        db.execSQL(create)
+
+    }
+
+    fun rebuildTable(category: String){
+        val db = this.writableDatabase
+        val table = dbMap[category]
+        println(table)
+        db.execSQL("DROP TABLE IF EXISTS $table")
+        createTable(category)
+    }
+
+    fun createAll(){
+        val db = this.writableDatabase
+        var create =
+                "CREATE TABLE IF NOT EXISTS " +
+                        "SavedList " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "category VARCHAR(256)" +
+                        ")"
+
+        db?.execSQL(create)
+        create =
+                "CREATE TABLE IF NOT EXISTS " +
+                        "PreLOI " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "market_cap VARCHAR(256)," +
+                        "estimated_trust_value VARCHAR(256)," +
+                        "current_volume VARCHAR(256)," +
+                        "average_volume VARCHAR(256)," +
+                        "warrant_ticker VARCHAR(256)," +
+                        "target_focus VARCHAR(256)," +
+                        "underwriters VARCHAR(256)," +
+                        "IPO_date VARCHAR(256)," +
+                        "deadline_date VARCHAR(256)" +
+                        ")"
+
+        db?.execSQL(create)
+        create =
+                "CREATE TABLE IF NOT EXISTS " +
+                        "DefAgreement " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "market_cap VARCHAR(256)," +
+                        "current_volume VARCHAR(256)," +
+                        "volume_average VARCHAR(256)," +
+                        "target VARCHAR(256)" +
+                        ")"
+
+        db?.execSQL(create)
+
+        create =
+                "CREATE TABLE IF NOT EXISTS " +
+                        "OptionChads " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "market_cap VARCHAR(256)," +
+                        "estimated_trust_value VARCHAR(256)," +
+                        "current_volume VARCHAR(256)," +
+                        "average_volume VARCHAR(256)" +
+                        ")"
+
+        db?.execSQL(create)
+
+        create =
+                "CREATE TABLE IF NOT EXISTS " +
+                        "PreUnitSplit " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "unit_warrant_details VARCHAR(256)," +
+                        "estimated_trust_size VARCHAR(256)," +
+                        "prominent_leadership VARCHAR(256)," +
+                        "target_focus VARCHAR(256)" +
+                        ")"
+
+        db?.execSQL(create)
+
+        create =
+                "CREATE TABLE IF NOT EXISTS " +
+                        "PreIPO " +
+                        "(" +
+                        "sl_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "ticker VARCHAR(256)," +
+                        "name VARCHAR(256)," +
+                        "estimated_trust_value VARCHAR(256)," +
+                        "management_team VARCHAR(256)," +
+                        "target_focus VARCHAR(256)" +
+                        ")"
+
+        db?.execSQL(create)
+    }
 
     fun closeDB(){
         val db = this.writableDatabase
         db.close()
     }
+
 
 }
