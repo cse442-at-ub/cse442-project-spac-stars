@@ -229,7 +229,7 @@ class ShowListing : AppCompatActivity() {
                 //Tickerrow.setTextColor(Color.parseColor(darkgraycolor))
 //                tablerow.addView(Tickerrow, 0)
 
-                Namerow.maxWidth = screenWidth - 40
+                Namerow.width = screenWidth - 40
 //                Namerow.text = spacdata[1] + "\n"
                 Namerow.text = spacdata[1]
                 //Namerow.setTextColor(Color.parseColor(darkgraycolor))
@@ -237,8 +237,6 @@ class ShowListing : AppCompatActivity() {
 
 //                Categoryrow.text = "\t" + category
                 Categoryrow.text = category
-                //Categoryrow.setTextColor(Color.parseColor(darkgraycolor))
-//                tablerow.addView(Categoryrow, 2)
                 //Sets the tag to be used when searching later, adds \t do separate ticker and name
 
 //                tablerow.addView(rowView, 0)

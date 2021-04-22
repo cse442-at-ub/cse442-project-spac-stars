@@ -14,7 +14,6 @@ import com.example.myapplication.storageHandlers.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
-import kotlin.concurrent.thread
 
 
 class SavedListAdapter(private val context: Context, private val listing: MutableList<Array<String>>, private val activity: MainActivity) : RecyclerView.Adapter<SavedListAdapter.ListViewHolder>() {
@@ -51,8 +50,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
 
                 "Pre+LOI" -> {
 
-                    val infodb = DBHandlerPreLOI(context)
-                    val spacdata = infodb.getSPACData(info[0], infodb.writableDatabase, SPACTableName[category], SPACColumns[category])
+                    val spacdata = db.getSPACData(info[0], db.writableDatabase, SPACTableName[category], SPACColumns[category])
 //                        infodb.closeDB()
 
                     //Set the message of the alert window that appears
@@ -83,9 +81,8 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
 
                 "Definitive+Agreement" -> {
 
-                    val infodb = DBHandlerDefAgreement(context)
-                    val spacdata = infodb.getSPACData(info[0], infodb.writableDatabase, SPACTableName[category], SPACColumns[category])
-//                        infodb.closeDB()
+                    val spacdata = db.getSPACData(info[0], db.writableDatabase, SPACTableName[category], SPACColumns[category])
+
 
                     alert.setMessage("Ticker: " + spacdata[0]
                             + "\n\nCompany Name: " + spacdata[1]
@@ -100,30 +97,11 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
                     alert.create().show()
                 }
 
-                "Option+Chads" -> {
-
-                    val infodb = DBHandlerOptionChads(context)
-                    val spacdata = infodb.getSPACData(info[0], infodb.writableDatabase, SPACTableName[category], SPACColumns[category])
-//                        infodb.closeDB()
-
-                    alert.setMessage("Ticker: " + spacdata[0]
-                            + "\n\nCompany Name: " + spacdata[1]
-                            + "\n\nMarket Cap: " + spacdata[2]
-                            + "\n\nEstimated Trust Value: " + spacdata[3]
-                            + "\n\nCurrent Volume: " + spacdata[4]
-                            + "\n\nAverage Volume " + spacdata[5]
-                    )
-                    alert.setPositiveButton("OK"){ _, _ -> println("POSITIVE PRESSED, OPTION CHADS")
-                    }
-                    alert.setTitle(spacdata[1])
-                    alert.create().show()
-                }
 
                 "Pre+Unit+Split" -> {
 
-                    val infodb = DBHandlerPreUnitSplit(context)
-                    val spacdata = infodb.getSPACData(info[0], infodb.writableDatabase, SPACTableName[category], SPACColumns[category])
-//                        infodb.closeDB()
+                    val spacdata = db.getSPACData(info[0], db.writableDatabase, SPACTableName[category], SPACColumns[category])
+
 
                     alert.setMessage("Ticker: " + spacdata[0]
                             + "\n\nCompany Name: " + spacdata[1]
@@ -140,9 +118,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
 
                 "Pre+IPO" -> {
 
-                    val infodb = DBHandlerPreIPO(context)
-                    val spacdata = infodb.getSPACData(info[0], infodb.writableDatabase, SPACTableName[category], SPACColumns[category])
-//                        infodb.closeDB()
+                    val spacdata = db.getSPACData(info[0], db.writableDatabase, SPACTableName[category], SPACColumns[category])
 
                     alert.setMessage("Ticker: " + spacdata[0]
                             + "\n\nCompany Name: " + spacdata[1]
@@ -158,6 +134,7 @@ class SavedListAdapter(private val context: Context, private val listing: Mutabl
 
 
             }
+            db.closeDB()
         }
     }
 
