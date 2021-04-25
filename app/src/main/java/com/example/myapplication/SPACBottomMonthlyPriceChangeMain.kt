@@ -11,7 +11,7 @@ class SPACBottomMonthlyPriceChangeMain : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.spac_live_main)
+        setContentView(R.layout.spac_top_bottom)
 
         updateUI()
     }
