@@ -131,7 +131,6 @@ class CategoryList : AppCompatActivity() {
 
             thread(start = true) {
                 results = getList(SPACtype)
-//            println(results.joinToString())
                 this@CategoryList.runOnUiThread(Runnable {
                     val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
                     val viewList: RecyclerView = findViewById(R.id.recyclerView)
@@ -167,11 +166,6 @@ class CategoryList : AppCompatActivity() {
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
 
-//        if(!InetAddress.getByName("sheets.googleapis.com").isReachable(1000)){
-//            println("no internet")
-//            return mutableListOf()
-//            //return empty if no internet
-//        }
 
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val extraIndex: Int = categoryInfoColumn[SPACtype] as Int
@@ -179,7 +173,6 @@ class CategoryList : AppCompatActivity() {
         val urlconn =
             URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey")
 
-//        var jsonResult = urlconn.readText()
 
         var jsonResult = ""
 
@@ -230,8 +223,6 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
-//        val sorted = sortingOrder(finalList, 2, "Int", "ascending")
-
 
         return finalList
     }
@@ -261,38 +252,7 @@ class CategoryList : AppCompatActivity() {
                     rowData[k] = info[columnArray.indexOfFirst { it.key == k }]
                 }
                 dbData.add(rowData as Map<String,String>)
-//                when(SPACtype){
-//                    "Pre+LOI" -> {
-//                        val db = DBHandlerPreLOI(this)
-//                        db.rebuildTable()
-//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-//                        db.closeDB()
-//                    }
-//                    "Definitive+Agreement" -> {
-//                        val db = DBHandlerDefAgreement(this)
-//                        db.rebuildTable()
-//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-//                        db.closeDB()
-//                    }
-//                    "Option+Chads" -> {
-//                        val db = DBHandlerOptionChads(this)
-//                        db.rebuildTable()
-//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-//                        db.closeDB()
-//                    }
-//                    "Pre+Unit+Split" -> {
-//                        val db = DBHandlerPreUnitSplit(this)
-//                        db.rebuildTable()
-//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-//                        db.closeDB()
-//                    }
-//                    "Pre+IPO" -> {
-//                        val db = DBHandlerPreIPO(this)
-//                        db.rebuildTable()
-//                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-//                        db.closeDB()
-//                    }
-//                }
+
 
             }
             val db = DBHandlerBase(this)
