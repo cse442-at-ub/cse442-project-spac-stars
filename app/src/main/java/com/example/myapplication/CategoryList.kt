@@ -402,7 +402,7 @@ class CategoryList : AppCompatActivity() {
             for (i in results) {
                 for (j in i) {
                     if (j.toUpperCase().contains(query)) {
-                        searchresults.add(0, i)
+                        searchresults.add(i)
                         break
                     }
                 }
