@@ -58,7 +58,17 @@ class ItemAdapter(
         } else if (thisdatadefagreement[0] != "SPAC NOT FOUND") {
             PriceFunctions.onclicksetter(holder, "Definitive Agreement", thisdatadefagreement, context)
         } else {
-            PriceFunctions.onclicksetter(holder, "NOT_FOUND", arrayOf(item.stringResourceId1, item.stringResourceId3, item.stringResourceId2), context)
+            val unfoundarray = arrayOf(
+                    item.stringResourceId1,
+                    item.stringResourceId3,
+                    item.stringResourceId2,
+                    item.MarketCap,
+                    item.EstTrustValue,
+                    item.CurrentVolume,
+                    item.AverageVolume,
+                    item.FullName
+            )
+            PriceFunctions.onclicksetter(holder, "NOT_FOUND", unfoundarray, context)
         }
 
     }

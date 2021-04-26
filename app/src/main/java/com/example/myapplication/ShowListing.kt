@@ -109,7 +109,7 @@ class ShowListing : AppCompatActivity() {
     //Wait until data is retrieved to allow search
     fun load(button: Button, table: TableLayout, searchtext: TextView){
         thread(start = true) {
-            while(loadeddata < 5){"wait for data to load before search becomes available"}
+            while(loadeddata < 4){"wait for data to load before search becomes available"}
             searchtext.hint = "Search..."
             button.setOnClickListener { searchTable(table, searchtext) }
             println("search implemented")
@@ -501,6 +501,9 @@ class ShowListing : AppCompatActivity() {
 
     fun refreshButtonHandler(view: View){
         val table = findViewById<TableLayout>(R.id.listingtable)
+        val searchtext = findViewById<TextView>(R.id.searchinput)
+        val search = findViewById<Button>(R.id.searchbutton)
+        resetsearch(searchtext, search)
         tableRows = mutableListOf()
         table.removeAllViews()
         val db = DBHandlerBase(this)
@@ -514,6 +517,14 @@ class ShowListing : AppCompatActivity() {
         getdata("Definitive+Agreement", table)
         getdata("Pre+Unit+Split", table)
         getdata("Pre+IPO", table)
+        load(search, table, searchtext)
+    }
+
+    //Temporarily disable the search button while refreshing SPACs
+    fun resetsearch(searchtext: TextView, button: Button){
+        loadeddata = 0
+        searchtext.hint = "Loading SPACs..."
+        button.setOnClickListener {  }
     }
 
 }
