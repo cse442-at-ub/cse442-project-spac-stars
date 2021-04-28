@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.ItemAdapterBottomWeeklyPriceChange
@@ -30,6 +31,10 @@ class SPACBottomWeeklyPriceChangeMain : AppCompatActivity() {
                 recyclerView.setHasFixedSize(true)
             })
         }
+    }
+
+    fun refreshButtonHandler(view: View){
+        this.recreate()
     }
 
 }
