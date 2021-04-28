@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -59,6 +60,10 @@ class SPACLivePricesMain : AppCompatActivity() {
             val viewList: RecyclerView = findViewById<RecyclerView>(R.id.recycler_view)
             viewList.adapter = listAdapter
         }
+    }
+
+    fun refreshButtonHandler(view: View){
+        this.recreate()
     }
 
 }
