@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.ItemAdapter
@@ -17,6 +18,15 @@ class SPACLivePricesMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spac_live_main)
+        val searchtext = findViewById<TextView>(R.id.livesearch)
+        searchtext.hint = "Loading Live Prices..."
+
+        //Update the titlebar from "SPAC Stars" to "Live Prices"
+        val titlebar: ActionBar? = supportActionBar
+        if (titlebar != null) {
+            titlebar.title = "Live Prices"
+            titlebar.subtitle = "All"
+        }
 
         updateUI()
     }
@@ -37,6 +47,7 @@ class SPACLivePricesMain : AppCompatActivity() {
                 recyclerView.setHasFixedSize(true)
             })
             search.setOnClickListener { searchspacs(searchtext) }
+            searchtext.hint = "Search..."
         }
     }
 

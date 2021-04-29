@@ -326,15 +326,19 @@ object PriceFunctions {
                 item.itemView.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(context)
                     alert.setMessage("Ticker: " + spacdata[0] +
-                            "\n\nCompany Name: " + spacdata[2] +
-                            "\n\nPrice Change Percentage: " + spacdata[1] +
-                            "\n\nCurrent Price: " + spacdata[3] +
-                            "\n\nNo further data can be found for this particular SPAC."
+                            "\n\nCompany Name: " + spacdata[7] +
+                            "\n\nCurrent Price: " + spacdata[2] +
+                            "\n\nPrice Delta: " + spacdata[1] + "%" +
+                            "\n\nMarket Cap: " + spacdata[3] +
+                            "\n\nEstimated Trust Value: " + spacdata[4] +
+                            "\n\nCurrent Volume: " + spacdata[5] +
+                            "\n\nAverage Volume: " + spacdata[6] +
+                            "\n\nThis SPAC cannot be saved."
                     )
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, NOT_FOUND")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[7].toString())
                     alert.create().show()
                 }
             }
@@ -443,15 +447,19 @@ object PriceFunctions {
                 item.itemView.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(context)
                     alert.setMessage("Ticker: " + spacdata[0] +
-                            "\n\nCompany Name: " + spacdata[2] +
-                            "\n\nPrice Change Percentage: " + spacdata[1] +
-                            "\n\nCurrent Price: " + spacdata[3] +
-                            "\n\nNo further data can be found for this particular SPAC."
+                            "\n\nCompany Name: " + spacdata[7] +
+                            "\n\nCurrent Price: " + spacdata[2] +
+                            "\n\nPrice Delta: " + spacdata[1] + "%" +
+                            "\n\nMarket Cap: " + spacdata[3] +
+                            "\n\nEstimated Trust Value: " + spacdata[4] +
+                            "\n\nCurrent Volume: " + spacdata[5] +
+                            "\n\nAverage Volume: " + spacdata[6] +
+                            "\n\nThis SPAC cannot be saved."
                     )
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, NOT_FOUND")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[7].toString())
                     alert.create().show()
                 }
             }
@@ -560,15 +568,19 @@ object PriceFunctions {
                 item.itemView.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(context)
                     alert.setMessage("Ticker: " + spacdata[0] +
-                            "\n\nCompany Name: " + spacdata[2] +
-                            "\n\nPrice Change Percentage: " + spacdata[1] +
-                            "\n\nCurrent Price: " + spacdata[3] +
-                            "\n\nNo further data can be found for this particular SPAC."
+                            "\n\nCompany Name: " + spacdata[7] +
+                            "\n\nCurrent Price: " + spacdata[2] +
+                            "\n\nPrice Delta: " + spacdata[1] + "%" +
+                            "\n\nMarket Cap: " + spacdata[3] +
+                            "\n\nEstimated Trust Value: " + spacdata[4] +
+                            "\n\nCurrent Volume: " + spacdata[5] +
+                            "\n\nAverage Volume: " + spacdata[6] +
+                            "\n\nThis SPAC cannot be saved."
                     )
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, NOT_FOUND")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[7].toString())
                     alert.create().show()
                 }
             }
@@ -677,15 +689,19 @@ object PriceFunctions {
                 item.itemView.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(context)
                     alert.setMessage("Ticker: " + spacdata[0] +
-                            "\n\nCompany Name: " + spacdata[2] +
-                            "\n\nPrice Change Percentage: " + spacdata[1] +
-                            "\n\nCurrent Price: " + spacdata[3] +
-                            "\n\nNo further data can be found for this particular SPAC."
+                            "\n\nCompany Name: " + spacdata[7] +
+                            "\n\nCurrent Price: " + spacdata[2] +
+                            "\n\nPrice Delta: " + spacdata[1] + "%" +
+                            "\n\nMarket Cap: " + spacdata[3] +
+                            "\n\nEstimated Trust Value: " + spacdata[4] +
+                            "\n\nCurrent Volume: " + spacdata[5] +
+                            "\n\nAverage Volume: " + spacdata[6] +
+                            "\n\nThis SPAC cannot be saved."
                     )
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, NOT_FOUND")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[7].toString())
                     alert.create().show()
                 }
             }
@@ -794,15 +810,19 @@ object PriceFunctions {
                 item.itemView.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(context)
                     alert.setMessage("Ticker: " + spacdata[0] +
-                            "\n\nCompany Name: " + spacdata[2] +
-                            "\n\nPrice Change Percentage: " + spacdata[1] +
-                            "\n\nCurrent Price: " + spacdata[3] +
-                            "\n\nNo further data can be found for this particular SPAC."
+                            "\n\nCompany Name: " + spacdata[7] +
+                            "\n\nCurrent Price: " + spacdata[2] +
+                            "\n\nPrice Delta: " + spacdata[1] + "%" +
+                            "\n\nMarket Cap: " + spacdata[3] +
+                            "\n\nEstimated Trust Value: " + spacdata[4] +
+                            "\n\nCurrent Volume: " + spacdata[5] +
+                            "\n\nAverage Volume: " + spacdata[6] +
+                            "\n\nThis SPAC cannot be saved."
                     )
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, NOT_FOUND")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[7].toString())
                     alert.create().show()
                 }
             }
@@ -911,15 +931,19 @@ object PriceFunctions {
                 item.itemView.setOnClickListener {
                     val alert: AlertDialog.Builder = AlertDialog.Builder(context)
                     alert.setMessage("Ticker: " + spacdata[0] +
-                            "\n\nCompany Name: " + spacdata[2] +
-                            "\n\nPrice Change Percentage: " + spacdata[1] +
-                            "\n\nCurrent Price: " + spacdata[3] +
-                            "\n\nNo further data can be found for this particular SPAC."
+                            "\n\nCompany Name: " + spacdata[7] +
+                            "\n\nCurrent Price: " + spacdata[2] +
+                            "\n\nPrice Delta: " + spacdata[1] + "%" +
+                            "\n\nMarket Cap: " + spacdata[3] +
+                            "\n\nEstimated Trust Value: " + spacdata[4] +
+                            "\n\nCurrent Volume: " + spacdata[5] +
+                            "\n\nAverage Volume: " + spacdata[6] +
+                            "\n\nThis SPAC cannot be saved."
                     )
                     alert.setPositiveButton("OK"){
                         _, _ -> println("POSITIVE PRESSED, NOT_FOUND")
                     }
-                    alert.setTitle(spacdata[1].toString())
+                    alert.setTitle(spacdata[7].toString())
                     alert.create().show()
                 }
             }
