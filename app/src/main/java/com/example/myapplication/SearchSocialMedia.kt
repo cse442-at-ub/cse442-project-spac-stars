@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.ActionBar
 import kotlinx.android.synthetic.main.activity_search_social_media.*
 import java.net.URLEncoder
 
@@ -39,6 +40,13 @@ class SearchSocialMedia : AppCompatActivity() {
         })
 
         toggleButtonsState(false)
+
+        //Update the titlebar from "SPAC Stars" to "Show Listing"
+        val titlebar: ActionBar? = supportActionBar
+        if (titlebar != null) {
+            titlebar.title = "Search Social Media"
+        }
+
     }
 
     private val encodedSearchTerm : String

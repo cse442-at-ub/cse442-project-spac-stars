@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBar
@@ -25,6 +27,7 @@ import com.example.myapplication.constants.categoryInfoColumn
 import com.example.myapplication.constants.categoryInfoLabel
 import com.example.myapplication.storageHandlers.*
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.activity_web_search.*
 import org.json.JSONArray
 import org.w3c.dom.Text
 import java.net.URL
@@ -112,7 +115,18 @@ class ShowListing : AppCompatActivity() {
             while(loadeddata < 4){"wait for data to load before search becomes available"}
             searchtext.hint = "Search..."
             button.setOnClickListener { searchTable(table, searchtext) }
-            println("search implemented")
+
+            /*code for searching on text edited instead of pressing search button for it
+            searchtext.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) { }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    searchTable(table, searchtext)
+                }
+            })*/
+
         }
     }
 

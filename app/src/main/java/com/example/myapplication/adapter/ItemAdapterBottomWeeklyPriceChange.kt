@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.PriceFunctions
 import com.example.myapplication.R
@@ -49,6 +50,10 @@ class ItemAdapterBottomWeeklyPriceChange(
         holder.textView3.text = item.stringResourceId3.toString().plus("%")
         holder.textView4.text = item.stringResourceId4
 
+        var icon = R.drawable.price_up
+        if(item.stringResourceId3?.toFloat()!! < 0){icon = R.drawable.price_down}
+        holder.textView3.setCompoundDrawablesWithIntrinsicBounds(null, null, ResourcesCompat.getDrawable(context.resources, icon, null), null)
+
         //Determine whether it belongs to PreLoi or DefAgreement. If not, list[0] = SPAC NOT FOUND
         val thisdatapreloi = PriceFunctions.getSPACdata(preloidata, holder.textView1.text.toString())
         val thisdatadefagreement = PriceFunctions.getSPACdata(definitiveagreementdata, holder.textView1.text.toString())
@@ -57,7 +62,17 @@ class ItemAdapterBottomWeeklyPriceChange(
         } else if (thisdatadefagreement[0] != "SPAC NOT FOUND") {
             PriceFunctions.onclicksetter_bottomweekly(holder, "Definitive Agreement", thisdatadefagreement, context)
         } else {
-            PriceFunctions.onclicksetter_bottomweekly(holder, "NOT_FOUND", arrayOf(item.stringResourceId1, item.stringResourceId3.toString().plus("%"), item.stringResourceId2), context)
+            val unfoundarray = arrayOf(
+                    item.stringResourceId1,
+                    item.stringResourceId3.toString(),
+                    item.stringResourceId2,
+                    item.MarketCap,
+                    item.EstTrustValue,
+                    item.CurrentVolume,
+                    item.AverageVolume,
+                    item.FullName
+            )
+            PriceFunctions.onclicksetter_bottomweekly(holder, "NOT_FOUND", unfoundarray, context)
         }
     }
 

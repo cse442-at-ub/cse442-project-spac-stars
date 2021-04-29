@@ -89,6 +89,8 @@
         android:layout_height="49dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:drawableLeft="@drawable/search_icon_32x32"
+        android:drawablePadding="8dp"
         android:hint="Search..."
         android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"

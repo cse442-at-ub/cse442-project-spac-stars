@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +51,13 @@ class CategoryList : AppCompatActivity() {
 
         if (extras != null) {
             SPACtype = extras.getString("key").toString()
+        }
+
+        //Update the titlebar from "SPAC Stars" to "Show Listing"
+        val titlebar: ActionBar? = supportActionBar
+        if (titlebar != null) {
+            titlebar.title = "Show Listings"
+            titlebar.subtitle = SPACtype.replace("+"," ")
         }
 
         val spinner:Spinner = findViewById(R.id.sortDropdown)

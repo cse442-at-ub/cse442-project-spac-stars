@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,13 @@ class MainActivity : AppCompatActivity(){
 
         //Set the xml page to use as display page. R.layout is resources folder (res) / layout folder, as in app/res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
+
+        //Update the titlebar from "SPAC Stars" to "Show Listing"
+        val titlebar: ActionBar? = supportActionBar
+        if (titlebar != null) {
+            titlebar.title = "SPAC Stars: Main Page"
+            titlebar.subtitle = "Saved List Add / Remove"
+        }
 
         getSavedList()
     }
