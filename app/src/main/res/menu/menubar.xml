@@ -80,7 +80,7 @@
     </item>
     <item
         android:id="@+id/addremove"
-        android:title="@string/add_remove"
+        android:title="Saved List"
         />
     <item
         android:id="@+id/preferences"
