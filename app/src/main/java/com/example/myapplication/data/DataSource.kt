@@ -16,27 +16,33 @@ class DataSource {
 
 //        finalList.add(0, SPACLivePrices("TICKER", "LIVE PRICE", "COMPANY NAME"))
 
+        var count = 0
         for(i in 0..len) {
             val currentSPAC = info.getJSONArray(i)
             var company_name = currentSPAC.getString(2)
             if(company_name.length > 15){
                 company_name = company_name.slice(IntRange(0,14)) + "..."
             }
-            finalList.add(
-                    i,
-                    SPACLivePrices(
-                            currentSPAC.getString(0),
-                            currentSPAC.getString(1),
-                            company_name,
-                            "Current Price",
-                            currentSPAC.getString(3),
-                            currentSPAC.getString(4),
-                            currentSPAC.getString(5),
-                            currentSPAC.getString(6),
-                            currentSPAC.getString(2)
-                    )
-            )
+            if(currentSPAC.getString(1) != "#N/A"){
+                finalList.add(
+                        count,
+                        SPACLivePrices(
+                                currentSPAC.getString(0),
+                                currentSPAC.getString(1),
+                                company_name,
+                                "Current Price",
+                                currentSPAC.getString(3),
+                                currentSPAC.getString(4),
+                                currentSPAC.getString(5),
+                                currentSPAC.getString(6),
+                                currentSPAC.getString(2)
+                        )
+                )
+                count +=1
+            }
+
         }
+        println(finalList)
 
         return finalList
     }
