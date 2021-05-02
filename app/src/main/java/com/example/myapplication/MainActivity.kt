@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(){
         val titlebar: ActionBar? = supportActionBar
         if (titlebar != null) {
             titlebar.title = "SPAC Stars: Main Page"
-            titlebar.subtitle = "Saved List Add / Remove"
+            titlebar.subtitle = "Saved List"
         }
 
         getSavedList()

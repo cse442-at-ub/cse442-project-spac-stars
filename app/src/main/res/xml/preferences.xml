@@ -62,25 +62,6 @@
             android:key="definitiveagreement_target"
             android:title="Target" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Option Chads">
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="optionchads_marketcap"
-            android:title="Market Cap" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="optionchads_esttrustvalue"
-            android:title="Estimated Trust Value" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="optionchads_currentvolume"
-            android:title="Current Volume" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="optionchads_volumeaverage"
-            android:title="Volume Average" />
-    </PreferenceCategory>
     <PreferenceCategory android:title="Pre Unit Split">
 
         <SwitchPreference
