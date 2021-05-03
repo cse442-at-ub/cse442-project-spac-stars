@@ -4,6 +4,7 @@ package com.example.myapplication
 
 import android.widget.TableRow
 import android.widget.TextView
+import com.example.myapplication.model.SPACLivePrices
 
 object constants {
     val worksheetsStartingRow: Map<String, String> = mapOf(
@@ -133,8 +134,38 @@ object constants {
         return sorted
     }
 
+    fun sortingLivePricesOrder(list: List<SPACLivePrices>, index: Int, type: String, isDescending: Boolean): List<SPACLivePrices>{
+        var sorted =
+                if(type == "Float"){
+                    list.sortedBy { it.stringResourceId2.replace("$", "")
+                            .replace(",","")
+                            .replace(" ","")
+                            .toFloat() }.toMutableList()
+
+                }else{
+                    list.sortedBy {
+                        when(index){
+                            0 -> {it.stringResourceId1.toLowerCase()}
+                           // 1 -> {it.stringResourceId2.toLowerCase()}
+                            1 -> {it.stringResourceId3.toLowerCase()}
+                            2 -> {it.stringResourceId4.toLowerCase()}
+                            else -> ""
+                        }
+
+                    }.toMutableList()
+                }
+        if(isDescending){
+            sorted = sorted.asReversed()
+        }
+        return sorted
+    }
+
     fun sortTableRows(rows: MutableList<TableRow>, index: Int, isDescending: Boolean): MutableList<TableRow>{
-        var sorted = rows.sortedBy { (it.getVirtualChildAt(index) as TextView).text.toString().toLowerCase() }.toMutableList()
+        var sorted = if(index == 0){
+            rows.sortedBy { (it.findViewById(R.id.ticker) as TextView).text.toString().toLowerCase() }.toMutableList()
+        }else{
+            rows.sortedBy { (it.findViewById(R.id.name) as TextView).text.toString().toLowerCase() }.toMutableList()
+        }
         if(isDescending){
             sorted = sorted.asReversed()
         }

@@ -9,7 +9,7 @@ class DataSourceBottomDaily {
 
     fun loadSPACs(): List<SPACBottomDailyPriceChange> {
         val list: MutableList<SPACBottomDailyPriceChange> = mutableListOf()
-        val jsonArray = URL("https://sheets.googleapis.com/v4/spreadsheets/1D61Q4V_LwTXVCOedHkg-IROuZKTiJ25wg_qL75XvWlc/values/Daily % Change!A2:E265?key=AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo").readText()
+        val jsonArray = URL("https://sheets.googleapis.com/v4/spreadsheets/1D61Q4V_LwTXVCOedHkg-IROuZKTiJ25wg_qL75XvWlc/values/Daily % Change!A2:I265?key=AIzaSyCZP2fBW638Gip01kDHMbHLaM84hWwU7uo").readText()
         val info = JSONObject(jsonArray).getJSONArray("values")
 
         val len = info.length() - 1
@@ -17,10 +17,24 @@ class DataSourceBottomDaily {
 //        finalList.add(0, SPACLivePrices("TICKER", "LIVE PRICE", "COMPANY NAME"))
 
         for(i in 0..len) {
-            list.add(i, SPACBottomDailyPriceChange(info.getJSONArray(i).getString(0),
-                info.getJSONArray(i).getString(1),
-                info.getJSONArray(i).getString(3).toFloatOrNull(),
-                info.getJSONArray(i).getString(4)))
+            val currentSPAC = info.getJSONArray(i)
+            var company_name = currentSPAC.getString(4)
+            if(company_name.length > 15){
+                company_name = company_name.slice(IntRange(0,14)) + "..."
+            }
+            list.add(
+                    i,
+                    SPACBottomDailyPriceChange(
+                            currentSPAC.getString(0),
+                            currentSPAC.getString(1),
+                        currentSPAC.getString(3).toFloatOrNull(),
+                company_name,
+                    currentSPAC.getString(5),
+                    currentSPAC.getString(6),
+                    currentSPAC.getString(7),
+                    currentSPAC.getString(8),
+                    currentSPAC.getString(4)
+            ))
         }
 
         val finalList: MutableList<SPACBottomDailyPriceChange> = mutableListOf()

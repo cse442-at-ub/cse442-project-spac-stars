@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,6 +51,13 @@ class CategoryList : AppCompatActivity() {
 
         if (extras != null) {
             SPACtype = extras.getString("key").toString()
+        }
+
+        //Update the titlebar from "SPAC Stars" to "Show Listing"
+        val titlebar: ActionBar? = supportActionBar
+        if (titlebar != null) {
+            titlebar.title = "Show Listings"
+            titlebar.subtitle = SPACtype.replace("+"," ")
         }
 
         val spinner:Spinner = findViewById(R.id.sortDropdown)
@@ -96,39 +105,20 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
+        getData(context, searchtext, search)
+        searchtext.hint = "Search..."
+        search.setOnClickListener { searchspacs(searchtext, SPACtype) }
 
+    }
 
+    private fun getData(context: Context, searchtext: TextView, search: Button){
         //get data from different types of categories through the db
         var dbPull:MutableList<Array<String>> = mutableListOf()
 
 
-        when(SPACtype){
-            "Pre+LOI" -> {
-                val db = DBHandlerPreLOI(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Definitive+Agreement" -> {
-                val db = DBHandlerDefAgreement(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Option+Chads" -> {
-                val db = DBHandlerOptionChads(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Pre+Unit+Split" -> {
-                val db = DBHandlerPreUnitSplit(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-            "Pre+IPO" -> {
-                val db = DBHandlerPreIPO(this)
-                dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
-                db.closeDB()
-            }
-        }
+        val db = DBHandlerBase(this)
+        dbPull = db.getAllSPACData(db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype])
+        db.closeDB()
 
 
         //check if db is empty, if not, use the db's pull, if it is, get from online API
@@ -145,13 +135,10 @@ class CategoryList : AppCompatActivity() {
             viewList.adapter = listAdapter
             viewList.layoutManager = LinearLayoutManager(this)
             viewList.setHasFixedSize(true)
-            searchtext.hint = "Search..."
-            search.setOnClickListener { searchspacs(searchtext, SPACtype) }
         }else {
 
             thread(start = true) {
                 results = getList(SPACtype)
-//            println(results.joinToString())
                 this@CategoryList.runOnUiThread(Runnable {
                     val listAdapter = TickerListAdapter(context, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
                     val viewList: RecyclerView = findViewById(R.id.recyclerView)
@@ -159,9 +146,6 @@ class CategoryList : AppCompatActivity() {
                     viewList.layoutManager = LinearLayoutManager(this)
                     viewList.setHasFixedSize(true)
                 })
-
-                searchtext.hint = "Search..."
-                search.setOnClickListener { searchspacs(searchtext, SPACtype) }
 
                 val dbData: MutableList<Map<String,String>> = mutableListOf()
 
@@ -179,51 +163,17 @@ class CategoryList : AppCompatActivity() {
 
                 }
 
-                when(SPACtype){
-                    "Pre+LOI" -> {
-                        val db = DBHandlerPreLOI(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Definitive+Agreement" -> {
-                        val db = DBHandlerDefAgreement(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Option+Chads" -> {
-                        val db = DBHandlerOptionChads(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Pre+Unit+Split" -> {
-                        val db = DBHandlerPreUnitSplit(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                    "Pre+IPO" -> {
-                        val db = DBHandlerPreIPO(this)
-                        db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
-                        db.closeDB()
-                    }
-                }
+                val db = DBHandlerBase(this)
+                db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+                db.closeDB()
 
 
             }
         }
-
-
-
-
-
     }
 
     private fun getList(SPACtype: String): MutableList<Array<String>> {
 
-//        if(!InetAddress.getByName("sheets.googleapis.com").isReachable(1000)){
-//            println("no internet")
-//            return mutableListOf()
-//            //return empty if no internet
-//        }
 
         val startingRow: String? = worksheetsStartingRow[SPACtype]
         val extraIndex: Int = categoryInfoColumn[SPACtype] as Int
@@ -231,7 +181,6 @@ class CategoryList : AppCompatActivity() {
         val urlconn =
             URL("https://sheets.googleapis.com/v4/spreadsheets/$sheetID/values/$SPACtype!$startingRow:AF?key=$apikey")
 
-//        var jsonResult = urlconn.readText()
 
         var jsonResult = ""
 
@@ -282,8 +231,6 @@ class CategoryList : AppCompatActivity() {
             }
         }
 
-//        val sorted = sortingOrder(finalList, 2, "Int", "ascending")
-
 
         return finalList
     }
@@ -291,6 +238,7 @@ class CategoryList : AppCompatActivity() {
     fun refreshButtonHandler(view: View){
         thread(start = true) {
             results = getList(SPACtype)
+
 //            println(results.joinToString())
             this@CategoryList.runOnUiThread(Runnable {
                 val listAdapter = TickerListAdapter(this, results, categoryInfoLabel[SPACtype], SPACtype, tickerMap)
@@ -301,6 +249,7 @@ class CategoryList : AppCompatActivity() {
                 viewList.setHasFixedSize(true)
             })
 
+            val dbData: MutableList<Map<String,String>> = mutableListOf()
             for(i in results){
                 val dataMap: Map<String, Int> = SPACColumnName[SPACtype] as Map<String, Int>
                 val columnArray: Array<Map.Entry<String, Int>> = dataMap.entries.toTypedArray()
@@ -310,35 +259,14 @@ class CategoryList : AppCompatActivity() {
                 for((k,v) in columnArray){
                     rowData[k] = info[columnArray.indexOfFirst { it.key == k }]
                 }
-                when(SPACtype){
-                    "Pre+LOI" -> {
-                        val db = DBHandlerPreLOI(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Definitive+Agreement" -> {
-                        val db = DBHandlerDefAgreement(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Option+Chads" -> {
-                        val db = DBHandlerOptionChads(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Pre+Unit+Split" -> {
-                        val db = DBHandlerPreUnitSplit(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                    "Pre+IPO" -> {
-                        val db = DBHandlerPreIPO(this)
-                        db.insertNewSPAC(i[0], db.writableDatabase, SPACTableName[SPACtype], SPACColumns[SPACtype], rowData as Map<String, String>)
-                        db.closeDB()
-                    }
-                }
+                dbData.add(rowData as Map<String,String>)
+
 
             }
+            val db = DBHandlerBase(this)
+            db.rebuildTable(SPACtype)
+            db.bulkInsertSPAC(SPACTableName[SPACtype], SPACColumns[SPACtype], dbData)
+            db.closeDB()
 
         }
     }
@@ -414,7 +342,7 @@ class CategoryList : AppCompatActivity() {
             }
             R.id.preLOI -> showListSelection = "Pre+LOI"
             R.id.defAgree -> showListSelection = "Definitive+Agreement"
-            R.id.optionChads -> showListSelection = "Option+Chads"
+//            R.id.optionChads -> showListSelection = "Option+Chads"
             R.id.preUnit -> showListSelection = "Pre+Unit+Split"
             R.id.preIPO -> showListSelection = "Pre+IPO"
 //            R.id.warrants -> showListSelection = "Warrants+(Testing)"
@@ -442,7 +370,7 @@ class CategoryList : AppCompatActivity() {
             for (i in results) {
                 for (j in i) {
                     if (j.toUpperCase().contains(query)) {
-                        searchresults.add(0, i)
+                        searchresults.add(i)
                         break
                     }
                 }

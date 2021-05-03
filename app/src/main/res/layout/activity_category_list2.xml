@@ -21,13 +21,17 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"
             />
-<!--        <Button-->
-<!--            android:id="@+id/refreshButton"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/Refresh"-->
-<!--            android:onClick="refreshButtonHandler"-->
-<!--            />-->
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Refresh"
+            android:onClick="refreshButtonHandler"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -61,6 +65,8 @@
         android:layout_height="49dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:drawableLeft="@drawable/search_icon_32x32"
+        android:drawablePadding="8dp"
         android:hint="Search..."
         android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"

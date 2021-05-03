@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.PriceFunctions
 import com.example.myapplication.R
 import com.example.myapplication.model.SPACTopMonthlyPriceChange
 
 class ItemAdapterTopMonthlyPriceChange(
         private val context: Context,
-        private val dataset: List<SPACTopMonthlyPriceChange>
+        private val dataset: List<SPACTopMonthlyPriceChange>,
+        private val preloidata: MutableList<Array<String>> = PriceFunctions.getdata("Pre+LOI", context),
+        private val definitiveagreementdata: MutableList<Array<String>> = PriceFunctions.getdata("Definitive+Agreement", context)
 ) : RecyclerView.Adapter<ItemAdapterTopMonthlyPriceChange.ItemViewHolder>() {
 
     // Provide a reference to the views for each data item
@@ -45,6 +49,31 @@ class ItemAdapterTopMonthlyPriceChange(
         holder.textView2.text = item.stringResourceId2
         holder.textView3.text = item.stringResourceId3.toString().plus("%")
         holder.textView4.text = item.stringResourceId4
+
+        var icon = R.drawable.price_up
+        if(item.stringResourceId3?.toFloat()!! < 0){icon = R.drawable.price_down}
+        holder.textView3.setCompoundDrawablesWithIntrinsicBounds(null, null, ResourcesCompat.getDrawable(context.resources, icon, null), null)
+
+        //Determine whether it belongs to PreLoi or DefAgreement. If not, list[0] = SPAC NOT FOUND
+        val thisdatapreloi = PriceFunctions.getSPACdata(preloidata, holder.textView1.text.toString())
+        val thisdatadefagreement = PriceFunctions.getSPACdata(definitiveagreementdata, holder.textView1.text.toString())
+        if (thisdatapreloi[0] != "SPAC NOT FOUND") {
+            PriceFunctions.onclicksetter_topmonthly(holder, "Pre LOI", thisdatapreloi, context)
+        } else if (thisdatadefagreement[0] != "SPAC NOT FOUND") {
+            PriceFunctions.onclicksetter_topmonthly(holder, "Definitive Agreement", thisdatadefagreement, context)
+        } else {
+            val unfoundarray = arrayOf(
+                    item.stringResourceId1,
+                    item.stringResourceId3.toString(),
+                    item.stringResourceId2,
+                    item.MarketCap,
+                    item.EstTrustValue,
+                    item.CurrentVolume,
+                    item.AverageVolume,
+                    item.FullName
+            )
+            PriceFunctions.onclicksetter_topmonthly(holder, "NOT_FOUND", unfoundarray, context)
+        }
     }
 
     /**
