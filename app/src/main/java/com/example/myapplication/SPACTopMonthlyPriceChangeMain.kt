@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBar
 import android.view.View
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.ItemAdapterTopMonthlyPriceChange
 import com.example.myapplication.data.DataSourceTopMonthly
-import kotlin.concurrent.thread
+import com.example.myapplication.model.SPACTopMonthlyPriceChange
 
 class SPACTopMonthlyPriceChangeMain : AppCompatActivity() {
 
@@ -26,22 +26,26 @@ class SPACTopMonthlyPriceChangeMain : AppCompatActivity() {
             titlebar.subtitle = "Top 10 Monthly Changes"
         }
 
-        updateUI()
+        fetchTopMonthlyPriceChange()
     }
 
-    fun updateUI() {
-        thread (start=true) {
+    private fun fetchTopMonthlyPriceChange() {
+        val thread = Thread {
             // Initialize data.
             val myDataset = DataSourceTopMonthly().loadSPACs()
+            updateTextView(myDataset)
+        }
+        thread.start()
+    }
 
-            this@SPACTopMonthlyPriceChangeMain.runOnUiThread(Runnable {
-                val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-                recyclerView.adapter = ItemAdapterTopMonthlyPriceChange(this, myDataset)
+    private fun updateTextView (data: List<SPACTopMonthlyPriceChange>) {
+        runOnUiThread {
+            val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+            recyclerView.adapter = ItemAdapterTopMonthlyPriceChange(this, data)
 
-                // Use this setting to improve performance if you know that changes
-                // in content do not change the layout size of the RecyclerView
-                recyclerView.setHasFixedSize(true)
-            })
+            // Use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            recyclerView.setHasFixedSize(true)
         }
     }
 

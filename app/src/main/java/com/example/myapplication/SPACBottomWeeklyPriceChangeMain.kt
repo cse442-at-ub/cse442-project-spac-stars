@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBar
 import android.view.View
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.adapter.ItemAdapterBottomWeeklyPriceChange
 import com.example.myapplication.data.DataSourceBottomWeekly
-import kotlin.concurrent.thread
+import com.example.myapplication.model.SPACBottomWeeklyPriceChange
 
 class SPACBottomWeeklyPriceChangeMain : AppCompatActivity() {
 
@@ -26,22 +26,26 @@ class SPACBottomWeeklyPriceChangeMain : AppCompatActivity() {
             titlebar.subtitle = "Bottom 10 Weekly Changes"
         }
 
-        updateUI()
+        fetchBottomWeeklyPriceChange()
     }
 
-    fun updateUI() {
-        thread (start=true) {
+    private fun fetchBottomWeeklyPriceChange() {
+        val thread = Thread {
             // Initialize data.
             val myDataset = DataSourceBottomWeekly().loadSPACs()
+            updateTextView(myDataset)
+        }
+        thread.start()
+    }
 
-            this@SPACBottomWeeklyPriceChangeMain.runOnUiThread(Runnable {
-                val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-                recyclerView.adapter = ItemAdapterBottomWeeklyPriceChange(this, myDataset)
+    private fun updateTextView (data: List<SPACBottomWeeklyPriceChange>) {
+        runOnUiThread {
+            val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+            recyclerView.adapter = ItemAdapterBottomWeeklyPriceChange(this, data)
 
-                // Use this setting to improve performance if you know that changes
-                // in content do not change the layout size of the RecyclerView
-                recyclerView.setHasFixedSize(true)
-            })
+            // Use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            recyclerView.setHasFixedSize(true)
         }
     }
 

@@ -14,7 +14,6 @@ import com.example.myapplication.adapter.ItemAdapter
 import com.example.myapplication.constants.sortingLivePricesOrder
 import com.example.myapplication.data.DataSource
 import com.example.myapplication.model.SPACLivePrices
-import kotlin.concurrent.thread
 
 class SPACLivePricesMain : AppCompatActivity() {
 
@@ -78,27 +77,31 @@ class SPACLivePricesMain : AppCompatActivity() {
             }
         }
 
-        updateUI()
+        fetchLivePrices()
     }
 
-    fun updateUI() {
+    private fun fetchLivePrices() {
+        val thread = Thread {
+            // Initialize data.
+            val myDataset = DataSource().loadSPACs()
+            updateTextView(myDataset)
+        }
+        thread.start()
+    }
+
+    private fun updateTextView (data: List<SPACLivePrices>) {
         val searchtext = findViewById<TextView>(R.id.livesearch)
         val search = findViewById<Button>(R.id.livesearchbutton)
-        thread (start=true) {
-            // Initialize data.
-            myDataset = DataSource().loadSPACs()
+        runOnUiThread {
+            val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+            recyclerView.adapter = ItemAdapter(this, data)
 
-            this@SPACLivePricesMain.runOnUiThread(Runnable {
-                val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-                recyclerView.adapter = ItemAdapter(this, myDataset)
-
-                // Use this setting to improve performance if you know that changes
-                // in content do not change the layout size of the RecyclerView
-                recyclerView.setHasFixedSize(true)
-            })
-            search.setOnClickListener { searchspacs(searchtext) }
-            searchtext.hint = "Search..."
+            // Use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            recyclerView.setHasFixedSize(true)
         }
+        search.setOnClickListener { searchspacs(searchtext) }
+        searchtext.hint = "Search..."
     }
 
     //Spac Search Function
