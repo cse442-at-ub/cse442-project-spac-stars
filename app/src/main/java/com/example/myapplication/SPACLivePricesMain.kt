@@ -57,7 +57,7 @@ class SPACLivePricesMain : AppCompatActivity() {
         val dropdownAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         spinner.adapter = dropdownAdapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
 //                println(parent.getItemAtPosition(position).toString())
                 if(position != 0){
                     val index = items.indexOfFirst { it == parent.getItemAtPosition(position).toString() } - 1
@@ -83,7 +83,7 @@ class SPACLivePricesMain : AppCompatActivity() {
     private fun fetchLivePrices() {
         val thread = Thread {
             // Initialize data.
-            val myDataset = DataSource().loadSPACs()
+            myDataset = DataSource().loadSPACs()
             updateTextView(myDataset)
         }
         thread.start()
